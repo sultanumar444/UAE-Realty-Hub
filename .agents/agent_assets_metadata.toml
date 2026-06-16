@@ -1,0 +1,32 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "GOexjunYRLjNjYMtidLd_"
+uri = "file://artifacts/your-key-property/public/images/hero.png"
+type = "image"
+title = "Dubai skyline golden hour"
+
+[[generated]]
+id = "qKlTV0A51VhFk13qGyHer"
+uri = "file://artifacts/your-key-property/public/images/property-1.png"
+type = "image"
+title = "Luxury Dubai villa"
+
+[[generated]]
+id = "yGKqhb5aaZpDX2WfZ8bLY"
+uri = "file://artifacts/your-key-property/public/images/property-2.png"
+type = "image"
+title = "Luxury Dubai penthouse"
+
+[[generated]]
+id = "UpZkiDFgHVk0jL3Ds6CXf"
+uri = "file://artifacts/your-key-property/public/images/property-3.png"
+type = "image"
+title = "Luxury Dubai Marina apartment"
+
+[[generated]]
+id = "9oUUExbiSlqp0jTFS2eJB"
+uri = "file://artifacts/your-key-property/public/images/about.png"
+type = "image"
+title = "Elegant marble lobby"

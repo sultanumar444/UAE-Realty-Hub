@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Your Key Property Management"
+version = "1.0.0"
+id = "artifacts/your-key-property"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22895
+
+[services.development]
+run = "pnpm --filter @workspace/your-key-property run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/your-key-property", "run", "build" ]
+publicDir = "artifacts/your-key-property/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22895"
+BASE_PATH = "/"
