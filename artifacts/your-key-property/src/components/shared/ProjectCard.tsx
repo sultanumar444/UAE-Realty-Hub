@@ -1,5 +1,6 @@
-import { Calendar, MapPin, Building } from "lucide-react";
+import { Calendar, MapPin, Building, Tag } from "lucide-react";
 import { Link } from "wouter";
+import { useCurrency } from "@/lib/currency";
 
 interface ProjectCardProps {
   id?: string;
@@ -7,12 +8,13 @@ interface ProjectCardProps {
   title: string;
   developer: string;
   location: string;
-  price: string;
+  price: number;
   handover: string;
   roi?: string;
 }
 
-export function ProjectCard({ id = "1", image, title, developer, location, price, handover, roi }: ProjectCardProps) {
+export function ProjectCard({ image, title, developer, location, price, handover, roi }: ProjectCardProps) {
+  const { formatPrice } = useCurrency();
   return (
     <div className="group bg-white border border-border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex flex-col h-full min-w-[300px]">
       <div className="relative h-56 overflow-hidden">
@@ -46,8 +48,8 @@ export function ProjectCard({ id = "1", image, title, developer, location, price
             <span className="text-muted-foreground">{location}</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <div className="w-4 h-4 flex items-center justify-center font-bold text-secondary text-xs">AED</div>
-            <span className="text-primary font-semibold">Starting {price}</span>
+            <Tag className="w-4 h-4 text-secondary" />
+            <span className="text-primary font-semibold">Starting {formatPrice(price)}</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
             <Calendar className="w-4 h-4 text-secondary" />
@@ -55,7 +57,7 @@ export function ProjectCard({ id = "1", image, title, developer, location, price
           </div>
         </div>
         
-        <Link href={`/off-plan/${id}`}>
+        <Link href="/contact">
           <button className="w-full py-3 bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-colors">
             Register Interest
           </button>

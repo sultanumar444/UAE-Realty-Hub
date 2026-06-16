@@ -1,8 +1,11 @@
 import { Link, useLocation } from "wouter";
 import { useState, useEffect } from "react";
-import { Menu, Phone } from "lucide-react";
+import { Menu, Phone, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useCurrency } from "@/lib/currency";
+import { useFavorites } from "@/lib/favorites";
 
 const NAV_LINKS = [
   { name: "Properties", href: "/properties" },
@@ -10,11 +13,14 @@ const NAV_LINKS = [
   { name: "Communities", href: "/communities" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
+  { name: "Mortgage Calculator", href: "/mortgage-calculator" },
 ];
 
 export function Navbar() {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const { currency, setCurrency } = useCurrency();
+  const { favoriteIds } = useFavorites();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -56,6 +62,34 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-semibold text-primary outline-none">
+              {currency} ▼
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {(["AED", "USD", "GBP", "EUR", "INR"] as const).map(c => (
+                <DropdownMenuItem 
+                  key={c} 
+                  onClick={() => setCurrency(c)}
+                  className={`cursor-pointer ${currency === c ? "font-bold text-secondary" : ""}`}
+                >
+                  {c}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Link href="/favorites">
+            <div className="relative cursor-pointer text-primary hover:text-secondary transition-colors">
+              <Heart className="w-5 h-5" />
+              {favoriteIds.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                  {favoriteIds.length}
+                </span>
+              )}
+            </div>
+          </Link>
+
           <div className="flex items-center gap-2 text-primary font-semibold">
             <Phone className="w-4 h-4 text-secondary" />
             <span>+971 2 555 1234</span>
@@ -88,6 +122,27 @@ export function Navbar() {
                 ))}
                 <div className="h-px bg-border w-full" />
                 <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <select 
+                      value={currency} 
+                      onChange={(e) => setCurrency(e.target.value as any)}
+                      className="bg-muted px-2 py-1 text-sm font-semibold rounded-none border-none outline-none"
+                    >
+                      <option value="AED">AED</option>
+                      <option value="USD">USD</option>
+                      <option value="GBP">GBP</option>
+                      <option value="EUR">EUR</option>
+                      <option value="INR">INR</option>
+                    </select>
+                    
+                    <Link href="/favorites">
+                      <div className="flex items-center gap-2 text-primary cursor-pointer">
+                        <Heart className="w-5 h-5" />
+                        <span className="text-sm font-semibold">Saved ({favoriteIds.length})</span>
+                      </div>
+                    </Link>
+                  </div>
+                  
                   <div className="flex items-center gap-2 text-primary font-semibold">
                     <Phone className="w-5 h-5 text-secondary" />
                     <span>+971 2 555 1234</span>

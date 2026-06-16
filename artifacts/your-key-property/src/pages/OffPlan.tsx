@@ -27,32 +27,32 @@ export function OffPlan() {
             <ProjectCard 
               image="/images/render-marina.png"
               title="Marina Heights" developer="Emaar" location="Dubai Marina"
-              price="AED 1.2M" handover="Q4 2026" roi="7-9%"
+              price={1200000} handover="Q4 2026" roi="7-9%"
             />
             <ProjectCard 
               image="/images/render-saadiyat.png"
               title="Saadiyat Lagoons" developer="Aldar" location="Saadiyat Island"
-              price="AED 2.8M" handover="Q2 2027" roi="6-8%"
+              price={2800000} handover="Q2 2027" roi="6-8%"
             />
             <ProjectCard 
               image="/images/render-yas.png"
               title="Yas Bay Residences" developer="Aldar" location="Yas Island"
-              price="AED 980K" handover="Q1 2027" roi="8-10%"
+              price={980000} handover="Q1 2027" roi="8-10%"
             />
             <ProjectCard 
               image="/images/dubai-skyline.png"
               title="Downtown Views III" developer="Emaar" location="Downtown Dubai"
-              price="AED 1.8M" handover="Q3 2026" roi="7%"
+              price={1800000} handover="Q3 2026" roi="7%"
             />
             <ProjectCard 
               image="/images/abudhabi-skyline.png"
               title="Reem Hills" developer="Aldar" location="Al Reem Island"
-              price="AED 1.5M" handover="Q1 2026" roi="6%"
+              price={1500000} handover="Q1 2026" roi="6%"
             />
             <ProjectCard 
               image="/images/luxury-villa.png"
               title="Damac Lagoons" developer="Damac" location="Dubai"
-              price="AED 2.1M" handover="Q4 2025" roi="8%"
+              price={2100000} handover="Q4 2025" roi="8%"
             />
           </div>
         </div>

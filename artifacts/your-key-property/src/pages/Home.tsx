@@ -5,8 +5,12 @@ import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapPin, Search, CheckCircle2, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
+import { PROPERTIES } from "@/lib/properties";
+import { useCurrency } from "@/lib/currency";
 
 export function Home() {
+  const { formatPrice } = useCurrency();
+  const featuredProperties = PROPERTIES.filter(p => p.featured).slice(0, 6);
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -109,36 +113,20 @@ export function Home() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <PropertyCard 
-                image="/images/modern-apartment.png"
-                status="FOR SALE" price="AED 2,800,000" title="Modern Apartment" location="Dubai Marina"
-                beds={2} baths={2} sqft="1,450"
-              />
-              <PropertyCard 
-                image="/images/luxury-villa.png"
-                status="FOR SALE" price="AED 18,500,000" title="Luxury Villa" location="Palm Jumeirah"
-                beds={5} baths={6} sqft="8,200"
-              />
-              <PropertyCard 
-                image="/images/penthouse.png"
-                status="FOR SALE" price="AED 12,000,000" title="Penthouse" location="Downtown Dubai"
-                beds={4} baths={5} sqft="5,100"
-              />
-              <PropertyCard 
-                image="/images/townhouse.png"
-                status="FOR SALE" price="AED 3,200,000" title="Townhouse" location="Yas Island Abu Dhabi"
-                beds={3} baths={3} sqft="2,800"
-              />
-              <PropertyCard 
-                image="/images/modern-apartment.png"
-                status="FOR RENT" price="AED 95,000 / yr" title="Studio Apartment" location="Business Bay"
-                beds="Studio" baths={1} sqft="520"
-              />
-              <PropertyCard 
-                image="/images/abudhabi-skyline.png"
-                status="FOR RENT" price="AED 450,000 / yr" title="Office Space" location="ADGM Abu Dhabi"
-                beds="Comm" baths={2} sqft="3,200"
-              />
+              {featuredProperties.map(p => (
+                <PropertyCard 
+                  key={p.id}
+                  id={p.id}
+                  image={p.image}
+                  status={p.status} 
+                  price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
+                  title={p.title} 
+                  location={p.location}
+                  beds={p.beds === 0 ? "Studio" : p.beds} 
+                  baths={p.baths} 
+                  sqft={p.sqft}
+                />
+              ))}
             </div>
             
             <div className="text-center mt-12">
@@ -166,21 +154,21 @@ export function Home() {
                 <ProjectCard 
                   image="/images/render-marina.png"
                   title="Marina Heights" developer="Emaar" location="Dubai Marina"
-                  price="AED 1.2M" handover="Q4 2026" roi="7-9%"
+                  price={1200000} handover="Q4 2026" roi="7-9%"
                 />
               </div>
               <div className="min-w-[85vw] md:min-w-[400px] lg:min-w-0 snap-center">
                 <ProjectCard 
                   image="/images/render-saadiyat.png"
                   title="Saadiyat Lagoons" developer="Aldar" location="Saadiyat Island"
-                  price="AED 2.8M" handover="Q2 2027" roi="6-8%"
+                  price={2800000} handover="Q2 2027" roi="6-8%"
                 />
               </div>
               <div className="min-w-[85vw] md:min-w-[400px] lg:min-w-0 snap-center">
                 <ProjectCard 
                   image="/images/render-yas.png"
                   title="Yas Bay Residences" developer="Aldar" location="Yas Island"
-                  price="AED 980K" handover="Q1 2027" roi="8-10%"
+                  price={980000} handover="Q1 2027" roi="8-10%"
                 />
               </div>
             </div>

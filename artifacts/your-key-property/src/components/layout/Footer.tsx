@@ -42,6 +42,7 @@ export function Footer() {
               <li><Link href="/communities"><span className="text-white/70 hover:text-secondary transition-colors cursor-pointer text-sm">Communities</span></Link></li>
               <li><Link href="/about"><span className="text-white/70 hover:text-secondary transition-colors cursor-pointer text-sm">About Us</span></Link></li>
               <li><Link href="/contact"><span className="text-white/70 hover:text-secondary transition-colors cursor-pointer text-sm">Contact</span></Link></li>
+              <li><Link href="/mortgage-calculator"><span className="text-white/70 hover:text-secondary transition-colors cursor-pointer text-sm">Mortgage Calculator</span></Link></li>
             </ul>
           </div>
 
