@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "GOexjunYRLjNjYMtidLd_"
@@ -30,3 +29,69 @@ id = "9oUUExbiSlqp0jTFS2eJB"
 uri = "file://artifacts/your-key-property/public/images/about.png"
 type = "image"
 title = "Elegant marble lobby"
+
+[[generated]]
+id = "boSyT9wHBLHtr8LJxdNUf"
+uri = "file://artifacts/your-key-property/public/images/dubai-skyline.png"
+type = "image"
+title = "Dubai skyline at sunset"
+
+[[generated]]
+id = "3NzrmUb1IMyfsXmONOzw0"
+uri = "file://artifacts/your-key-property/public/images/abudhabi-skyline.png"
+type = "image"
+title = "Abu Dhabi skyline over water"
+
+[[generated]]
+id = "UdNrHnYTcTD0Untt8XE_b"
+uri = "file://artifacts/your-key-property/public/images/luxury-villa.png"
+type = "image"
+title = "Luxury villa in Palm Jumeirah"
+
+[[generated]]
+id = "4KvKp2Au1fDC1ahkNKk5d"
+uri = "file://artifacts/your-key-property/public/images/modern-apartment.png"
+type = "image"
+title = "Modern apartment interior"
+
+[[generated]]
+id = "3GzbXu9nX2bRgUM6YCZH3"
+uri = "file://artifacts/your-key-property/public/images/penthouse.png"
+type = "image"
+title = "Luxury penthouse interior"
+
+[[generated]]
+id = "H65aOEYY_jA4kq586iycm"
+uri = "file://artifacts/your-key-property/public/images/townhouse.png"
+type = "image"
+title = "Modern townhouse exterior"
+
+[[generated]]
+id = "s4WWr9cTeAKldLJ8gCpEP"
+uri = "file://artifacts/your-key-property/public/images/render-marina.png"
+type = "image"
+title = "Marina Heights render"
+
+[[generated]]
+id = "0z25h92w6jgNzw3Ho8MDa"
+uri = "file://artifacts/your-key-property/public/images/render-saadiyat.png"
+type = "image"
+title = "Saadiyat Lagoons render"
+
+[[generated]]
+id = "A3KNjF5N5Tdov2HJD53Ns"
+uri = "file://artifacts/your-key-property/public/images/render-yas.png"
+type = "image"
+title = "Yas Bay Residences render"
+
+[[generated]]
+id = "8VPDDIS4h8OU3yyC8gwHq"
+uri = "file://artifacts/your-key-property/public/images/office-team.png"
+type = "image"
+title = "Modern real estate office"
+
+[[outputs]]
+id = "vWfvwB5KGrP4_pQt0NZir"
+uri = "file://artifacts/your-key-property/public/images/uae-map.jpg"
+type = "image"
+title = "Clean minimalistic map of United Arab Emirates focusing on Dubai and Abu Dhabi"
