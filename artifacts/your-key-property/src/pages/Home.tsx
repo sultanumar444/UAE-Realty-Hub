@@ -7,391 +7,367 @@ import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapP
 import { Link } from "wouter";
 import { PROPERTIES } from "@/lib/properties";
 import { useCurrency } from "@/lib/currency";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 
 export function Home() {
   const { formatPrice } = useCurrency();
   const featuredProperties = PROPERTIES.filter(p => p.featured).slice(0, 6);
+
+  // Section Refs for scroll tracking
+  const heroRef = useRef(null);
+  const portfolioRef = useRef(null);
+  const risingRef = useRef(null);
+  const numbersRef = useRef(null);
+  const primeRef = useRef(null);
+  const conciergeRef = useRef(null);
+  const trustRef = useRef(null);
+  const penthouseRef = useRef(null);
+
+  // Page-level scroll for deterministic hero parallax (avoids container offset ambiguity)
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 800], ["0%", "50%"]);
+  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Navbar />
       
-      <main className="flex-grow pt-20">
-        {/* HERO SECTION */}
-        <section className="relative h-[90vh] min-h-[600px] flex items-center justify-center">
-          <div className="absolute inset-0 z-0">
+      <main className="flex-grow">
+        {/* LOBBY (Hero) */}
+        <section ref={heroRef} className="relative h-[100vh] min-h-[700px] flex items-center justify-center overflow-hidden">
+          <motion.div 
+            className="absolute inset-0 z-0"
+            style={{ y: heroY, opacity: heroOpacity }}
+          >
             <img 
-              src="/images/dubai-skyline.png" 
-              alt="Dubai Skyline" 
+              src="/images/looking-up-towers.png" 
+              alt="Looking up at glass towers" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-primary/30" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/60 to-transparent" />
+          </motion.div>
           
-          <div className="container relative z-10 mx-auto px-4 text-center mt-12">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 drop-shadow-lg">
-              Your Key to UAE Real Estate
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto">
-              Abu Dhabi & Dubai's trusted property experts — Buy, Sell, Rent & Invest
-            </p>
+          <div className="container relative z-10 mx-auto px-4 text-center mt-20">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
+                Your Key to the UAE Skyline
+              </h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto font-sans font-light">
+                Ascend into Dubai & Abu Dhabi's most coveted addresses.
+              </p>
+            </motion.div>
             
-            {/* Search Bar */}
-            <div className="max-w-4xl mx-auto bg-white p-2 md:p-4 rounded-sm shadow-xl">
-              <div className="flex gap-2 mb-4 border-b border-border pb-2 px-2">
-                <button className="px-4 py-2 text-sm font-semibold text-primary border-b-2 border-secondary">Buy</button>
-                <button className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Rent</button>
-                <button className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Off-Plan</button>
+            {/* Elevator Console Search */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="max-w-4xl mx-auto glass-panel p-2 md:p-6 rounded-lg"
+            >
+              <div className="flex gap-4 mb-6 border-b border-white/20 pb-4 px-2">
+                <button className="text-sm font-mono font-semibold text-secondary uppercase tracking-widest border-b-2 border-secondary pb-1">Buy</button>
+                <button className="text-sm font-mono font-medium text-white/60 hover:text-white transition-colors uppercase tracking-widest pb-1">Rent</button>
+                <button className="text-sm font-mono font-medium text-white/60 hover:text-white transition-colors uppercase tracking-widest pb-1">Off-Plan</button>
               </div>
-              <div className="flex flex-col md:flex-row gap-2">
+              <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 w-5 h-5" />
                   <input 
                     type="text" 
                     placeholder="Area, Community or Building" 
-                    className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none outline-none focus:ring-1 focus:ring-secondary text-sm"
+                    className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono placeholder:text-white/40"
                   />
                 </div>
-                <div className="w-full md:w-48">
-                  <select className="w-full px-4 py-3 bg-muted/50 border-none outline-none focus:ring-1 focus:ring-secondary text-sm appearance-none">
-                    <option>All Types</option>
-                    <option>Apartment</option>
-                    <option>Villa</option>
-                    <option>Townhouse</option>
-                    <option>Penthouse</option>
-                    <option>Commercial</option>
+                <div className="w-full md:w-56">
+                  <select className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none">
+                    <option className="bg-primary">All Types</option>
+                    <option className="bg-primary">Apartment</option>
+                    <option className="bg-primary">Villa</option>
+                    <option className="bg-primary">Townhouse</option>
+                    <option className="bg-primary">Penthouse</option>
                   </select>
                 </div>
-                <Button className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-3 px-8 rounded-none flex gap-2">
+                <Button className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-none flex gap-2 font-mono uppercase tracking-widest">
                   <Search className="w-4 h-4" />
                   <span>Search</span>
                 </Button>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="mt-8 text-sm text-white/80">
-              <span className="font-semibold text-white">Popular:</span> Dubai Marina <span className="mx-2">|</span> Downtown Dubai <span className="mx-2">|</span> Palm Jumeirah <span className="mx-2">|</span> Saadiyat Island
-            </div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 1 }}
+              className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+            >
+              <div className="text-[10px] font-mono text-secondary uppercase tracking-widest border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm">
+                GROUND FLOOR
+              </div>
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              >
+                <ArrowRight className="w-5 h-5 text-secondary rotate-90" />
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 
-        {/* STATS SECTION */}
-        <section className="bg-primary py-16">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-white/10">
-              <div className="flex flex-col gap-2">
-                <span className="text-4xl md:text-5xl font-serif font-bold text-secondary">15+</span>
-                <span className="text-white/70 text-sm font-medium uppercase tracking-wider">Years Experience</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-4xl md:text-5xl font-serif font-bold text-secondary">4,500+</span>
-                <span className="text-white/70 text-sm font-medium uppercase tracking-wider">Properties Sold</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-4xl md:text-5xl font-serif font-bold text-secondary">12,000+</span>
-                <span className="text-white/70 text-sm font-medium uppercase tracking-wider">Happy Clients</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-4xl md:text-5xl font-serif font-bold text-secondary">AED 2.8B+</span>
-                <span className="text-white/70 text-sm font-medium uppercase tracking-wider">Transaction Value</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Floor Divider */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-        {/* FEATURED PROPERTIES */}
-        <section className="py-24 bg-background">
+        {/* L12 · THE PORTFOLIO */}
+        <section ref={portfolioRef} className="py-32 relative z-10">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
               <div>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Featured Properties</h2>
-                <div className="flex gap-4">
-                  <button className="text-sm font-semibold text-primary border-b-2 border-secondary pb-1">All</button>
-                  <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors pb-1">Buy</button>
-                  <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors pb-1">Rent</button>
-                </div>
+                <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L12 · The Portfolio</div>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">Featured Properties</h2>
               </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProperties.map(p => (
-                <PropertyCard 
-                  key={p.id}
-                  id={p.id}
-                  image={p.image}
-                  status={p.status} 
-                  price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
-                  title={p.title} 
-                  location={p.location}
-                  beds={p.beds === 0 ? "Studio" : p.beds} 
-                  baths={p.baths} 
-                  sqft={p.sqft}
-                />
-              ))}
-            </div>
-            
-            <div className="text-center mt-12">
               <Link href="/properties">
-                <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white rounded-none px-8 py-6">
-                  View All Properties
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-none px-8 font-mono uppercase tracking-widest">
+                  View Portfolio
                 </Button>
               </Link>
             </div>
-          </div>
-        </section>
-
-        {/* OFF PLAN */}
-        <section className="py-24 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Off-Plan Projects</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Secure your future with Dubai & Abu Dhabi's most anticipated new developments
-              </p>
-            </div>
-            
-            <div className="flex overflow-x-auto lg:grid lg:grid-cols-3 gap-8 pb-8 snap-x snap-mandatory">
-              <div className="min-w-[85vw] md:min-w-[400px] lg:min-w-0 snap-center">
-                <ProjectCard 
-                  image="/images/render-marina.png"
-                  title="Marina Heights" developer="Emaar" location="Dubai Marina"
-                  price={1200000} handover="Q4 2026" roi="7-9%"
-                />
-              </div>
-              <div className="min-w-[85vw] md:min-w-[400px] lg:min-w-0 snap-center">
-                <ProjectCard 
-                  image="/images/render-saadiyat.png"
-                  title="Saadiyat Lagoons" developer="Aldar" location="Saadiyat Island"
-                  price={2800000} handover="Q2 2027" roi="6-8%"
-                />
-              </div>
-              <div className="min-w-[85vw] md:min-w-[400px] lg:min-w-0 snap-center">
-                <ProjectCard 
-                  image="/images/render-yas.png"
-                  title="Yas Bay Residences" developer="Aldar" location="Yas Island"
-                  price={980000} handover="Q1 2027" roi="8-10%"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICES */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Our Services</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Comprehensive real estate solutions tailored to your needs
-              </p>
-            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { icon: HomeIcon, title: "Buy Property", desc: "Find your dream home or next investment from our extensive portfolio of premium properties." },
-                { icon: TrendingUp, title: "Sell Property", desc: "Get the best market value for your property with our expert marketing and sales strategies." },
-                { icon: Key, title: "Rent & Lease", desc: "Discover high-quality rental properties or find reliable tenants for your investments." },
-                { icon: Building, title: "Property Management", desc: "Hassle-free management of your assets, ensuring maximum returns and property care." },
-                { icon: BarChart, title: "Investment Advisory", desc: "Data-driven insights and personalized strategies to build a profitable real estate portfolio." },
-                { icon: Calculator, title: "Free Valuation", desc: "Accurate, up-to-date property valuations based on current market trends and data." }
-              ].map((service, i) => (
-                <div key={i} className="bg-white p-8 border border-border flex flex-col items-center text-center transition-all hover:border-secondary group">
-                  <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-colors">
-                    <service.icon className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-serif font-bold text-primary mb-3">{service.title}</h3>
-                  <p className="text-muted-foreground text-sm">{service.desc}</p>
-                </div>
+              {featuredProperties.map((p, i) => (
+                <motion.div
+                  key={p.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                >
+                  <PropertyCard 
+                    id={p.id}
+                    image={p.image}
+                    status={p.status} 
+                    price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
+                    title={p.title} 
+                    location={p.location}
+                    beds={p.beds === 0 ? "Studio" : p.beds} 
+                    baths={p.baths} 
+                    sqft={p.sqft}
+                  />
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* AREAS WE COVER */}
-        <section className="py-24 bg-white">
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+        {/* L24 · RISING DEVELOPMENTS */}
+        <section ref={risingRef} className="py-32 relative z-10">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-12 text-center">Prime Locations</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center mb-16">
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L24 · Rising</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">Towers Under Construction</h2>
+              <p className="text-white/70 max-w-2xl mx-auto font-mono text-sm">
+                Secure your future with Dubai & Abu Dhabi's most anticipated new developments.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { image: "/images/render-marina.png", title: "Marina Heights", developer: "Emaar", location: "Dubai Marina", price: 1200000, handover: "Q4 2026", roi: "7-9%" },
+                { image: "/images/render-saadiyat.png", title: "Saadiyat Lagoons", developer: "Aldar", location: "Saadiyat Island", price: 2800000, handover: "Q2 2027", roi: "6-8%" },
+                { image: "/images/render-yas.png", title: "Yas Bay Residences", developer: "Aldar", location: "Yas Island", price: 980000, handover: "Q1 2027", roi: "8-10%" }
+              ].map((proj, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.15 }}
+                >
+                  <ProjectCard {...proj} />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+        {/* L36 · THE NUMBERS */}
+        <section ref={numbersRef} className="py-32 relative z-10">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L36 · The Numbers</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Investment Analytics</h2>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 glass-panel p-10">
+              {[
+                { val: "15+", label: "Years Experience" },
+                { val: "4,500+", label: "Properties Sold" },
+                { val: "12k+", label: "Happy Clients" },
+                { val: "2.8B+", label: "AED Transaction Value" }
+              ].map((stat, i) => (
+                <div key={i} className="text-center flex flex-col gap-3">
+                  <span className="text-4xl md:text-6xl font-mono font-bold text-secondary">{stat.val}</span>
+                  <span className="text-white/70 text-xs font-mono uppercase tracking-widest">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <RoiVisualizer initialPrice={2500000} />
+            </motion.div>
+          </div>
+        </section>
+
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+        {/* L48 · PRIME ALTITUDES */}
+        <section ref={primeRef} className="py-32 relative z-10">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L48 · Prime Altitudes</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Coveted Locations</h2>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { name: "Dubai Marina", em: "Dubai", img: "/images/dubai-skyline.png" },
                 { name: "Downtown Dubai", em: "Dubai", img: "/images/luxury-villa.png" },
                 { name: "Palm Jumeirah", em: "Dubai", img: "/images/modern-apartment.png" },
-                { name: "Business Bay", em: "Dubai", img: "/images/penthouse.png" },
-                { name: "JBR", em: "Dubai", img: "/images/dubai-skyline.png" },
-                { name: "Saadiyat Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" },
-                { name: "Al Reem Island", em: "Abu Dhabi", img: "/images/townhouse.png" },
-                { name: "Yas Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" }
+                { name: "Saadiyat Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" }
               ].map((area, i) => (
-                <div key={i} className="relative h-48 md:h-64 overflow-hidden group cursor-pointer border border-border">
-                  <img src={area.img} alt={area.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/50 transition-colors" />
-                  <div className="absolute bottom-4 left-4">
-                    <div className="text-xs text-white/80 uppercase tracking-widest font-semibold mb-1">{area.em}</div>
-                    <div className="text-white font-serif font-bold text-lg">{area.name}</div>
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="relative h-64 overflow-hidden group cursor-pointer glass-panel p-2"
+                >
+                  <img src={area.img} alt={area.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] to-transparent opacity-80" />
+                  <div className="absolute bottom-6 left-6">
+                    <div className="text-[10px] text-secondary font-mono uppercase tracking-widest mb-2">{area.em}</div>
+                    <div className="text-white font-serif font-bold text-xl">{area.name}</div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* WHY CHOOSE US */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row items-center gap-12">
-              <div className="lg:w-1/2">
-                <img src="/images/office-team.png" alt="Office Team" className="w-full h-auto object-cover border border-border" />
-              </div>
-              <div className="lg:w-1/2">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-6">Why Choose Us</h2>
-                <p className="text-muted-foreground mb-8">
-                  We are a team of dedicated professionals committed to providing exceptional real estate services across the UAE. Our deep market knowledge and client-first approach set us apart.
-                </p>
-                <div className="space-y-4 mb-8">
-                  {[
-                    "RERA Certified Agents",
-                    "15+ Years Market Experience",
-                    "Abu Dhabi & Dubai Licensed",
-                    "Award-Winning Service"
-                  ].map((pt, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-secondary" />
-                      <span className="font-medium text-primary">{pt}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-3 gap-6 pt-8 border-t border-border">
-                  <div>
-                    <div className="text-2xl font-serif font-bold text-primary">2.4k+</div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">Properties Managed</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-serif font-bold text-primary">99%</div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">Satisfaction Rate</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-serif font-bold text-primary">18</div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">Avg Days to Sell</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-        {/* MEET OUR TEAM */}
-        <section className="py-24 bg-white">
+        {/* L54 · CONCIERGE */}
+        <section ref={conciergeRef} className="py-32 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Meet Our Experts</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Our diverse team of specialists is ready to guide you through every step of your real estate journey.
-              </p>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L54 · Concierge</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Bespoke Services</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { name: "James Mitchell", title: "Senior Sales Consultant", spec: "Dubai Marina & Palm Jumeirah", img: "/images/agent-1.jpg" },
-                { name: "Saeed Al Mansoori", title: "Leasing Manager", spec: "Abu Dhabi Luxury Rentals", img: "/images/agent-2.jpg" },
-                { name: "Priya Sharma", title: "Investment Advisor", spec: "Off-Plan & Commercial", img: "/images/agent-3.jpg" },
-                { name: "Fatima Hassan", title: "Property Manager", spec: "Asset Management & Care", img: "/images/agent-4.jpg" }
-              ].map((agent, i) => (
-                <div key={i} className="group text-center">
-                  <div className="relative mb-6 overflow-hidden border border-border">
-                    <img src={agent.img} alt={agent.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105" />
+                { icon: HomeIcon, title: "Buy Property", desc: "Find your dream home or next investment from our portfolio." },
+                { icon: TrendingUp, title: "Sell Property", desc: "Get the best market value with our expert strategies." },
+                { icon: Key, title: "Rent & Lease", desc: "Discover high-quality rental properties or find reliable tenants." },
+                { icon: Building, title: "Property Management", desc: "Hassle-free management of your assets." },
+                { icon: BarChart, title: "Investment Advisory", desc: "Data-driven insights to build a profitable portfolio." },
+                { icon: Calculator, title: "Free Valuation", desc: "Accurate property valuations based on current data." }
+              ].map((service, i) => (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="glass-panel p-8 flex flex-col items-center text-center group hover:bg-white/10 transition-colors"
+                >
+                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-colors">
+                    <service.icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-xl font-serif font-bold text-primary mb-1">{agent.name}</h3>
-                  <p className="text-secondary text-sm font-semibold mb-2">{agent.title}</p>
-                  <p className="text-muted-foreground text-sm">{agent.spec}</p>
-                </div>
+                  <h3 className="text-xl font-serif font-bold text-white mb-3">{service.title}</h3>
+                  <p className="text-white/60 text-sm font-mono">{service.desc}</p>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* MARKET INSIGHTS */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-end mb-12">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary">Market Insights</h2>
-              <Link href="/about">
-                <Button variant="link" className="text-primary hover:text-secondary p-0">
-                  View All <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-            </div>
+        {/* CLOUD · TRUST */}
+        <section ref={trustRef} className="py-40 relative z-10">
+          <div className="container mx-auto px-4 text-center">
+            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">CLOUD · Trust</div>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16 drop-shadow-md">Client Experiences</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {[
-                { title: "Dubai Property Market Q1 2026 Report", cat: "Market Report", img: "/images/dubai-skyline.png" },
-                { title: "Top 5 Communities for Families in Abu Dhabi", cat: "Lifestyle", img: "/images/townhouse.png" },
-                { title: "Off-Plan vs Ready: What's Best in 2026", cat: "Investment", img: "/images/render-yas.png" }
-              ].map((blog, i) => (
-                <div key={i} className="bg-white border border-border group cursor-pointer hover:shadow-lg transition-all">
-                  <div className="h-48 overflow-hidden">
-                    <img src={blog.img} alt={blog.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  </div>
-                  <div className="p-6">
-                    <div className="text-xs text-secondary font-semibold uppercase tracking-widest mb-3">{blog.cat}</div>
-                    <h3 className="text-xl font-serif font-bold text-primary mb-4 line-clamp-2 group-hover:text-secondary transition-colors">{blog.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-6 line-clamp-2">
-                      Discover the latest trends and insights from our experts on the UAE real estate market.
-                    </p>
-                    <div className="flex items-center text-sm font-semibold text-primary group-hover:text-secondary transition-colors">
-                      Read More <ArrowRight className="w-4 h-4 ml-2" />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FREE VALUATION */}
-        <section className="py-24 bg-primary relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
-          <div className="container relative z-10 mx-auto px-4 max-w-4xl text-center">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4">What's Your Property Worth?</h2>
-            <p className="text-white/80 mb-10 text-lg">Get a free, no-obligation valuation from our experts</p>
-            
-            <form className="flex flex-col md:flex-row gap-4 bg-white/10 p-4 backdrop-blur-sm border border-white/20">
-              <input type="text" placeholder="Property Address" className="flex-1 px-4 py-3 bg-white text-primary border-none outline-none focus:ring-2 focus:ring-secondary text-sm" />
-              <input type="text" placeholder="Your Name" className="flex-1 px-4 py-3 bg-white text-primary border-none outline-none focus:ring-2 focus:ring-secondary text-sm" />
-              <input type="email" placeholder="Email" className="flex-1 px-4 py-3 bg-white text-primary border-none outline-none focus:ring-2 focus:ring-secondary text-sm" />
-              <Button type="button" className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-3 px-8 rounded-none">
-                Request Valuation
-              </Button>
-            </form>
-          </div>
-        </section>
-
-        {/* TESTIMONIALS */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary text-center mb-16">What Our Clients Say</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { name: "James Mitchell", type: "British Expat", text: "Exceptional service from start to finish. They found exactly what we were looking for in Dubai Marina within our budget." },
-                { name: "Fatima Al Rashid", type: "UAE National", text: "Their market knowledge in Abu Dhabi is unmatched. They handled the sale of my villa with utmost professionalism and achieved a great price." },
-                { name: "Rahul Sharma", type: "Indian Investor", text: "I've been using their property management services for 3 years. Peace of mind knowing my investments are in safe hands." }
+                { name: "James Mitchell", type: "British Expat", text: "Exceptional service from start to finish. They found exactly what we were looking for in Dubai Marina." },
+                { name: "Fatima Al Rashid", type: "UAE National", text: "Their market knowledge in Abu Dhabi is unmatched. Handled the sale of my villa with utmost professionalism." },
+                { name: "Rahul Sharma", type: "Indian Investor", text: "Peace of mind knowing my investments are in safe hands with their management team." }
               ].map((test, i) => (
-                <div key={i} className="bg-white p-8 border border-border relative">
-                  <div className="text-6xl font-serif text-secondary/20 absolute top-4 left-4">"</div>
-                  <p className="text-muted-foreground relative z-10 mb-8 pt-4 italic">
-                    "{test.text}"
+                <div key={i} className="glass-panel p-8 relative">
+                  <div className="text-6xl font-serif text-secondary/30 absolute top-4 left-6">"</div>
+                  <p className="text-white/80 relative z-10 mb-8 pt-6 font-mono text-sm leading-relaxed">
+                    {test.text}
                   </p>
                   <div>
-                    <div className="font-serif font-bold text-primary text-lg">{test.name}</div>
-                    <div className="text-sm text-secondary">{test.type}</div>
+                    <div className="font-serif font-bold text-white text-lg">{test.name}</div>
+                    <div className="text-xs font-mono text-secondary uppercase tracking-widest mt-1">{test.type}</div>
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* PENTHOUSE (top) */}
+        <section ref={penthouseRef} className="py-40 relative z-10 flex items-center min-h-[80vh]">
+          <div className="container mx-auto px-4 max-w-4xl text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+            >
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-6 border border-secondary/30 px-4 py-2 inline-block bg-secondary/10 backdrop-blur-sm">
+                PH · PENTHOUSE
+              </div>
+              <h2 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
+                You've reached the summit.
+              </h2>
+              <p className="text-xl text-white/90 mb-12 font-mono">
+                Ready to elevate your real estate portfolio? Contact our concierge team for a private consultation.
+              </p>
+              
+              <form className="glass-panel p-4 flex flex-col md:flex-row gap-4 max-w-3xl mx-auto">
+                <input type="text" placeholder="Your Name" className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
+                <input type="email" placeholder="Email" className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
+                <Button type="button" className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-none font-mono uppercase tracking-widest">
+                  Request Contact
+                </Button>
+              </form>
+            </motion.div>
           </div>
         </section>
 
       </main>
       
-      <Footer />
+      <div className="relative z-10 bg-[#0f172a]">
+        <Footer />
+      </div>
     </div>
   );
 }

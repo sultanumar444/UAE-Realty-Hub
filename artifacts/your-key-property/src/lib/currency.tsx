@@ -6,6 +6,8 @@ interface CurrencyContextType {
   currency: Currency;
   setCurrency: (c: Currency) => void;
   formatPrice: (amountAed: number) => string;
+  convert: (amountAed: number) => number;
+  symbol: string;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -55,8 +57,10 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     return `${SYMBOLS[currency]}${formatted}`;
   };
 
+  const convert = (amountAed: number) => amountAed * RATES[currency];
+
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice }}>
+    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice, convert, symbol: SYMBOLS[currency] }}>
       {children}
     </CurrencyContext.Provider>
   );

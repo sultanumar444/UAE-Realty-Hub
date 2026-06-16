@@ -1,0 +1,1 @@
+- [recharts shadcn tooltip](recharts-shadcn-tooltip.md) — shadcn ChartTooltip crashes without ChartContainer; use native recharts Tooltip + run AED data through convert()/formatPrice for currency-aware charts

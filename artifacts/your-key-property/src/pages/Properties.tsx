@@ -5,7 +5,6 @@ import { PropertyCard } from "@/components/shared/PropertyCard";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PROPERTIES } from "@/lib/properties";
-import { Slider } from "@/components/ui/slider";
 import { useCurrency } from "@/lib/currency";
 
 export function Properties() {
@@ -50,71 +49,69 @@ export function Properties() {
   }, [type, location, beds, buyChecked, rentChecked]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Navbar />
       
-      <main className="flex-grow pt-32 pb-24">
+      <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-serif font-bold text-primary mb-8">Properties for Sale & Rent</h1>
+          <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Portfolio</div>
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-12 drop-shadow-md">Elevated Living</h1>
           
-          <div className="bg-white p-6 border border-border mb-12 flex flex-col lg:flex-row gap-4">
+          <div className="glass-panel p-6 mb-12 flex flex-col lg:flex-row gap-4">
             <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
               <select 
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="px-4 py-3 bg-muted/50 border border-border outline-none text-sm appearance-none"
+                className="px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm appearance-none"
               >
-                <option>All Types</option>
-                <option>Apartments</option>
-                <option>Villas</option>
-                <option>Townhouses</option>
-                <option>Penthouse</option>
-                <option>Commercial</option>
-                <option>Studio</option>
+                <option className="bg-primary">All Types</option>
+                <option className="bg-primary">Apartments</option>
+                <option className="bg-primary">Villas</option>
+                <option className="bg-primary">Townhouses</option>
+                <option className="bg-primary">Penthouse</option>
+                <option className="bg-primary">Commercial</option>
+                <option className="bg-primary">Studio</option>
               </select>
               <select 
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="px-4 py-3 bg-muted/50 border border-border outline-none text-sm appearance-none"
+                className="px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm appearance-none"
               >
-                <option>Any Location</option>
-                <option>Dubai</option>
-                <option>Abu Dhabi</option>
-                <option>Dubai Marina</option>
-                <option>Downtown Dubai</option>
-                <option>Saadiyat Island</option>
+                <option className="bg-primary">Any Location</option>
+                <option className="bg-primary">Dubai</option>
+                <option className="bg-primary">Abu Dhabi</option>
+                <option className="bg-primary">Dubai Marina</option>
+                <option className="bg-primary">Downtown Dubai</option>
+                <option className="bg-primary">Saadiyat Island</option>
               </select>
               <select 
                 value={beds}
                 onChange={(e) => setBeds(e.target.value)}
-                className="px-4 py-3 bg-muted/50 border border-border outline-none text-sm appearance-none"
+                className="px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm appearance-none"
               >
-                <option>Beds (Any)</option>
-                <option>1 Bed</option>
-                <option>2 Beds</option>
-                <option>3+ Beds</option>
+                <option className="bg-primary">Beds (Any)</option>
+                <option className="bg-primary">1 Bed</option>
+                <option className="bg-primary">2 Beds</option>
+                <option className="bg-primary">3+ Beds</option>
               </select>
             </div>
           </div>
           
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="hidden lg:block w-64 shrink-0">
-              <div className="bg-white border border-border p-6 sticky top-32">
-                <h3 className="font-serif font-bold text-lg mb-4">Map View</h3>
-                <div className="w-full h-48 bg-muted mb-4 relative overflow-hidden flex items-center justify-center border border-border">
-                  <img src="/images/uae-map.jpg" alt="Map" className="w-full h-full object-cover opacity-80" />
-                  <Button size="sm" variant="secondary" className="absolute z-10 text-xs">View Map</Button>
-                </div>
-                <h3 className="font-serif font-bold text-lg mb-4 mt-8">Refine Search</h3>
-                <div className="space-y-4">
+              <div className="glass-panel p-8 sticky top-32">
+                <h3 className="text-xs font-mono text-secondary uppercase tracking-widest mb-6">Refine Search</h3>
+                <div className="space-y-6">
                   <div>
-                    <label className="text-sm font-semibold mb-2 block">Status</label>
-                    <div className="flex gap-2">
-                      <label className="flex items-center gap-2 text-sm">
-                        <input type="checkbox" checked={buyChecked} onChange={(e) => setBuyChecked(e.target.checked)} /> Buy
+                    <label className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4 block">Status</label>
+                    <div className="flex flex-col gap-4">
+                      <label className="flex items-center gap-3 text-sm font-mono cursor-pointer">
+                        <input type="checkbox" checked={buyChecked} onChange={(e) => setBuyChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
+                        Buy
                       </label>
-                      <label className="flex items-center gap-2 text-sm">
-                        <input type="checkbox" checked={rentChecked} onChange={(e) => setRentChecked(e.target.checked)} /> Rent
+                      <label className="flex items-center gap-3 text-sm font-mono cursor-pointer">
+                        <input type="checkbox" checked={rentChecked} onChange={(e) => setRentChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
+                        Rent
                       </label>
                     </div>
                   </div>
@@ -123,8 +120,8 @@ export function Properties() {
             </div>
             
             <div className="flex-1">
-              <div className="mb-6 flex justify-between items-center text-sm text-muted-foreground font-semibold">
-                Showing {filteredProperties.length} properties
+              <div className="mb-8 flex justify-between items-center text-xs font-mono uppercase tracking-widest text-white/60">
+                Showing {filteredProperties.length} results
               </div>
               
               {filteredProperties.length > 0 ? (
@@ -145,10 +142,10 @@ export function Properties() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-24 bg-white border border-border">
-                  <h3 className="font-serif font-bold text-xl text-primary mb-2">No properties match your filters</h3>
+                <div className="text-center py-32 glass-panel">
+                  <h3 className="font-serif font-bold text-2xl text-white mb-4">No properties match your altitude</h3>
                   <Button 
-                    variant="outline" 
+                    className="bg-secondary text-[#0A1628] hover:bg-secondary/90 font-mono uppercase tracking-widest"
                     onClick={() => {
                       setType("All Types");
                       setLocation("Any Location");
@@ -157,7 +154,7 @@ export function Properties() {
                       setRentChecked(true);
                     }}
                   >
-                    Reset Filters
+                    Reset Console
                   </Button>
                 </div>
               )}
@@ -166,7 +163,9 @@ export function Properties() {
         </div>
       </main>
       
-      <Footer />
+      <div className="relative z-10 bg-[#0f172a]">
+        <Footer />
+      </div>
     </div>
   );
 }

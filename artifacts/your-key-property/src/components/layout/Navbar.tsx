@@ -11,9 +11,9 @@ const NAV_LINKS = [
   { name: "Properties", href: "/properties" },
   { name: "Off-Plan", href: "/off-plan" },
   { name: "Communities", href: "/communities" },
+  { name: "Investment", href: "/investment" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
-  { name: "Mortgage Calculator", href: "/mortgage-calculator" },
 ];
 
 export function Navbar() {
@@ -31,16 +31,16 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-3" : "bg-white py-5"
+        scrolled ? "bg-[#0A1628]/80 backdrop-blur-md border-b border-white/10 py-3 shadow-lg" : "bg-transparent py-5 border-b border-transparent"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/">
           <div className="flex flex-col cursor-pointer">
-            <span className="text-2xl font-serif font-bold text-primary leading-none tracking-wide">
+            <span className="text-2xl font-serif font-bold text-white leading-none tracking-wide">
               YOUR KEY
             </span>
-            <span className="text-[10px] font-sans font-semibold text-secondary tracking-widest mt-1">
+            <span className="text-[10px] font-mono font-semibold text-secondary tracking-widest mt-1">
               PROPERTY MANAGEMENT
             </span>
           </div>
@@ -51,8 +51,8 @@ export function Navbar() {
           {NAV_LINKS.map((link) => (
             <Link key={link.name} href={link.href}>
               <span
-                className={`text-sm font-medium transition-colors hover:text-secondary cursor-pointer ${
-                  location === link.href ? "text-secondary" : "text-foreground"
+                className={`text-xs font-mono uppercase tracking-widest transition-colors cursor-pointer ${
+                  location === link.href ? "text-secondary font-bold" : "text-white/80 hover:text-white"
                 }`}
               >
                 {link.name}
@@ -63,15 +63,15 @@ export function Navbar() {
 
         <div className="hidden lg:flex items-center gap-6">
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-semibold text-primary outline-none">
-              {currency} ▼
+            <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-mono font-bold text-white outline-none">
+              {currency} <span className="text-[8px]">▼</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="bg-[#0A1628]/95 backdrop-blur-md border-white/20">
               {(["AED", "USD", "GBP", "EUR", "INR"] as const).map(c => (
                 <DropdownMenuItem 
                   key={c} 
                   onClick={() => setCurrency(c)}
-                  className={`cursor-pointer ${currency === c ? "font-bold text-secondary" : ""}`}
+                  className={`cursor-pointer font-mono text-xs focus:bg-white/10 ${currency === c ? "text-secondary font-bold" : "text-white"}`}
                 >
                   {c}
                 </DropdownMenuItem>
@@ -80,22 +80,22 @@ export function Navbar() {
           </DropdownMenu>
 
           <Link href="/favorites">
-            <div className="relative cursor-pointer text-primary hover:text-secondary transition-colors">
+            <div className="relative cursor-pointer text-white hover:text-secondary transition-colors">
               <Heart className="w-5 h-5" />
               {favoriteIds.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-secondary text-[#0A1628] font-mono font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                   {favoriteIds.length}
                 </span>
               )}
             </div>
           </Link>
 
-          <div className="flex items-center gap-2 text-primary font-semibold">
+          <div className="flex items-center gap-2 text-white font-mono text-xs">
             <Phone className="w-4 h-4 text-secondary" />
             <span>+971 2 555 1234</span>
           </div>
-          <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-none px-6">
-            List Your Property
+          <Button className="bg-transparent border border-white/30 hover:bg-white hover:text-[#0A1628] text-white rounded-none px-6 font-mono text-xs uppercase tracking-widest transition-colors">
+            List Property
           </Button>
         </div>
 
@@ -103,51 +103,51 @@ export function Navbar() {
         <div className="lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Menu">
-                <Menu className="w-6 h-6 text-primary" />
+              <Button variant="ghost" size="icon" aria-label="Menu" className="text-white hover:bg-white/10">
+                <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white p-6 w-[300px]">
+            <SheetContent side="right" className="bg-[#0A1628]/95 backdrop-blur-xl border-l border-white/10 p-6 w-[300px]">
               <div className="flex flex-col gap-8 mt-12">
                 {NAV_LINKS.map((link) => (
                   <Link key={link.name} href={link.href}>
                     <span
-                      className={`text-lg font-medium transition-colors hover:text-secondary cursor-pointer ${
-                        location === link.href ? "text-secondary" : "text-foreground"
+                      className={`text-sm font-mono uppercase tracking-widest transition-colors cursor-pointer ${
+                        location === link.href ? "text-secondary" : "text-white/80 hover:text-white"
                       }`}
                     >
                       {link.name}
                     </span>
                   </Link>
                 ))}
-                <div className="h-px bg-border w-full" />
-                <div className="flex flex-col gap-4">
+                <div className="h-px bg-white/10 w-full" />
+                <div className="flex flex-col gap-6">
                   <div className="flex items-center justify-between">
                     <select 
                       value={currency} 
                       onChange={(e) => setCurrency(e.target.value as any)}
-                      className="bg-muted px-2 py-1 text-sm font-semibold rounded-none border-none outline-none"
+                      className="bg-white/10 px-2 py-2 text-xs font-mono font-bold text-white rounded-none border border-white/20 outline-none"
                     >
-                      <option value="AED">AED</option>
-                      <option value="USD">USD</option>
-                      <option value="GBP">GBP</option>
-                      <option value="EUR">EUR</option>
-                      <option value="INR">INR</option>
+                      <option value="AED" className="bg-[#0A1628]">AED</option>
+                      <option value="USD" className="bg-[#0A1628]">USD</option>
+                      <option value="GBP" className="bg-[#0A1628]">GBP</option>
+                      <option value="EUR" className="bg-[#0A1628]">EUR</option>
+                      <option value="INR" className="bg-[#0A1628]">INR</option>
                     </select>
                     
                     <Link href="/favorites">
-                      <div className="flex items-center gap-2 text-primary cursor-pointer">
+                      <div className="flex items-center gap-2 text-white cursor-pointer hover:text-secondary">
                         <Heart className="w-5 h-5" />
-                        <span className="text-sm font-semibold">Saved ({favoriteIds.length})</span>
+                        <span className="text-xs font-mono font-bold">Saved ({favoriteIds.length})</span>
                       </div>
                     </Link>
                   </div>
                   
-                  <div className="flex items-center gap-2 text-primary font-semibold">
+                  <div className="flex items-center gap-3 text-white font-mono text-sm">
                     <Phone className="w-5 h-5 text-secondary" />
                     <span>+971 2 555 1234</span>
                   </div>
-                  <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-none w-full">
+                  <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-none w-full font-mono text-xs uppercase tracking-widest">
                     List Your Property
                   </Button>
                 </div>

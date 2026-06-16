@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
 @theme inline {
   --color-background: hsl(var(--background));
@@ -23,23 +23,18 @@
 
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-primary-border: var(--primary-border);
 
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-secondary-border: var(--secondary-border);
 
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-muted-border: var(--muted-border);
 
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-accent-border: var(--accent-border);
 
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-destructive-border: var(--destructive-border);
 
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
@@ -52,90 +47,69 @@
 }
 
 :root {
-  --button-outline: rgba(0,0,0, .10);
-  --badge-outline: rgba(0,0,0, .05);
-
-  --elevate-1: rgba(0,0,0, .03);
-  --elevate-2: rgba(0,0,0, .08);
-
   /* Deep navy (#0A1628) */
   --navy: 216 60% 10%;
   /* Warm gold (#C9974C) */
   --gold: 36 55% 54%;
-  /* Off-white (#F8F6F1) */
-  --off-white: 43 31% 96%;
-  /* Charcoal (#1A1A2E) */
-  --charcoal: 240 28% 14%;
-  /* White */
-  --white: 0 0% 100%;
-
-  --background: var(--off-white);
-  --foreground: var(--charcoal);
-  --border: 216 20% 85%;
   
-  --card: var(--white);
-  --card-foreground: var(--charcoal);
-  --card-border: 216 20% 90%;
+  --background: var(--navy);
+  --foreground: 0 0% 100%;
+  
+  --border: 0 0% 100% / 0.15;
+  --input: 0 0% 100% / 0.1;
+  --ring: var(--gold);
 
-  --popover: var(--white);
-  --popover-foreground: var(--charcoal);
-  --popover-border: 216 20% 90%;
+  --card: 0 0% 10% / 0.4;
+  --card-foreground: 0 0% 100%;
+  --card-border: 0 0% 100% / 0.15;
+
+  --popover: 216 60% 8% / 0.9;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 0 0% 100% / 0.15;
 
   --primary: var(--navy);
-  --primary-foreground: var(--white);
+  --primary-foreground: 0 0% 100%;
   
   --secondary: var(--gold);
-  --secondary-foreground: var(--white);
+  --secondary-foreground: 0 0% 100%;
   
-  --muted: 40 20% 92%;
-  --muted-foreground: 216 20% 40%;
+  --muted: 0 0% 100% / 0.1;
+  --muted-foreground: 216 20% 70%;
   
   --accent: var(--gold);
-  --accent-foreground: var(--white);
+  --accent-foreground: 0 0% 100%;
   
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --input: 216 20% 85%;
-  --ring: var(--gold);
-
   --app-font-sans: 'DM Sans', sans-serif;
   --app-font-serif: 'Cormorant Garamond', serif;
-  --app-font-mono: 'Menlo', monospace;
-  --radius: 0.25rem;
+  --app-font-mono: 'JetBrains Mono', monospace;
+  --radius: 0.5rem;
 }
 
 .dark {
-  /* Using standard colors instead of enforcing a true dark mode since the brand identity relies heavily on off-white/navy, but providing sensible fallbacks */
   --background: var(--navy);
-  --foreground: var(--off-white);
-  --border: 216 30% 20%;
-  
-  --card: 216 50% 12%;
-  --card-foreground: var(--off-white);
-  --card-border: 216 30% 20%;
-
-  --popover: 216 50% 12%;
-  --popover-foreground: var(--off-white);
-  --popover-border: 216 30% 20%;
-
-  --primary: var(--gold);
-  --primary-foreground: var(--navy);
-  
-  --secondary: 216 30% 20%;
-  --secondary-foreground: var(--white);
-  
-  --muted: 216 40% 15%;
-  --muted-foreground: 216 20% 70%;
-  
-  --accent: var(--gold);
-  --accent-foreground: var(--navy);
-  
-  --destructive: 0 62% 30%;
-  --destructive-foreground: 0 0% 100%;
-
-  --input: 216 30% 20%;
+  --foreground: 0 0% 100%;
+  --border: 0 0% 100% / 0.15;
+  --input: 0 0% 100% / 0.1;
   --ring: var(--gold);
+  --card: 0 0% 10% / 0.4;
+  --card-foreground: 0 0% 100%;
+  --card-border: 0 0% 100% / 0.15;
+  --popover: 216 60% 8% / 0.9;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 0 0% 100% / 0.15;
+  --primary: var(--navy);
+  --primary-foreground: 0 0% 100%;
+  --secondary: var(--gold);
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 100% / 0.1;
+  --muted-foreground: 216 20% 70%;
+  --accent: var(--gold);
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
 }
 
 @layer base {
@@ -143,9 +117,23 @@
     @apply border-border;
   }
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased bg-transparent text-foreground min-h-[100dvh];
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-medium;
   }
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  @apply bg-white/5 backdrop-blur-md border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] shadow-xl relative overflow-hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  @apply absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none;
+}
+
+.glass-card {
+  @apply bg-[#0A1628]/40 backdrop-blur-lg border border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:border-white/30 transition-all duration-300;
 }

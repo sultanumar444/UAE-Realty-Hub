@@ -90,6 +90,24 @@ uri = "file://artifacts/your-key-property/public/images/office-team.png"
 type = "image"
 title = "Modern real estate office"
 
+[[generated]]
+id = "NASqeheKFzKYT_c9rbCEd"
+uri = "file://artifacts/your-key-property/public/images/looking-up-towers.png"
+type = "image"
+title = "Looking up at skyscrapers at dusk"
+
+[[generated]]
+id = "pL49XGtkbtd48I3SBzwb7"
+uri = "file://artifacts/your-key-property/public/images/above-clouds-golden.png"
+type = "image"
+title = "Above clouds golden hour"
+
+[[generated]]
+id = "E_3ZOFNCxMLxNgR_Tniqw"
+uri = "file://artifacts/your-key-property/public/images/glass-facade.png"
+type = "image"
+title = "Glass facade reflecting sky"
+
 [[outputs]]
 id = "vWfvwB5KGrP4_pQt0NZir"
 uri = "file://artifacts/your-key-property/public/images/uae-map.jpg"

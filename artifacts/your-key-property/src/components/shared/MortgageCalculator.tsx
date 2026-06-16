@@ -9,7 +9,7 @@ interface MortgageCalculatorProps {
 }
 
 export function MortgageCalculator({ price = 2500000, className = "", compact = false }: MortgageCalculatorProps) {
-  const { formatPrice } = useCurrency();
+  const { formatPrice, currency } = useCurrency();
   const [propertyPrice, setPropertyPrice] = useState(price);
   const [downPaymentPercent, setDownPaymentPercent] = useState(25);
   const [interestRate, setInterestRate] = useState(4.5);
@@ -33,36 +33,36 @@ export function MortgageCalculator({ price = 2500000, className = "", compact = 
   const totalInterest = totalAmount - propertyPrice;
 
   return (
-    <div className={`bg-white border border-border flex flex-col ${className}`}>
-      <div className={`p-6 border-b border-border ${compact ? 'pb-4' : ''}`}>
-        <h3 className={`${compact ? 'text-xl' : 'text-2xl'} font-serif font-bold text-primary`}>
+    <div className={`glass-panel flex flex-col ${className}`}>
+      <div className={`p-8 border-b border-white/10 ${compact ? 'pb-6' : ''}`}>
+        <h3 className={`${compact ? 'text-xl' : 'text-3xl'} font-serif font-bold text-white`}>
           Mortgage Calculator
         </h3>
         {!compact && (
-          <p className="text-muted-foreground mt-2 text-sm">
-            Estimate your monthly payments and explore financing options.
+          <p className="text-white/60 font-mono text-sm mt-2">
+            Estimate your monthly payments.
           </p>
         )}
       </div>
 
-      <div className={`p-6 space-y-6 ${compact ? 'space-y-4' : ''}`}>
+      <div className={`p-8 space-y-8 ${compact ? 'space-y-6' : ''}`}>
         <div>
-          <div className="flex justify-between mb-2">
-            <label className="text-sm font-semibold text-primary">Property Price</label>
-            <span className="text-sm font-bold text-secondary">{formatPrice(propertyPrice)}</span>
+          <div className="flex justify-between mb-3">
+            <label className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Property Price</label>
+            <span className="text-xs font-mono font-bold text-secondary">{formatPrice(propertyPrice)}</span>
           </div>
           <input 
             type="number" 
             value={propertyPrice}
             onChange={(e) => setPropertyPrice(Number(e.target.value) || 0)}
-            className="w-full px-4 py-2 bg-muted/50 border-none outline-none focus:ring-1 focus:ring-secondary text-sm"
+            className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
           />
         </div>
 
         <div>
-          <div className="flex justify-between mb-2">
-            <label className="text-sm font-semibold text-primary">Down Payment</label>
-            <span className="text-sm font-bold text-secondary">{downPaymentPercent}% ({formatPrice(downPayment)})</span>
+          <div className="flex justify-between mb-3">
+            <label className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Down Payment</label>
+            <span className="text-xs font-mono font-bold text-secondary">{downPaymentPercent}% ({formatPrice(downPayment)})</span>
           </div>
           <Slider 
             value={[downPaymentPercent]}
@@ -74,45 +74,45 @@ export function MortgageCalculator({ price = 2500000, className = "", compact = 
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="text-sm font-semibold text-primary mb-2 block">Interest Rate (%)</label>
+            <label className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-3 block">Interest Rate (%)</label>
             <input 
               type="number" 
               step="0.1"
               value={interestRate}
               onChange={(e) => setInterestRate(Number(e.target.value) || 0)}
-              className="w-full px-4 py-2 bg-muted/50 border-none outline-none focus:ring-1 focus:ring-secondary text-sm"
+              className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
             />
           </div>
           <div>
-            <label className="text-sm font-semibold text-primary mb-2 block">Loan Term (Years)</label>
+            <label className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-3 block">Loan Term (Years)</label>
             <input 
               type="number" 
               value={loanTermYears}
               onChange={(e) => setLoanTermYears(Number(e.target.value) || 0)}
-              className="w-full px-4 py-2 bg-muted/50 border-none outline-none focus:ring-1 focus:ring-secondary text-sm"
+              className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
             />
           </div>
         </div>
       </div>
 
-      <div className="bg-primary p-6 mt-auto">
-        <div className="text-center mb-6">
-          <div className="text-sm text-white/70 uppercase tracking-widest font-semibold mb-2">Monthly Payment</div>
-          <div className={`${compact ? 'text-3xl' : 'text-4xl'} font-serif font-bold text-secondary`}>
+      <div className="bg-[#0A1628]/80 p-8 mt-auto border-t border-white/10">
+        <div className="text-center mb-8">
+          <div className="text-[10px] text-white/50 uppercase tracking-widest font-mono mb-3">Monthly Payment</div>
+          <div className={`${compact ? 'text-4xl' : 'text-5xl'} font-serif font-bold text-secondary`}>
             {formatPrice(monthlyPayment)}
           </div>
         </div>
         
-        <div className="space-y-3 pt-4 border-t border-white/10">
-          <div className="flex justify-between text-sm">
-            <span className="text-white/70">Principal Amount</span>
-            <span className="text-white font-semibold">{formatPrice(loanAmount)}</span>
+        <div className="space-y-4 pt-6 border-t border-white/10">
+          <div className="flex justify-between text-sm font-mono">
+            <span className="text-white/60">Principal Amount</span>
+            <span className="text-white font-bold">{formatPrice(loanAmount)}</span>
           </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-white/70">Total Interest</span>
-            <span className="text-white font-semibold">{formatPrice(totalInterest)}</span>
+          <div className="flex justify-between text-sm font-mono">
+            <span className="text-white/60">Total Interest</span>
+            <span className="text-white font-bold">{formatPrice(totalInterest)}</span>
           </div>
         </div>
       </div>
