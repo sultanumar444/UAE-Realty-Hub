@@ -37,6 +37,7 @@ export function Footer() {
               <li><Link href="/off-plan"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Off-Plan</span></Link></li>
               <li><Link href="/communities"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Communities</span></Link></li>
               <li><Link href="/investment"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Investment ROI</span></Link></li>
+              <li><Link href="/blog"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Insights</span></Link></li>
               <li><Link href="/about"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">About Us</span></Link></li>
               <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Contact</span></Link></li>
             </ul>

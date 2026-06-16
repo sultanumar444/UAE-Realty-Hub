@@ -9,6 +9,8 @@ import { Contact } from "./pages/Contact";
 import { MortgageCalculatorPage } from "./pages/MortgageCalculator";
 import { Favorites } from "./pages/Favorites";
 import { Investment } from "./pages/Investment";
+import { Blog } from "./pages/Blog";
+import { BlogPost } from "./pages/BlogPost";
 import { Crm } from "./pages/Crm";
 import NotFound from "./pages/not-found";
 import { SignInPage, SignUpPage, RequireAuth } from "./auth/clerk";
@@ -71,6 +73,8 @@ function App() {
           <Route path="/mortgage-calculator" component={MortgageCalculatorPage} />
           <Route path="/favorites" component={Favorites} />
           <Route path="/investment" component={Investment} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/blog/:slug" component={BlogPost} />
           <Route path="/sign-in/*?" component={SignInPage} />
           <Route path="/sign-up/*?" component={SignUpPage} />
           <Route path="/crm/:rest*">

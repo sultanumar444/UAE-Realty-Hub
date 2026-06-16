@@ -26,17 +26,19 @@ A Dubai & Abu Dhabi real estate brokerage website with a built-in team CRM. The 
 
 ## Where things live
 
-- DB schema (source of truth): `lib/db/src/schema/{listings,leads,agents}.ts`
+- DB schema (source of truth): `lib/db/src/schema/{listings,leads,agents,posts}.ts`
 - API contract: `lib/api-spec/openapi.yaml` → codegen into `@workspace/api-client-react` (hooks) and `@workspace/api-zod` (schemas)
-- API route handlers: `artifacts/api-server/src/routes/{listings,leads,agents}/index.ts`
+- API route handlers: `artifacts/api-server/src/routes/{listings,leads,agents,posts}/index.ts`
 - CRM UI: `artifacts/your-key-property/src/pages/Crm.tsx` + `src/pages/crm/*`
-- Public ↔ DB glue: `artifacts/your-key-property/src/lib/{useProperties.ts,listingApi.ts}`
+- Public ↔ DB glue: `artifacts/your-key-property/src/lib/{useProperties.ts,listingApi.ts,blogApi.ts}`
+- Blog/SEO: public pages `src/pages/{Blog,BlogPost}.tsx`; SEO meta hook `src/lib/useSeo.ts`
 - Auth wiring: `artifacts/your-key-property/src/auth/clerk.tsx`
 - Seed data: `scripts/src/seed.ts`
 
 ## Architecture decisions
 
-- Public pages (`/`, `/properties`, `/contact`, property detail) are open; only `/crm` and all write/admin API routes are gated (Clerk `requireAuth`). `POST /leads` is intentionally public for lead capture.
+- Public pages (`/`, `/properties`, `/contact`, `/blog`, property detail) are open; only `/crm` and all write/admin API routes are gated (Clerk `requireAuth`). `POST /leads` is intentionally public for lead capture.
+- Blog/insights: posts have a draft/published workflow. Public GET `/posts*` endpoints gate to published-only for anonymous callers via `getAuth(req)` (clerkMiddleware is global), while the authenticated CRM sees drafts. Server publishes a post (sets `publishedAt`) when status first becomes "published". Each blog page sets SEO meta tags via `useSeo`.
 - The public site reads listings from the DB but falls back to a bundled static catalogue (`src/lib/properties.ts`) when no published listings exist, so the marketing site never renders empty.
 - DB-backed `Property` objects carry `dbBacked: true`; the property-detail enquiry form only attaches `listingId` for DB-backed listings to avoid FK violations against static fallback IDs.
 - Generated OpenAPI input types treat optional fields as `T | undefined` (not `null`); form mappers emit `undefined` for empty optional fields.
@@ -44,8 +46,8 @@ A Dubai & Abu Dhabi real estate brokerage website with a built-in team CRM. The 
 
 ## Product
 
-- Public: browse/search listings, view property detail with mortgage/ROI tools, submit enquiries and contact-form leads.
-- CRM (team, behind auth): Listings CRUD with image upload, Leads inbox with status workflow, Agents/team management.
+- Public: browse/search listings, view property detail with mortgage/ROI tools, submit enquiries and contact-form leads, read insights/blog articles (SEO-optimised).
+- CRM (team, behind auth): Listings CRUD with image upload, Leads inbox with status workflow, Agents/team management, Insights (blog posts) CRUD with cover-image upload, draft/published workflow, and SEO fields.
 - Portal XML feed export endpoint (Bayut/Dubizzle/Property Finder). Inbound portal sync needs partner credentials (not configured).
 
 ## User preferences

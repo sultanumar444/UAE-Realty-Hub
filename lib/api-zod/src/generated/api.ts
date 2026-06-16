@@ -360,6 +360,160 @@ export const DeleteAgentParams = zod.object({
 
 
 /**
+ * @summary List blog posts
+ */
+export const ListPostsQueryParams = zod.object({
+  "status": zod.coerce.string().optional(),
+  "category": zod.coerce.string().optional()
+})
+
+export const ListPostsResponseItem = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string().nullish(),
+  "content": zod.string(),
+  "coverImage": zod.string().nullish(),
+  "category": zod.string().nullish(),
+  "tags": zod.array(zod.string()),
+  "status": zod.string(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "authorId": zod.number().nullish(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+export const ListPostsResponse = zod.array(ListPostsResponseItem)
+
+
+/**
+ * @summary Create a blog post
+ */
+
+
+
+
+export const CreatePostBody = zod.object({
+  "slug": zod.string().min(1),
+  "title": zod.string().min(1),
+  "excerpt": zod.string().optional(),
+  "content": zod.string().optional(),
+  "coverImage": zod.string().optional(),
+  "category": zod.string().optional(),
+  "tags": zod.array(zod.string()).optional(),
+  "status": zod.string().optional(),
+  "seoTitle": zod.string().optional(),
+  "seoDescription": zod.string().optional(),
+  "authorId": zod.number().nullish()
+})
+
+
+/**
+ * @summary Get a published post by slug
+ */
+export const GetPostBySlugParams = zod.object({
+  "slug": zod.coerce.string()
+})
+
+export const GetPostBySlugResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string().nullish(),
+  "content": zod.string(),
+  "coverImage": zod.string().nullish(),
+  "category": zod.string().nullish(),
+  "tags": zod.array(zod.string()),
+  "status": zod.string(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "authorId": zod.number().nullish(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Get a post by id
+ */
+export const GetPostParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetPostResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string().nullish(),
+  "content": zod.string(),
+  "coverImage": zod.string().nullish(),
+  "category": zod.string().nullish(),
+  "tags": zod.array(zod.string()),
+  "status": zod.string(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "authorId": zod.number().nullish(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Update a post
+ */
+export const UpdatePostParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+
+export const UpdatePostBody = zod.object({
+  "slug": zod.string().min(1).optional(),
+  "title": zod.string().min(1).optional(),
+  "excerpt": zod.string().optional(),
+  "content": zod.string().optional(),
+  "coverImage": zod.string().optional(),
+  "category": zod.string().optional(),
+  "tags": zod.array(zod.string()).optional(),
+  "status": zod.string().optional(),
+  "seoTitle": zod.string().optional(),
+  "seoDescription": zod.string().optional(),
+  "authorId": zod.number().nullish()
+})
+
+export const UpdatePostResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string().nullish(),
+  "content": zod.string(),
+  "coverImage": zod.string().nullish(),
+  "category": zod.string().nullish(),
+  "tags": zod.array(zod.string()),
+  "status": zod.string(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "authorId": zod.number().nullish(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Delete a post
+ */
+export const DeletePostParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+/**
  * Returns a presigned GCS URL for direct upload. The client sends JSON
 metadata here, then uploads the file directly to the returned URL.
 

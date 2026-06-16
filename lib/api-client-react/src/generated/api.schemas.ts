@@ -206,11 +206,75 @@ export interface AgentUpdate {
   active?: boolean;
 }
 
+export interface Post {
+  id: number;
+  slug: string;
+  title: string;
+  /** @nullable */
+  excerpt?: string | null;
+  content: string;
+  /** @nullable */
+  coverImage?: string | null;
+  /** @nullable */
+  category?: string | null;
+  tags: string[];
+  status: string;
+  /** @nullable */
+  seoTitle?: string | null;
+  /** @nullable */
+  seoDescription?: string | null;
+  /** @nullable */
+  authorId?: number | null;
+  /** @nullable */
+  publishedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PostInput {
+  /** @minLength 1 */
+  slug: string;
+  /** @minLength 1 */
+  title: string;
+  excerpt?: string;
+  content?: string;
+  coverImage?: string;
+  category?: string;
+  tags?: string[];
+  status?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  /** @nullable */
+  authorId?: number | null;
+}
+
+export interface PostUpdate {
+  /** @minLength 1 */
+  slug?: string;
+  /** @minLength 1 */
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  coverImage?: string;
+  category?: string;
+  tags?: string[];
+  status?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  /** @nullable */
+  authorId?: number | null;
+}
+
 export type ListListingsParams = {
 status?: string;
 purpose?: string;
 city?: string;
 propertyType?: string;
 featured?: boolean;
+};
+
+export type ListPostsParams = {
+status?: string;
+category?: string;
 };
 

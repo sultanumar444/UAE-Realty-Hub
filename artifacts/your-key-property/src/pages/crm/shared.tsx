@@ -4,18 +4,21 @@ import {
   getListListingsQueryKey,
   getListLeadsQueryKey,
   getListAgentsQueryKey,
+  getListPostsQueryKey,
 } from "@workspace/api-client-react";
 
 export function useCrmInvalidate() {
   const qc = useQueryClient();
   return useCallback(
-    (kind: "listings" | "leads" | "agents") => {
+    (kind: "listings" | "leads" | "agents" | "posts") => {
       const key =
         kind === "listings"
           ? getListListingsQueryKey()
           : kind === "leads"
             ? getListLeadsQueryKey()
-            : getListAgentsQueryKey();
+            : kind === "agents"
+              ? getListAgentsQueryKey()
+              : getListPostsQueryKey();
       qc.invalidateQueries({ queryKey: [key[0]] });
     },
     [qc],

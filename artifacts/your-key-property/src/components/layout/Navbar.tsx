@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { name: "Off-Plan", href: "/off-plan" },
   { name: "Communities", href: "/communities" },
   { name: "Investment", href: "/investment" },
+  { name: "Insights", href: "/blog" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
