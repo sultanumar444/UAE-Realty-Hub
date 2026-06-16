@@ -5,7 +5,7 @@ import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapPin, Search, CheckCircle2, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
-import { PROPERTIES } from "@/lib/properties";
+import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -13,7 +13,9 @@ import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 
 export function Home() {
   const { formatPrice } = useCurrency();
-  const featuredProperties = PROPERTIES.filter(p => p.featured).slice(0, 6);
+  const { properties } = useProperties();
+  const featured = properties.filter(p => p.featured);
+  const featuredProperties = (featured.length > 0 ? featured : properties).slice(0, 6);
 
   // Section Refs for scroll tracking
   const heroRef = useRef(null);

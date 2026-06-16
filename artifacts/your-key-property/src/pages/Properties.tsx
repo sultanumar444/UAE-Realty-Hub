@@ -4,11 +4,12 @@ import { Footer } from "@/components/layout/Footer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PROPERTIES } from "@/lib/properties";
+import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
 
 export function Properties() {
   const { formatPrice } = useCurrency();
+  const { properties } = useProperties();
   const [type, setType] = useState<string>("All Types");
   const [location, setLocation] = useState<string>("Any Location");
   const [beds, setBeds] = useState<string>("Beds (Any)");
@@ -27,7 +28,7 @@ export function Properties() {
       Studio: "Studio",
     };
 
-    return PROPERTIES.filter(p => {
+    return properties.filter(p => {
       if (type !== "All Types") {
         const mappedType = TYPE_MAP[type] ?? type;
         if (p.type !== mappedType) return false;
@@ -46,7 +47,7 @@ export function Properties() {
       
       return true;
     });
-  }, [type, location, beds, buyChecked, rentChecked]);
+  }, [properties, type, location, beds, buyChecked, rentChecked]);
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">

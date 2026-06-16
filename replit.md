@@ -1,44 +1,63 @@
-# [Project name]
+# Your Key Property Management
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A Dubai & Abu Dhabi real estate brokerage website with a built-in team CRM. The public marketing site showcases property listings and captures leads; the authenticated CRM lets the team manage listings, leads, and agents, and export a portal XML feed.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server
+- `pnpm --filter @workspace/your-key-property run dev` — run the web app (Vite)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/scripts run seed` — seed agents + listings (idempotent; skips if listings exist)
+- Required env: `DATABASE_URL`; Clerk: `VITE_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` (and `VITE_CLERK_PROXY_URL` in production)
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Web: React + Vite + Tailwind, wouter routing, TanStack Query
 - API: Express 5
+- Auth: Clerk (team sign-up/sign-in)
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Object storage: App Storage for listing/agent images
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- DB schema (source of truth): `lib/db/src/schema/{listings,leads,agents}.ts`
+- API contract: `lib/api-spec/openapi.yaml` → codegen into `@workspace/api-client-react` (hooks) and `@workspace/api-zod` (schemas)
+- API route handlers: `artifacts/api-server/src/routes/{listings,leads,agents}/index.ts`
+- CRM UI: `artifacts/your-key-property/src/pages/Crm.tsx` + `src/pages/crm/*`
+- Public ↔ DB glue: `artifacts/your-key-property/src/lib/{useProperties.ts,listingApi.ts}`
+- Auth wiring: `artifacts/your-key-property/src/auth/clerk.tsx`
+- Seed data: `scripts/src/seed.ts`
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Public pages (`/`, `/properties`, `/contact`, property detail) are open; only `/crm` and all write/admin API routes are gated (Clerk `requireAuth`). `POST /leads` is intentionally public for lead capture.
+- The public site reads listings from the DB but falls back to a bundled static catalogue (`src/lib/properties.ts`) when no published listings exist, so the marketing site never renders empty.
+- DB-backed `Property` objects carry `dbBacked: true`; the property-detail enquiry form only attaches `listingId` for DB-backed listings to avoid FK violations against static fallback IDs.
+- Generated OpenAPI input types treat optional fields as `T | undefined` (not `null`); form mappers emit `undefined` for empty optional fields.
+- Listing/agent images store an object path; `storageUrl()` maps `/objects/...` paths to `/api/storage/objects/...` and leaves bundled `/images/...` paths untouched.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Public: browse/search listings, view property detail with mortgage/ROI tools, submit enquiries and contact-form leads.
+- CRM (team, behind auth): Listings CRUD with image upload, Leads inbox with status workflow, Agents/team management.
+- Portal XML feed export endpoint (Bayut/Dubizzle/Property Finder). Inbound portal sync needs partner credentials (not configured).
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Brand: navy `#0A1628` + gold `#C9974C`. "Vertical Ascent" design language. No emojis anywhere.
+- Branding/content sourced from www.yourkey.ae (logos, two office addresses, contact numbers).
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Do not change the OpenAPI `info.title` — it controls generated filenames.
+- After editing `lib/*`, run `pnpm run typecheck:libs` before leaf artifact checks.
+- Drizzle wraps Postgres errors; the pg error `code` (e.g. `23503` FK violation) lives on the error `cause` chain, not the top-level error. See the `pgErrorCode` helper in the leads route.
 
 ## Pointers
 

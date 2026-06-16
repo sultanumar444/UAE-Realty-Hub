@@ -9,12 +9,15 @@ import { Contact } from "./pages/Contact";
 import { MortgageCalculatorPage } from "./pages/MortgageCalculator";
 import { Favorites } from "./pages/Favorites";
 import { Investment } from "./pages/Investment";
+import { Crm } from "./pages/Crm";
 import NotFound from "./pages/not-found";
+import { SignInPage, SignUpPage, RequireAuth } from "./auth/clerk";
 import { SiWhatsapp } from "react-icons/si";
 import { ArrowUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AtmosphericBackground } from "./components/shared/AtmosphericBackground";
 import { AltitudeRail } from "./components/shared/AltitudeRail";
+import { Toaster } from "./components/ui/sonner";
 
 function FloatingButtons() {
   const [showTop, setShowTop] = useState(false);
@@ -68,10 +71,18 @@ function App() {
           <Route path="/mortgage-calculator" component={MortgageCalculatorPage} />
           <Route path="/favorites" component={Favorites} />
           <Route path="/investment" component={Investment} />
+          <Route path="/sign-in/*?" component={SignInPage} />
+          <Route path="/sign-up/*?" component={SignUpPage} />
+          <Route path="/crm/:rest*">
+            <RequireAuth>
+              <Crm />
+            </RequireAuth>
+          </Route>
           <Route component={NotFound} />
         </Switch>
       </div>
       <FloatingButtons />
+      <Toaster position="top-right" richColors />
     </>
   );
 }

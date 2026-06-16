@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="64" viewBox="0 0 260 64" fill="none">
+  <g>
+    <rect x="6" y="14" width="34" height="36" rx="3" fill="none" stroke="#C9974C" stroke-width="2"/>
+    <path d="M14 50 V26 L23 18 L32 26 V50" fill="none" stroke="#C9974C" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="23" cy="33" r="3.5" fill="#C9974C"/>
+    <path d="M23 36.5 V44" stroke="#C9974C" stroke-width="2"/>
+    <text x="54" y="34" font-family="Georgia, 'Cormorant Garamond', serif" font-size="26" font-weight="600" letter-spacing="2" fill="#C9974C">YOUR KEY</text>
+    <text x="55" y="50" font-family="'JetBrains Mono', monospace" font-size="7.5" letter-spacing="4" fill="#C9974C" opacity="0.75">PROPERTY MANAGEMENT</text>
+  </g>
+</svg>

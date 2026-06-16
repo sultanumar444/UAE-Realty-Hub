@@ -1,24 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { getPropertyById, PROPERTIES } from "@/lib/properties";
+import { useProperty } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
 import { useFavorites } from "@/lib/favorites";
 import { MortgageCalculator } from "@/components/shared/MortgageCalculator";
 import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
-import { Bed, Bath, Square, MapPin, CheckCircle2, Heart, Phone, Mail } from "lucide-react";
+import { Bed, Bath, Square, MapPin, CheckCircle2, Heart, Phone, Mail, Loader2 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useCreateLead } from "@workspace/api-client-react";
 
 export function PropertyDetail() {
   const params = useParams();
-  const property = getPropertyById(params.id || "");
+  const { property, properties } = useProperty(params.id || "");
   const { formatPrice } = useCurrency();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [mainImage, setMainImage] = useState(property?.image || "");
-  
+  const [leadName, setLeadName] = useState("");
+  const [leadContact, setLeadContact] = useState("");
+
+  const createLead = useCreateLead({
+    mutation: {
+      onSuccess: () => {
+        toast.success("Enquiry sent. The agent will contact you shortly.");
+        setLeadName("");
+        setLeadContact("");
+      },
+      onError: (e) =>
+        toast.error(e.message || "Could not send your enquiry. Please try again."),
+    },
+  });
+
+  useEffect(() => {
+    if (property?.image) setMainImage(property.image);
+  }, [property?.image]);
+
   if (!property) {
     return (
       <div className="min-h-screen flex flex-col bg-transparent text-white">
@@ -38,7 +58,7 @@ export function PropertyDetail() {
 
   const isFav = isFavorite(property.id);
 
-  const similarProperties = PROPERTIES.filter(
+  const similarProperties = properties.filter(
     p => p.id !== property.id && (p.type === property.type || p.emirate === property.emirate)
   ).slice(0, 3);
 
@@ -169,6 +189,57 @@ export function PropertyDetail() {
                       <Mail className="w-4 h-4" /> Email Agent
                     </Button>
                   </div>
+
+                  <form
+                    className="mt-8 space-y-3 border-t border-white/10 pt-6"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (!leadName.trim() || !leadContact.trim()) {
+                        toast.error("Please enter your name and contact");
+                        return;
+                      }
+                      const isEmail = leadContact.includes("@");
+                      createLead.mutate({
+                        data: {
+                          name: leadName.trim(),
+                          email: isEmail ? leadContact.trim() : undefined,
+                          phone: isEmail ? undefined : leadContact.trim(),
+                          message: `Enquiry about ${property.title} (${property.location})`,
+                          source: "property-detail",
+                          listingId:
+                            property.dbBacked && Number.isFinite(Number(property.id))
+                              ? Number(property.id)
+                              : undefined,
+                        },
+                      });
+                    }}
+                  >
+                    <h4 className="text-xs font-mono text-white/50 uppercase tracking-widest">
+                      Request a viewing
+                    </h4>
+                    <input
+                      type="text"
+                      value={leadName}
+                      onChange={(e) => setLeadName(e.target.value)}
+                      placeholder="Your name"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
+                    />
+                    <input
+                      type="text"
+                      value={leadContact}
+                      onChange={(e) => setLeadContact(e.target.value)}
+                      placeholder="Email or phone"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
+                    />
+                    <Button
+                      type="submit"
+                      disabled={createLead.isPending}
+                      className="w-full bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold flex gap-2 rounded-none h-12 font-mono uppercase tracking-widest text-xs items-center justify-center"
+                    >
+                      {createLead.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                      {createLead.isPending ? "Sending..." : "Send Enquiry"}
+                    </Button>
+                  </form>
                 </div>
                 
                 {/* Mortgage Calculator Compact */}

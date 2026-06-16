@@ -15,6 +15,7 @@ export interface Property {
   amenities: string[];
   agent: { name: string; title: string; phone: string; image: string };
   featured?: boolean;
+  dbBacked?: boolean;
 }
 
 const AGENT_JAMES = { name: "James Mitchell", title: "Senior Sales Consultant", phone: "+971 50 123 4567", image: "/images/agent-1.jpg" };

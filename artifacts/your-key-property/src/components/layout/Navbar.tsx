@@ -36,13 +36,12 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/">
-          <div className="flex flex-col cursor-pointer">
-            <span className="text-2xl font-serif font-bold text-white leading-none tracking-wide">
-              YOUR KEY
-            </span>
-            <span className="text-[10px] font-mono font-semibold text-secondary tracking-widest mt-1">
-              PROPERTY MANAGEMENT
-            </span>
+          <div className="cursor-pointer">
+            <img
+              src="/images/yourkey-logo-white.png"
+              alt="Your Key Property Management"
+              className="h-10 md:h-12 w-auto"
+            />
           </div>
         </Link>
 
@@ -90,13 +89,15 @@ export function Navbar() {
             </div>
           </Link>
 
-          <div className="flex items-center gap-2 text-white font-mono text-xs">
+          <a href="tel:+971506692770" className="flex items-center gap-2 text-white font-mono text-xs hover:text-secondary transition-colors">
             <Phone className="w-4 h-4 text-secondary" />
-            <span>+971 2 555 1234</span>
-          </div>
-          <Button className="bg-transparent border border-white/30 hover:bg-white hover:text-[#0A1628] text-white rounded-none px-6 font-mono text-xs uppercase tracking-widest transition-colors">
-            List Property
-          </Button>
+            <span>+971 50 669 2770</span>
+          </a>
+          <Link href="/crm">
+            <Button className="bg-transparent border border-white/30 hover:bg-white hover:text-[#0A1628] text-white rounded-none px-6 font-mono text-xs uppercase tracking-widest transition-colors">
+              List Property
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Nav */}
@@ -143,13 +144,15 @@ export function Navbar() {
                     </Link>
                   </div>
                   
-                  <div className="flex items-center gap-3 text-white font-mono text-sm">
+                  <a href="tel:+971506692770" className="flex items-center gap-3 text-white font-mono text-sm">
                     <Phone className="w-5 h-5 text-secondary" />
-                    <span>+971 2 555 1234</span>
-                  </div>
-                  <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-none w-full font-mono text-xs uppercase tracking-widest">
-                    List Your Property
-                  </Button>
+                    <span>+971 50 669 2770</span>
+                  </a>
+                  <Link href="/crm">
+                    <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-none w-full font-mono text-xs uppercase tracking-widest">
+                      List Your Property
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </SheetContent>

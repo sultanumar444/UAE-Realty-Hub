@@ -1,1 +1,2 @@
 - [recharts shadcn tooltip](recharts-shadcn-tooltip.md) — shadcn ChartTooltip crashes without ChartContainer; use native recharts Tooltip + run AED data through convert()/formatPrice for currency-aware charts
+- [Drizzle pg error codes](drizzle-pg-error-codes.md) — Postgres SQLSTATE (FK 23503 etc.) is on err.cause chain, not top-level; walk cause to map to 4xx.
