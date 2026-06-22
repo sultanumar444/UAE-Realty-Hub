@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCurrency } from "@/lib/currency";
 import { Slider } from "@/components/ui/slider";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
@@ -35,14 +35,25 @@ const PRESETS = {
 };
 
 export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVisualizerProps) {
-  const { formatPrice, convert, symbol } = useCurrency();
+  const { formatPrice, convert, toAed, symbol, currency } = useCurrency();
   const [price, setPrice] = useState(initialPrice);
+  const [priceInput, setPriceInput] = useState(String(Math.round(convert(initialPrice))));
   const [area, setArea] = useState<keyof typeof PRESETS>("Custom");
   const [rentalYield, setRentalYield] = useState(PRESETS["Custom"]);
   const [appreciation, setAppreciation] = useState(5.0);
   const [serviceCharge, setServiceCharge] = useState(1.5);
   const [downPayment, setDownPayment] = useState(25);
   const [holdingPeriod, setHoldingPeriod] = useState(10);
+
+  useEffect(() => {
+    setPriceInput(String(Math.round(convert(price))));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currency]);
+
+  const handlePriceChange = (raw: string) => {
+    setPriceInput(raw);
+    setPrice(toAed(Number(raw) || 0));
+  };
 
   // Financial Math
   const investedCapital = (price * downPayment) / 100;
@@ -130,11 +141,11 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
         {/* Controls */}
         <div className="space-y-6 lg:col-span-1 border-r border-white/10 pr-0 lg:pr-8">
           <div>
-            <label className="text-xs font-mono text-secondary mb-2 block uppercase tracking-widest">Property Price</label>
+            <label className="text-xs font-mono text-secondary mb-2 block uppercase tracking-widest">Property Price ({symbol})</label>
             <input 
               type="number" 
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value) || 0)}
+              value={priceInput}
+              onChange={(e) => handlePriceChange(e.target.value)}
               className="w-full bg-white/5 border border-white/20 text-white font-mono p-3 focus:outline-none focus:border-secondary"
             />
           </div>
