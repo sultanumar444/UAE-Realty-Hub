@@ -24,6 +24,11 @@ export function Properties() {
   const search = useSearch();
   const params = new URLSearchParams(search);
   const communityParam = params.get("community");
+  const qParam = params.get("q");
+  const typeParam = params.get("type");
+  useEffect(() => {
+    setType(typeParam ?? "All Types");
+  }, [typeParam]);
   useEffect(() => {
     const purpose = new URLSearchParams(search).get("purpose");
     if (purpose === "sale") {
@@ -58,6 +63,12 @@ export function Properties() {
     return properties.filter(p => {
       if (communityParam && p.community !== communityParam) return false;
 
+      if (qParam && qParam.trim()) {
+        const q = qParam.trim().toLowerCase();
+        const haystack = `${p.title} ${p.community ?? ""} ${p.location ?? ""} ${p.emirate ?? ""}`.toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+
       if (type !== "All Types") {
         const mappedType = TYPE_MAP[type] ?? type;
         if (p.type !== mappedType) return false;
@@ -77,7 +88,7 @@ export function Properties() {
       
       return true;
     });
-  }, [properties, type, location, beds, buyChecked, rentChecked, offPlanChecked, communityParam]);
+  }, [properties, type, location, beds, buyChecked, rentChecked, offPlanChecked, communityParam, qParam]);
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">

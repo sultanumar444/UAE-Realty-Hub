@@ -3,15 +3,26 @@ import { Footer } from "@/components/layout/Footer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Button } from "@/components/ui/button";
-import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapPin, Search, CheckCircle2, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapPin, Search, CheckCircle2, ArrowRight, ChevronDown, Star } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import { useProperties } from "@/lib/useProperties";
 import { useListCommunities } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
 import { useCurrency } from "@/lib/currency";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
+
+const GOOGLE_PROFILE_URL = "https://share.google/2LAI96DtQ8bSoDWij";
+
+const GOOGLE_REVIEWS = [
+  { name: "James Mitchell", initial: "J", color: "#1a73e8", when: "2 weeks ago", text: "Exceptional service from start to finish. They found exactly what we were looking for in Dubai Marina and handled every detail with genuine care." },
+  { name: "Fatima Al Rashid", initial: "F", color: "#c9974c", when: "1 month ago", text: "Their market knowledge in Abu Dhabi is unmatched. They handled the sale of my villa with the utmost professionalism and complete transparency." },
+  { name: "Rahul Sharma", initial: "R", color: "#0f9d58", when: "1 month ago", text: "Total peace of mind knowing my investments are in safe hands. The management team is responsive, honest, and genuinely puts clients first." },
+  { name: "Sarah Thompson", initial: "S", color: "#db4437", when: "2 months ago", text: "Professional, discreet, and highly effective. Acquiring our Downtown penthouse was seamless from the first viewing right through to handover." },
+  { name: "Omar Khalifa", initial: "O", color: "#4285f4", when: "3 months ago", text: "Best brokerage experience I have had in the UAE. They listened, advised honestly, and secured a great price. Highly recommended to anyone." },
+  { name: "Elena Petrova", initial: "E", color: "#a142f4", when: "3 months ago", text: "From the first call they were attentive and knowledgeable. They found us a fantastic rental on the Palm within days. Five stars without hesitation." },
+];
 
 export function Home() {
   const { formatPrice } = useCurrency();
@@ -59,6 +70,24 @@ export function Home() {
   const heroY = useTransform(scrollY, [0, 800], ["0%", "50%"]);
   const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
 
+  // Hero search console state
+  const [, navigate] = useLocation();
+  const [searchTab, setSearchTab] = useState<"sale" | "rent" | "offplan">("sale");
+  const [searchArea, setSearchArea] = useState("");
+  const [searchType, setSearchType] = useState("All Types");
+
+  const handleHeroSearch = () => {
+    const sp = new URLSearchParams();
+    sp.set("purpose", searchTab);
+    if (searchArea.trim()) sp.set("q", searchArea.trim());
+    if (searchType !== "All Types") sp.set("type", searchType);
+    navigate(`/properties?${sp.toString()}`);
+  };
+
+  const scrollToPortfolio = () => {
+    (portfolioRef.current as HTMLElement | null)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Navbar />
@@ -100,9 +129,24 @@ export function Home() {
               className="max-w-4xl mx-auto glass-panel p-2 md:p-6 rounded-lg"
             >
               <div className="flex gap-4 mb-6 border-b border-white/20 pb-4 px-2">
-                <button className="text-sm font-mono font-semibold text-secondary uppercase tracking-widest border-b-2 border-secondary pb-1">Buy</button>
-                <button className="text-sm font-mono font-medium text-white/60 hover:text-white transition-colors uppercase tracking-widest pb-1">Rent</button>
-                <button className="text-sm font-mono font-medium text-white/60 hover:text-white transition-colors uppercase tracking-widest pb-1">Off-Plan</button>
+                {([
+                  { id: "sale", label: "Buy" },
+                  { id: "rent", label: "Rent" },
+                  { id: "offplan", label: "Off-Plan" },
+                ] as const).map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setSearchTab(t.id)}
+                    className={`text-sm font-mono uppercase tracking-widest pb-1 transition-colors ${
+                      searchTab === t.id
+                        ? "font-semibold text-secondary border-b-2 border-secondary"
+                        : "font-medium text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
@@ -110,41 +154,57 @@ export function Home() {
                   <input 
                     type="text" 
                     placeholder="Area, Community or Building" 
+                    value={searchArea}
+                    onChange={(e) => setSearchArea(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") handleHeroSearch(); }}
                     className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono placeholder:text-white/40"
                   />
                 </div>
                 <div className="w-full md:w-56">
-                  <select className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none">
+                  <select
+                    value={searchType}
+                    onChange={(e) => setSearchType(e.target.value)}
+                    className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
+                  >
                     <option className="bg-primary">All Types</option>
-                    <option className="bg-primary">Apartment</option>
-                    <option className="bg-primary">Villa</option>
-                    <option className="bg-primary">Townhouse</option>
+                    <option className="bg-primary">Apartments</option>
+                    <option className="bg-primary">Villas</option>
+                    <option className="bg-primary">Townhouses</option>
                     <option className="bg-primary">Penthouse</option>
+                    <option className="bg-primary">Commercial</option>
+                    <option className="bg-primary">Studio</option>
                   </select>
                 </div>
-                <Button className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-none flex gap-2 font-mono uppercase tracking-widest">
+                <Button
+                  type="button"
+                  onClick={handleHeroSearch}
+                  className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-none flex gap-2 font-mono uppercase tracking-widest"
+                >
                   <Search className="w-4 h-4" />
                   <span>Search</span>
                 </Button>
               </div>
             </motion.div>
             
-            <motion.div 
+            <motion.button
+              type="button"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 1 }}
-              className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+              onClick={scrollToPortfolio}
+              aria-label="Scroll down to explore the portfolio"
+              className="mt-14 mx-auto flex flex-col items-center gap-2 group cursor-pointer"
             >
-              <div className="text-[10px] font-mono text-secondary uppercase tracking-widest border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm">
+              <div className="text-[10px] font-mono text-secondary uppercase tracking-widest border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm transition-colors group-hover:bg-secondary/20 group-hover:border-secondary/60">
                 GROUND FLOOR
               </div>
               <motion.div 
-                animate={{ y: [0, -10, 0] }}
+                animate={{ y: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               >
-                <ArrowRight className="w-5 h-5 text-secondary rotate-90" />
+                <ChevronDown className="w-6 h-6 text-secondary" />
               </motion.div>
-            </motion.div>
+            </motion.button>
           </div>
         </section>
 
@@ -382,27 +442,80 @@ export function Home() {
 
         {/* CLOUD · TRUST */}
         <section ref={trustRef} className="py-40 relative z-10">
-          <div className="container mx-auto px-4 text-center">
-            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">CLOUD · Trust</div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16 drop-shadow-md">Client Experiences</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {[
-                { name: "James Mitchell", type: "British Expat", text: "Exceptional service from start to finish. They found exactly what we were looking for in Dubai Marina." },
-                { name: "Fatima Al Rashid", type: "UAE National", text: "Their market knowledge in Abu Dhabi is unmatched. Handled the sale of my villa with utmost professionalism." },
-                { name: "Rahul Sharma", type: "Indian Investor", text: "Peace of mind knowing my investments are in safe hands with their management team." }
-              ].map((test, i) => (
-                <div key={i} className="glass-panel p-8 relative">
-                  <div className="text-6xl font-serif text-secondary/30 absolute top-4 left-6">"</div>
-                  <p className="text-white/80 relative z-10 mb-8 pt-6 font-mono text-sm leading-relaxed">
-                    {test.text}
-                  </p>
-                  <div>
-                    <div className="font-serif font-bold text-white text-lg">{test.name}</div>
-                    <div className="text-xs font-mono text-secondary uppercase tracking-widest mt-1">{test.type}</div>
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">CLOUD · Trust</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-8 drop-shadow-md">What Our Clients Say</h2>
+
+              <div className="inline-flex flex-col sm:flex-row items-center gap-5 glass-panel px-8 py-5">
+                <div className="flex items-center gap-3">
+                  <svg className="w-8 h-8 shrink-0" viewBox="0 0 48 48" aria-hidden="true">
+                    <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+                    <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+                    <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/>
+                    <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="font-serif font-bold text-white text-lg leading-tight">Google Reviews</div>
+                    <div className="text-[11px] font-mono text-white/50 uppercase tracking-widest">Your Key Property Management</div>
                   </div>
                 </div>
+                <div className="hidden sm:block w-px h-10 bg-white/20" />
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-serif font-bold text-secondary">5.0</span>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-[#fbbc04] text-[#fbbc04]" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {GOOGLE_REVIEWS.map((r, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
+                  className="glass-panel p-7 flex flex-col"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div
+                      className="w-11 h-11 rounded-full flex items-center justify-center font-serif font-bold text-white text-lg shrink-0"
+                      style={{ backgroundColor: r.color }}
+                    >
+                      {r.initial}
+                    </div>
+                    <div className="flex-grow min-w-0">
+                      <div className="font-serif font-bold text-white text-base leading-tight truncate">{r.name}</div>
+                      <div className="text-[11px] font-mono text-white/40">{r.when}</div>
+                    </div>
+                    <svg className="w-5 h-5 shrink-0" viewBox="0 0 48 48" aria-hidden="true">
+                      <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+                      <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+                      <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/>
+                      <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+                    </svg>
+                  </div>
+                  <div className="flex mb-3">
+                    {[...Array(5)].map((_, s) => (
+                      <Star key={s} className="w-4 h-4 fill-[#fbbc04] text-[#fbbc04]" />
+                    ))}
+                  </div>
+                  <p className="text-white/75 text-sm leading-relaxed">{r.text}</p>
+                </motion.div>
               ))}
+            </div>
+
+            <div className="text-center mt-14">
+              <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-none px-8 py-6 font-mono uppercase tracking-widest">
+                  Read All Reviews on Google
+                </Button>
+              </a>
             </div>
           </div>
         </section>
