@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearch } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
@@ -17,6 +18,22 @@ export function Properties() {
   // Status filter state
   const [buyChecked, setBuyChecked] = useState(true);
   const [rentChecked, setRentChecked] = useState(true);
+
+  // Sync status filters with the ?purpose= query param (from the Properties dropdown)
+  const search = useSearch();
+  useEffect(() => {
+    const purpose = new URLSearchParams(search).get("purpose");
+    if (purpose === "sale") {
+      setBuyChecked(true);
+      setRentChecked(false);
+    } else if (purpose === "rent") {
+      setBuyChecked(false);
+      setRentChecked(true);
+    } else {
+      setBuyChecked(true);
+      setRentChecked(true);
+    }
+  }, [search]);
 
   const filteredProperties = useMemo(() => {
     const TYPE_MAP: Record<string, string> = {

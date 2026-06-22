@@ -108,6 +108,30 @@ uri = "file://artifacts/your-key-property/public/images/glass-facade.png"
 type = "image"
 title = "Glass facade reflecting sky"
 
+[[generated]]
+id = "fTeYWdZFr32gV7VLqeoy9"
+uri = "file://artifacts/your-key-property/public/images/agent-1.jpg.png"
+type = "image"
+title = "male agent navy suit"
+
+[[generated]]
+id = "rNnhV20NrJ3MySA1LhGlg"
+uri = "file://artifacts/your-key-property/public/images/agent-2.jpg.png"
+type = "image"
+title = "middle eastern businessman"
+
+[[generated]]
+id = "fGnnq3gLeCmIGEoUpvHLn"
+uri = "file://artifacts/your-key-property/public/images/agent-3.jpg.png"
+type = "image"
+title = "south asian woman blazer"
+
+[[generated]]
+id = "pntjRT5VMwh4Oby8SWXT0"
+uri = "file://artifacts/your-key-property/public/images/agent-4.jpg.png"
+type = "image"
+title = "middle eastern woman blazer"
+
 [[outputs]]
 id = "vWfvwB5KGrP4_pQt0NZir"
 uri = "file://artifacts/your-key-property/public/images/uae-map.jpg"

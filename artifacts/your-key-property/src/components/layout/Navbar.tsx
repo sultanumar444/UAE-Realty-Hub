@@ -7,12 +7,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useCurrency } from "@/lib/currency";
 import { useFavorites } from "@/lib/favorites";
 
+const PROPERTY_LINKS = [
+  { name: "All Properties", href: "/properties" },
+  { name: "Off Plan", href: "/off-plan" },
+  { name: "Sale", href: "/properties?purpose=sale" },
+  { name: "Rent", href: "/properties?purpose=rent" },
+];
+
 const NAV_LINKS = [
-  { name: "Properties", href: "/properties" },
-  { name: "Off-Plan", href: "/off-plan" },
   { name: "Communities", href: "/communities" },
   { name: "Investment", href: "/investment" },
   { name: "Insights", href: "/blog" },
+  { name: "Agents", href: "/agents" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
@@ -47,11 +53,23 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
+        <nav className="hidden lg:flex items-center gap-3 xl:gap-7">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-mono uppercase tracking-[3px] text-white/80 hover:text-white transition-colors cursor-pointer outline-none">
+              Properties <span className="text-[8px]">▼</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="bg-[#0A1628]/95 backdrop-blur-md border-white/20">
+              {PROPERTY_LINKS.map((link) => (
+                <DropdownMenuItem key={link.name} asChild className="cursor-pointer font-mono text-xs uppercase tracking-[3px] text-white focus:bg-white/10 focus:text-secondary">
+                  <Link href={link.href}>{link.name}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           {NAV_LINKS.map((link) => (
             <Link key={link.name} href={link.href}>
               <span
-                className={`text-xs font-mono uppercase tracking-widest transition-colors cursor-pointer ${
+                className={`text-xs font-mono uppercase tracking-[3px] transition-colors cursor-pointer ${
                   location === link.href ? "text-secondary font-bold" : "text-white/80 hover:text-white"
                 }`}
               >
@@ -61,7 +79,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+        <div className="hidden lg:flex items-center gap-3 xl:gap-6 pl-3">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-mono font-bold text-white outline-none">
               {currency} <span className="text-[8px]">▼</span>
@@ -90,9 +108,9 @@ export function Navbar() {
             </div>
           </Link>
 
-          <a href="tel:+971506692770" className="flex items-center gap-2 text-white font-mono text-xs hover:text-secondary transition-colors">
+          <a href="tel:+971506692770" className="flex items-center gap-2 text-white font-mono text-xs hover:text-secondary transition-colors whitespace-nowrap">
             <Phone className="w-4 h-4 text-secondary" />
-            <span className="hidden xl:inline">+971 50 669 2770</span>
+            <span className="hidden 2xl:inline">+971 50 669 2770</span>
           </a>
           <Link href="/crm">
             <Button className="bg-transparent border border-white/30 hover:bg-white hover:text-[#0A1628] text-white rounded-none px-4 xl:px-6 font-mono text-xs uppercase tracking-widest transition-colors">
@@ -111,10 +129,10 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="right" className="bg-[#0A1628]/95 backdrop-blur-xl border-l border-white/10 p-6 w-[300px]">
               <div className="flex flex-col gap-8 mt-12">
-                {NAV_LINKS.map((link) => (
+                {[...PROPERTY_LINKS, ...NAV_LINKS].map((link) => (
                   <Link key={link.name} href={link.href}>
                     <span
-                      className={`text-sm font-mono uppercase tracking-widest transition-colors cursor-pointer ${
+                      className={`text-sm font-mono uppercase tracking-[3px] transition-colors cursor-pointer ${
                         location === link.href ? "text-secondary" : "text-white/80 hover:text-white"
                       }`}
                     >

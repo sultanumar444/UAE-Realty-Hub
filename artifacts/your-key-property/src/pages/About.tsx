@@ -99,14 +99,14 @@ export function About() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { name: "James Mitchell", title: "Senior Sales Consultant", spec: "Dubai Marina", img: "/images/agent-1.jpg" },
-                { name: "Saeed Al Mansoori", title: "Leasing Manager", spec: "Abu Dhabi Luxury Rentals", img: "/images/agent-2.jpg" },
-                { name: "Priya Sharma", title: "Investment Advisor", spec: "Off-Plan Properties", img: "/images/agent-3.jpg" },
-                { name: "Fatima Hassan", title: "Property Manager", spec: "Asset Management", img: "/images/agent-4.jpg" },
-                { name: "Michael Clarke", title: "Commercial Specialist", spec: "Business Bay & ADGM", img: "/images/agent-1.jpg" },
-                { name: "Sara Al Futtaim", title: "Luxury Specialist", spec: "Palm Jumeirah", img: "/images/agent-4.jpg" },
-                { name: "David Chen", title: "Sales Consultant", spec: "Downtown Dubai", img: "/images/agent-3.jpg" },
-                { name: "Omar Zayed", title: "Operations Director", spec: "Company Operations", img: "/images/agent-2.jpg" }
+                { name: "James Mitchell", title: "Senior Sales Consultant", spec: "Dubai Marina", img: "/images/agent-1.png" },
+                { name: "Saeed Al Mansoori", title: "Leasing Manager", spec: "Abu Dhabi Luxury Rentals", img: "/images/agent-2.png" },
+                { name: "Priya Sharma", title: "Investment Advisor", spec: "Off-Plan Properties", img: "/images/agent-3.png" },
+                { name: "Fatima Hassan", title: "Property Manager", spec: "Asset Management", img: "/images/agent-4.png" },
+                { name: "Michael Clarke", title: "Commercial Specialist", spec: "Business Bay & ADGM", img: "/images/agent-1.png" },
+                { name: "Sara Al Futtaim", title: "Luxury Specialist", spec: "Palm Jumeirah", img: "/images/agent-4.png" },
+                { name: "David Chen", title: "Sales Consultant", spec: "Downtown Dubai", img: "/images/agent-3.png" },
+                { name: "Omar Zayed", title: "Operations Director", spec: "Company Operations", img: "/images/agent-2.png" }
               ].map((agent, i) => (
                 <motion.div 
                   key={i}

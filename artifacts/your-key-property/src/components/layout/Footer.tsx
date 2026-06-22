@@ -37,6 +37,7 @@ export function Footer() {
               <li><Link href="/off-plan"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Off-Plan</span></Link></li>
               <li><Link href="/communities"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Communities</span></Link></li>
               <li><Link href="/investment"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Investment ROI</span></Link></li>
+              <li><Link href="/agents"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Agents</span></Link></li>
               <li><Link href="/blog"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Insights</span></Link></li>
               <li><Link href="/about"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">About Us</span></Link></li>
               <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Contact</span></Link></li>
@@ -46,12 +47,12 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-mono uppercase tracking-widest font-semibold mb-8 text-secondary">Our Services</h4>
             <ul className="space-y-4">
-              <li><span className="text-white/70 text-sm font-mono">Buy Property</span></li>
-              <li><span className="text-white/70 text-sm font-mono">Sell Property</span></li>
-              <li><span className="text-white/70 text-sm font-mono">Rent & Lease</span></li>
-              <li><span className="text-white/70 text-sm font-mono">Property Management</span></li>
-              <li><span className="text-white/70 text-sm font-mono">Investment Advisory</span></li>
-              <li><span className="text-white/70 text-sm font-mono">Free Valuation</span></li>
+              <li><Link href="/properties?purpose=sale"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Buy Property</span></Link></li>
+              <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Sell Property</span></Link></li>
+              <li><Link href="/properties?purpose=rent"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Rent & Lease</span></Link></li>
+              <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Property Management</span></Link></li>
+              <li><Link href="/investment"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Investment Advisory</span></Link></li>
+              <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">Free Valuation</span></Link></li>
             </ul>
           </div>
 

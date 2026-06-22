@@ -284,27 +284,28 @@ export function Home() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: HomeIcon, title: "Buy Property", desc: "Find your dream home or next investment from our portfolio." },
-                { icon: TrendingUp, title: "Sell Property", desc: "Get the best market value with our expert strategies." },
-                { icon: Key, title: "Rent & Lease", desc: "Discover high-quality rental properties or find reliable tenants." },
-                { icon: Building, title: "Property Management", desc: "Hassle-free management of your assets." },
-                { icon: BarChart, title: "Investment Advisory", desc: "Data-driven insights to build a profitable portfolio." },
-                { icon: Calculator, title: "Free Valuation", desc: "Accurate property valuations based on current data." }
+                { icon: HomeIcon, title: "Buy Property", desc: "Find your dream home or next investment from our portfolio.", href: "/properties?purpose=sale" },
+                { icon: TrendingUp, title: "Sell Property", desc: "Get the best market value with our expert strategies.", href: "/contact" },
+                { icon: Key, title: "Rent & Lease", desc: "Discover high-quality rental properties or find reliable tenants.", href: "/properties?purpose=rent" },
+                { icon: Building, title: "Property Management", desc: "Hassle-free management of your assets.", href: "/contact" },
+                { icon: BarChart, title: "Investment Advisory", desc: "Data-driven insights to build a profitable portfolio.", href: "/investment" },
+                { icon: Calculator, title: "Free Valuation", desc: "Accurate property valuations based on current data.", href: "/contact" }
               ].map((service, i) => (
-                <motion.div 
-                  key={i} 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="glass-panel p-8 flex flex-col items-center text-center group hover:bg-white/10 transition-colors"
-                >
-                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-colors">
-                    <service.icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-serif font-bold text-white mb-3">{service.title}</h3>
-                  <p className="text-white/60 text-sm font-mono">{service.desc}</p>
-                </motion.div>
+                <Link key={i} href={service.href}>
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    className="glass-panel p-8 flex flex-col items-center text-center group hover:bg-white/10 transition-colors cursor-pointer h-full"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-colors">
+                      <service.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-serif font-bold text-white mb-3">{service.title}</h3>
+                    <p className="text-white/60 text-sm font-mono">{service.desc}</p>
+                  </motion.div>
+                </Link>
               ))}
             </div>
           </div>
