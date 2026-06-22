@@ -15,6 +15,8 @@ export interface Property {
   amenities: string[];
   agent: { name: string; title: string; phone: string; image: string };
   community?: string;
+  communityId?: number;
+  agentId?: number;
   featured?: boolean;
   dbBacked?: boolean;
 }

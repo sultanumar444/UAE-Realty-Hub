@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
+import { Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useCurrency } from "@/lib/currency";
 import { storageUrl } from "@/lib/listingApi";
+import { useProperties } from "@/lib/useProperties";
 import { useListCommunities } from "@workspace/api-client-react";
 import { motion } from "framer-motion";
 
@@ -30,7 +32,11 @@ const FALLBACK_COMMUNITIES: CommunityCard[] = [
 export function Communities() {
   const { formatPrice } = useCurrency();
   const communitiesQ = useListCommunities();
+  const { properties } = useProperties();
   const [emirateFilter, setEmirateFilter] = useState<"all" | "Dubai" | "Abu Dhabi">("all");
+
+  const countForCommunity = (name: string) =>
+    properties.filter((p) => p.community === name).length;
 
   const allCommunities: CommunityCard[] = useMemo(() => {
     const data = communitiesQ.data ?? [];
@@ -84,7 +90,9 @@ export function Communities() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {COMMUNITIES.map((c, i) => (
+            {COMMUNITIES.map((c, i) => {
+              const count = countForCommunity(c.name);
+              return (
               <motion.div 
                 key={i} 
                 initial={{ opacity: 0, y: 30 }}
@@ -92,13 +100,18 @@ export function Communities() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="glass-card overflow-hidden flex flex-col group"
               >
-                <div className="relative h-64 overflow-hidden">
+                <Link href={`/properties?community=${encodeURIComponent(c.name)}`}>
+                <div className="relative h-64 overflow-hidden cursor-pointer">
                   <img src={c.img} alt={c.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/80 to-transparent opacity-60" />
                   <div className="absolute top-4 left-4 bg-secondary/90 backdrop-blur-sm text-white text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest border border-white/20">
                     {c.em}
                   </div>
+                  <div className="absolute top-4 right-4 bg-[#0A1628]/80 backdrop-blur-sm text-white text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest border border-white/20">
+                    {count} {count === 1 ? "Property" : "Properties"}
+                  </div>
                 </div>
+                </Link>
                 <div className="p-6 flex-grow flex flex-col bg-[#0A1628]/60">
                   <h3 className="text-2xl font-serif font-bold text-white mb-3">{c.name}</h3>
                   <p className="text-white/60 text-sm font-mono leading-relaxed mb-6 flex-grow">{c.desc}</p>
@@ -123,7 +136,8 @@ export function Communities() {
                   )}
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </main>

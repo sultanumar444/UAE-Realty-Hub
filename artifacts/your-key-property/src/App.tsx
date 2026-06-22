@@ -10,6 +10,7 @@ import { MortgageCalculatorPage } from "./pages/MortgageCalculator";
 import { Favorites } from "./pages/Favorites";
 import { Investment } from "./pages/Investment";
 import { Agents } from "./pages/Agents";
+import { AgentProfile } from "./pages/AgentProfile";
 import { Blog } from "./pages/Blog";
 import { BlogPost } from "./pages/BlogPost";
 import { Crm } from "./pages/Crm";
@@ -74,6 +75,7 @@ function App() {
           <Route path="/mortgage-calculator" component={MortgageCalculatorPage} />
           <Route path="/favorites" component={Favorites} />
           <Route path="/investment" component={Investment} />
+          <Route path="/agents/:id" component={AgentProfile} />
           <Route path="/agents" component={Agents} />
           <Route path="/blog" component={Blog} />
           <Route path="/blog/:slug" component={BlogPost} />

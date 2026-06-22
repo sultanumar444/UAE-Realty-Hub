@@ -18,20 +18,30 @@ export function Properties() {
   // Status filter state
   const [buyChecked, setBuyChecked] = useState(true);
   const [rentChecked, setRentChecked] = useState(true);
+  const [offPlanChecked, setOffPlanChecked] = useState(true);
 
   // Sync status filters with the ?purpose= query param (from the Properties dropdown)
   const search = useSearch();
+  const params = new URLSearchParams(search);
+  const communityParam = params.get("community");
   useEffect(() => {
     const purpose = new URLSearchParams(search).get("purpose");
     if (purpose === "sale") {
       setBuyChecked(true);
       setRentChecked(false);
+      setOffPlanChecked(false);
     } else if (purpose === "rent") {
       setBuyChecked(false);
       setRentChecked(true);
+      setOffPlanChecked(false);
+    } else if (purpose === "offplan") {
+      setBuyChecked(false);
+      setRentChecked(false);
+      setOffPlanChecked(true);
     } else {
       setBuyChecked(true);
       setRentChecked(true);
+      setOffPlanChecked(true);
     }
   }, [search]);
 
@@ -46,6 +56,8 @@ export function Properties() {
     };
 
     return properties.filter(p => {
+      if (communityParam && p.community !== communityParam) return false;
+
       if (type !== "All Types") {
         const mappedType = TYPE_MAP[type] ?? type;
         if (p.type !== mappedType) return false;
@@ -61,10 +73,11 @@ export function Properties() {
       
       if (!buyChecked && p.status === "FOR SALE") return false;
       if (!rentChecked && p.status === "FOR RENT") return false;
+      if (!offPlanChecked && p.status === "OFF PLAN") return false;
       
       return true;
     });
-  }, [properties, type, location, beds, buyChecked, rentChecked]);
+  }, [properties, type, location, beds, buyChecked, rentChecked, offPlanChecked, communityParam]);
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
@@ -72,8 +85,21 @@ export function Properties() {
       
       <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Portfolio</div>
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-12 drop-shadow-md">Elevated Living</h1>
+          <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">
+            {communityParam ? "Coveted Location" : "Portfolio"}
+          </div>
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-3 drop-shadow-md">
+            {communityParam || "Elevated Living"}
+          </h1>
+          {communityParam && (
+            <a
+              href="/properties"
+              className="inline-block mb-12 text-xs font-mono uppercase tracking-widest text-secondary hover:text-white transition-colors"
+            >
+              &larr; View all locations
+            </a>
+          )}
+          {!communityParam && <div className="mb-12" />}
           
           <div className="glass-panel p-6 mb-12 flex flex-col lg:flex-row gap-4">
             <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -131,6 +157,10 @@ export function Properties() {
                         <input type="checkbox" checked={rentChecked} onChange={(e) => setRentChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
                         Rent
                       </label>
+                      <label className="flex items-center gap-3 text-sm font-mono cursor-pointer">
+                        <input type="checkbox" checked={offPlanChecked} onChange={(e) => setOffPlanChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
+                        Off-Plan
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -172,6 +202,7 @@ export function Properties() {
                       setBeds("Beds (Any)");
                       setBuyChecked(true);
                       setRentChecked(true);
+                      setOffPlanChecked(true);
                     }}
                   >
                     Reset Console

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapPin, Search, CheckCircle2, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { useProperties } from "@/lib/useProperties";
+import { useListCommunities } from "@workspace/api-client-react";
+import { storageUrl } from "@/lib/listingApi";
 import { useCurrency } from "@/lib/currency";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -14,8 +16,33 @@ import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 export function Home() {
   const { formatPrice } = useCurrency();
   const { properties } = useProperties();
+  const communitiesQ = useListCommunities();
   const featured = properties.filter(p => p.featured);
   const featuredProperties = (featured.length > 0 ? featured : properties).slice(0, 6);
+
+  // Off-plan properties (DB-driven "Towers Under Construction")
+  const offPlanProperties = properties.filter((p) => p.status === "OFF PLAN").slice(0, 3);
+
+  // Coveted Locations sourced from DB communities, with a clickable link to
+  // the filtered property list and a live count per community.
+  const countForCommunity = (name: string) =>
+    properties.filter((p) => p.community === name).length;
+
+  const FALLBACK_AREAS = [
+    { name: "Dubai Marina", em: "Dubai", img: "/images/dubai-skyline.png" },
+    { name: "Downtown Dubai", em: "Dubai", img: "/images/luxury-villa.png" },
+    { name: "Palm Jumeirah", em: "Dubai", img: "/images/modern-apartment.png" },
+    { name: "Saadiyat Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" },
+  ];
+  const dbCommunities = communitiesQ.data ?? [];
+  const covetedAreas =
+    dbCommunities.length > 0
+      ? dbCommunities.slice(0, 4).map((c) => ({
+          name: c.name,
+          em: c.emirate || "Dubai",
+          img: storageUrl(c.imageUrl),
+        }))
+      : FALLBACK_AREAS;
 
   // Section Refs for scroll tracking
   const heroRef = useRef(null);
@@ -181,21 +208,52 @@ export function Home() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { image: "/images/render-marina.png", title: "Marina Heights", developer: "Emaar", location: "Dubai Marina", price: 1200000, handover: "Q4 2026", roi: "7-9%" },
-                { image: "/images/render-saadiyat.png", title: "Saadiyat Lagoons", developer: "Aldar", location: "Saadiyat Island", price: 2800000, handover: "Q2 2027", roi: "6-8%" },
-                { image: "/images/render-yas.png", title: "Yas Bay Residences", developer: "Aldar", location: "Yas Island", price: 980000, handover: "Q1 2027", roi: "8-10%" }
-              ].map((proj, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.15 }}
-                >
-                  <ProjectCard {...proj} />
-                </motion.div>
-              ))}
+              {offPlanProperties.length > 0
+                ? offPlanProperties.map((p, i) => (
+                    <motion.div
+                      key={p.id}
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: i * 0.15 }}
+                    >
+                      <PropertyCard
+                        id={p.id}
+                        image={p.image}
+                        status={p.status}
+                        price={formatPrice(p.price)}
+                        title={p.title}
+                        location={p.location}
+                        community={p.community}
+                        agentName={p.agent?.name}
+                        beds={p.beds === 0 ? "Studio" : p.beds}
+                        baths={p.baths}
+                        sqft={p.sqft}
+                      />
+                    </motion.div>
+                  ))
+                : [
+                    { image: "/images/render-marina.png", title: "Marina Heights", developer: "Emaar", location: "Dubai Marina", price: 1200000, handover: "Q4 2026", roi: "7-9%" },
+                    { image: "/images/render-saadiyat.png", title: "Saadiyat Lagoons", developer: "Aldar", location: "Saadiyat Island", price: 2800000, handover: "Q2 2027", roi: "6-8%" },
+                    { image: "/images/render-yas.png", title: "Yas Bay Residences", developer: "Aldar", location: "Yas Island", price: 980000, handover: "Q1 2027", roi: "8-10%" }
+                  ].map((proj, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: i * 0.15 }}
+                    >
+                      <ProjectCard {...proj} />
+                    </motion.div>
+                  ))}
+            </div>
+            <div className="text-center mt-12">
+              <Link href="/off-plan">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-none px-8 font-mono uppercase tracking-widest">
+                  View All Off-Plan
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
@@ -246,28 +304,39 @@ export function Home() {
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { name: "Dubai Marina", em: "Dubai", img: "/images/dubai-skyline.png" },
-                { name: "Downtown Dubai", em: "Dubai", img: "/images/luxury-villa.png" },
-                { name: "Palm Jumeirah", em: "Dubai", img: "/images/modern-apartment.png" },
-                { name: "Saadiyat Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" }
-              ].map((area, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="relative h-64 overflow-hidden group cursor-pointer glass-panel p-2"
-                >
-                  <img src={area.img} alt={area.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] to-transparent opacity-80" />
-                  <div className="absolute bottom-6 left-6">
-                    <div className="text-[10px] text-secondary font-mono uppercase tracking-widest mb-2">{area.em}</div>
-                    <div className="text-white font-serif font-bold text-xl">{area.name}</div>
-                  </div>
-                </motion.div>
-              ))}
+              {covetedAreas.map((area, i) => {
+                const count = countForCommunity(area.name);
+                return (
+                  <motion.div
+                    key={area.name}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
+                    <Link href={`/properties?community=${encodeURIComponent(area.name)}`}>
+                      <div className="relative h-64 overflow-hidden group cursor-pointer glass-panel p-2">
+                        <img src={area.img} alt={area.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] to-transparent opacity-80" />
+                        <div className="absolute top-4 right-4 bg-secondary/90 backdrop-blur-sm text-white text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest border border-white/20">
+                          {count} {count === 1 ? "Property" : "Properties"}
+                        </div>
+                        <div className="absolute bottom-6 left-6">
+                          <div className="text-[10px] text-secondary font-mono uppercase tracking-widest mb-2">{area.em}</div>
+                          <div className="text-white font-serif font-bold text-xl">{area.name}</div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+            <div className="text-center mt-12">
+              <Link href="/communities">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-none px-8 font-mono uppercase tracking-widest">
+                  Explore All Communities
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

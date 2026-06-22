@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useListAgents } from "@workspace/api-client-react";
@@ -17,6 +18,7 @@ const FALLBACK_AGENTS = [
 ];
 
 interface TeamMember {
+  id?: number;
   name: string;
   title: string;
   spec: string;
@@ -33,6 +35,7 @@ export function Agents() {
   const team: TeamMember[] =
     activeAgents.length > 0
       ? activeAgents.map((a) => ({
+          id: a.id,
           name: a.name,
           title: a.title || "Property Consultant",
           spec: a.bio || "Your Key Property Management",
@@ -66,12 +69,27 @@ export function Agents() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
                 className="glass-panel p-8 text-center group"
               >
-                <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
-                  <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
-                </div>
-                <h3 className="text-xl font-serif font-bold text-white mb-1">{agent.name}</h3>
-                <p className="text-secondary text-[10px] font-mono uppercase tracking-[3px] mb-3">{agent.title}</p>
-                <p className="text-white/50 text-xs font-mono mb-4">{agent.spec}</p>
+                {agent.id != null ? (
+                  <Link href={`/agents/${agent.id}`}>
+                    <div className="cursor-pointer">
+                      <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
+                        <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
+                      </div>
+                      <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-secondary transition-colors">{agent.name}</h3>
+                      <p className="text-secondary text-[10px] font-mono uppercase tracking-[3px] mb-3">{agent.title}</p>
+                      <p className="text-white/50 text-xs font-mono mb-4">{agent.spec}</p>
+                    </div>
+                  </Link>
+                ) : (
+                  <>
+                    <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
+                      <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
+                    </div>
+                    <h3 className="text-xl font-serif font-bold text-white mb-1">{agent.name}</h3>
+                    <p className="text-secondary text-[10px] font-mono uppercase tracking-[3px] mb-3">{agent.title}</p>
+                    <p className="text-white/50 text-xs font-mono mb-4">{agent.spec}</p>
+                  </>
+                )}
                 {(agent.phone || agent.email) && (
                   <div className="flex items-center justify-center gap-4 pt-4 border-t border-white/10">
                     {agent.phone && (

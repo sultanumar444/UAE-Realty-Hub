@@ -1,4 +1,1 @@
-- [recharts shadcn tooltip](recharts-shadcn-tooltip.md) — shadcn ChartTooltip crashes without ChartContainer; use native recharts Tooltip + run AED data through convert()/formatPrice for currency-aware charts
-- [Drizzle pg error codes](drizzle-pg-error-codes.md) — Postgres SQLSTATE (FK 23503 etc.) is on err.cause chain, not top-level; walk cause to map to 4xx.
-- [Public-read draft gating](public-read-draft-gating.md) — public GET routes must hide unpublished rows server-side via getAuth(req); client-only filtering leaks drafts.
-- [Single-admin fail-closed auth](single-admin-failclosed.md) — CRM admin gate (server + client) must DENY when admin email env var is missing, never fall through to allow any signed-in user.
+- [pnpm add reformats workspace yaml](pnpm-add-rewrites-workspace-yaml.md) — `pnpm add` can strip the root `pnpm-workspace.yaml` security/minimumReleaseAge block; check the diff and restore.

@@ -1,4 +1,11 @@
-import { db, agentsTable, listingsTable, postsTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
+import {
+  db,
+  agentsTable,
+  listingsTable,
+  postsTable,
+  communitiesTable,
+} from "@workspace/db";
 
 async function seedPosts() {
   const existing = await db.select().from(postsTable).limit(1);
@@ -63,12 +70,205 @@ async function seedPosts() {
   console.log("Seeded insight posts.");
 }
 
+const COMMUNITY_SEED = [
+  {
+    name: "Dubai Marina",
+    slug: "dubai-marina",
+    emirate: "Dubai",
+    description:
+      "A vibrant waterfront district lined with high-rise towers, a bustling promenade, and direct access to the marina.",
+    imageUrl: "/images/render-marina.png",
+    priceFrom: 1200,
+    rentFrom: 90000,
+    propertyTypes: "Apartments, Penthouses",
+    featured: true,
+  },
+  {
+    name: "Palm Jumeirah",
+    slug: "palm-jumeirah",
+    emirate: "Dubai",
+    description:
+      "The iconic man-made island offering beachfront villas, branded residences, and panoramic sea views.",
+    imageUrl: "/images/luxury-villa.png",
+    priceFrom: 2400,
+    rentFrom: 220000,
+    propertyTypes: "Villas, Apartments, Penthouses",
+    featured: true,
+  },
+  {
+    name: "Downtown Dubai",
+    slug: "downtown-dubai",
+    emirate: "Dubai",
+    description:
+      "The cosmopolitan heart of the city, home to the Burj Khalifa, Dubai Mall, and premium high-rise living.",
+    imageUrl: "/images/dubai-skyline.png",
+    priceFrom: 1800,
+    rentFrom: 120000,
+    propertyTypes: "Apartments, Penthouses",
+    featured: true,
+  },
+  {
+    name: "Saadiyat Island",
+    slug: "saadiyat-island",
+    emirate: "Abu Dhabi",
+    description:
+      "Abu Dhabi's cultural district with beachfront villas, museums, and a refined, low-density lifestyle.",
+    imageUrl: "/images/render-saadiyat.png",
+    priceFrom: 1500,
+    rentFrom: 160000,
+    propertyTypes: "Villas, Townhouses, Apartments",
+    featured: true,
+  },
+  {
+    name: "Yas Island",
+    slug: "yas-island",
+    emirate: "Abu Dhabi",
+    description:
+      "A leisure-led destination anchored by world-class attractions, golf, and waterfront residences.",
+    imageUrl: "/images/render-yas.png",
+    priceFrom: 980,
+    rentFrom: 95000,
+    propertyTypes: "Apartments, Townhouses",
+    featured: true,
+  },
+  {
+    name: "Al Reem Island",
+    slug: "al-reem-island",
+    emirate: "Abu Dhabi",
+    description:
+      "A fast-growing freehold island minutes from downtown Abu Dhabi, popular with investors and end-users.",
+    imageUrl: "/images/abudhabi-skyline.png",
+    priceFrom: 1100,
+    rentFrom: 85000,
+    propertyTypes: "Apartments, Penthouses",
+    featured: false,
+  },
+];
+
+async function seedCommunities() {
+  const existing = await db.select().from(communitiesTable).limit(1);
+  if (existing.length > 0) {
+    console.log("Communities already present, skipping community seed.");
+    return;
+  }
+  await db.insert(communitiesTable).values(COMMUNITY_SEED);
+  console.log("Seeded communities.");
+}
+
+async function backfillListingCommunities() {
+  const communities = await db.select().from(communitiesTable);
+  const byName = new Map(communities.map((c) => [c.name, c.id]));
+  const listings = await db.select().from(listingsTable);
+  let updated = 0;
+  for (const listing of listings) {
+    if (listing.communityId != null) continue;
+    if (!listing.community) continue;
+    const communityId = byName.get(listing.community);
+    if (communityId == null) continue;
+    await db
+      .update(listingsTable)
+      .set({ communityId })
+      .where(eq(listingsTable.id, listing.id));
+    updated += 1;
+  }
+  console.log(`Backfilled communityId on ${updated} listing(s).`);
+}
+
+async function seedOffPlan() {
+  const existing = await db
+    .select()
+    .from(listingsTable)
+    .where(eq(listingsTable.purpose, "offplan"))
+    .limit(1);
+  if (existing.length > 0) {
+    console.log("Off-plan listings already present, skipping off-plan seed.");
+    return;
+  }
+
+  const agents = await db.select().from(agentsTable);
+  const byName = new Map(agents.map((a) => [a.name, a.id]));
+  const communities = await db.select().from(communitiesTable);
+  const communityByName = new Map(communities.map((c) => [c.name, c.id]));
+
+  const james = byName.get("James Mitchell") ?? null;
+  const saeed = byName.get("Saeed Al Mansoori") ?? null;
+  const priya = byName.get("Priya Sharma") ?? null;
+
+  await db.insert(listingsTable).values([
+    {
+      reference: "YK-OP-2001",
+      title: "Marina Heights — Off-Plan Residences",
+      description:
+        "A landmark tower under construction in Dubai Marina offering 1-3 bedroom residences with flexible payment plans and handover in 2026.",
+      propertyType: "apartment",
+      purpose: "offplan",
+      status: "published",
+      price: 1200000,
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 1100,
+      city: "Dubai",
+      community: "Dubai Marina",
+      communityId: communityByName.get("Dubai Marina") ?? null,
+      images: ["/images/render-marina.png", "/images/glass-facade.png"],
+      amenities: ["Infinity Pool", "Sky Gym", "Concierge", "Marina View", "Smart Home"],
+      featured: true,
+      agentId: priya ?? james,
+    },
+    {
+      reference: "YK-OP-2002",
+      title: "Saadiyat Lagoons — Off-Plan Villas",
+      description:
+        "Limited-release waterfront villas on Saadiyat Island with post-handover payment plans, completing in 2027.",
+      propertyType: "villa",
+      purpose: "offplan",
+      status: "published",
+      price: 2800000,
+      bedrooms: 4,
+      bathrooms: 5,
+      area: 4200,
+      city: "Abu Dhabi",
+      community: "Saadiyat Island",
+      communityId: communityByName.get("Saadiyat Island") ?? null,
+      images: ["/images/render-saadiyat.png", "/images/luxury-villa.png"],
+      amenities: ["Private Garden", "Community Beach", "Clubhouse", "Smart Home", "Maid's Room"],
+      featured: true,
+      agentId: saeed,
+    },
+    {
+      reference: "YK-OP-2003",
+      title: "Yas Bay Residences — Off-Plan",
+      description:
+        "Contemporary waterfront apartments on Yas Island with leisure-led amenities and an attractive launch payment plan.",
+      propertyType: "apartment",
+      purpose: "offplan",
+      status: "published",
+      price: 980000,
+      bedrooms: 1,
+      bathrooms: 2,
+      area: 760,
+      city: "Abu Dhabi",
+      community: "Yas Island",
+      communityId: communityByName.get("Yas Island") ?? null,
+      images: ["/images/render-yas.png", "/images/property-1.png"],
+      amenities: ["Waterfront Promenade", "Pool", "Gym", "Retail", "Covered Parking"],
+      featured: false,
+      agentId: saeed,
+    },
+  ]);
+
+  console.log("Seeded off-plan listings.");
+}
+
 async function main() {
   await seedPosts();
+  await seedCommunities();
 
   const existing = await db.select().from(listingsTable).limit(1);
   if (existing.length > 0) {
-    console.log("Listings already present, skipping seed.");
+    console.log("Listings already present, skipping base listing seed.");
+    await backfillListingCommunities();
+    await seedOffPlan();
     return;
   }
 
@@ -225,6 +425,9 @@ async function main() {
   ]);
 
   console.log("Seeded agents and listings.");
+
+  await backfillListingCommunities();
+  await seedOffPlan();
 }
 
 main()

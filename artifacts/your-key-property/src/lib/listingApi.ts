@@ -76,6 +76,8 @@ export function mapListingToProperty(
         }
       : FALLBACK_AGENT,
     community: communityName,
+    communityId: community?.id,
+    agentId: agent?.id,
     featured: listing.featured ?? false,
     dbBacked: true,
   };
