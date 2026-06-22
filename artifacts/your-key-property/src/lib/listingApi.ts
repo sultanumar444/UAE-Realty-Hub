@@ -1,4 +1,4 @@
-import type { Listing, Agent } from "@workspace/api-client-react";
+import type { Listing, Agent, Community } from "@workspace/api-client-react";
 import type { Property } from "./properties";
 
 const FALLBACK_IMAGE = "/images/modern-apartment.png";
@@ -32,21 +32,33 @@ function normalizeType(value: string): Property["type"] {
   return match ?? "Apartment";
 }
 
+function statusForPurpose(purpose: string | null | undefined): Property["status"] {
+  if (purpose === "rent") return "FOR RENT";
+  if (purpose === "offplan") return "OFF PLAN";
+  return "FOR SALE";
+}
+
 export function mapListingToProperty(
   listing: Listing,
   agents?: Agent[],
+  communities?: Community[],
 ): Property {
   const agent = agents?.find((a) => a.id === listing.agentId);
+  const community = communities?.find((c) => c.id === listing.communityId);
+  const communityName = community?.name || listing.community || undefined;
   const images = (listing.images ?? []).map(storageUrl);
   const primary = images[0] ?? FALLBACK_IMAGE;
 
   return {
     id: String(listing.id),
     title: listing.title,
-    location: listing.community || listing.city || "Dubai",
-    emirate: listing.city === "Abu Dhabi" ? "Abu Dhabi" : "Dubai",
+    location: communityName || listing.city || "Dubai",
+    emirate:
+      community?.emirate === "Abu Dhabi" || listing.city === "Abu Dhabi"
+        ? "Abu Dhabi"
+        : "Dubai",
     type: normalizeType(listing.propertyType ?? "apartment"),
-    status: listing.purpose === "rent" ? "FOR RENT" : "FOR SALE",
+    status: statusForPurpose(listing.purpose),
     price: listing.price,
     beds: listing.bedrooms ?? 0,
     baths: listing.bathrooms ?? 0,
@@ -63,6 +75,7 @@ export function mapListingToProperty(
           image: storageUrl(agent.photoUrl) || FALLBACK_AGENT.image,
         }
       : FALLBACK_AGENT,
+    community: communityName,
     featured: listing.featured ?? false,
     dbBacked: true,
   };

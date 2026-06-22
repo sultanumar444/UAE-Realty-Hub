@@ -1,5 +1,9 @@
 import { useMemo } from "react";
-import { useListListings, useListAgents } from "@workspace/api-client-react";
+import {
+  useListListings,
+  useListAgents,
+  useListCommunities,
+} from "@workspace/api-client-react";
 import { PROPERTIES, type Property } from "./properties";
 import { mapListingToProperty } from "./listingApi";
 
@@ -16,14 +20,17 @@ export function useProperties(): {
 } {
   const listingsQ = useListListings();
   const agentsQ = useListAgents();
+  const communitiesQ = useListCommunities();
 
   const properties = useMemo(() => {
     const listings = (listingsQ.data ?? []).filter((l) =>
       PUBLIC_STATUSES.has(l.status),
     );
     if (listings.length === 0) return PROPERTIES;
-    return listings.map((l) => mapListingToProperty(l, agentsQ.data ?? []));
-  }, [listingsQ.data, agentsQ.data]);
+    return listings.map((l) =>
+      mapListingToProperty(l, agentsQ.data ?? [], communitiesQ.data ?? []),
+    );
+  }, [listingsQ.data, agentsQ.data, communitiesQ.data]);
 
   return { properties, isLoading: listingsQ.isLoading };
 }

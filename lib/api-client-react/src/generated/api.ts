@@ -23,6 +23,9 @@ import type {
   Agent,
   AgentInput,
   AgentUpdate,
+  Community,
+  CommunityInput,
+  CommunityUpdate,
   Error,
   HealthStatus,
   Lead,
@@ -1159,6 +1162,373 @@ export const useDeleteAgent = <TError = ErrorType<Error>,
         TContext
       > => {
       return useMutation(getDeleteAgentMutationOptions(options));
+    }
+
+export const getListCommunitiesUrl = () => {
+
+
+
+
+  return `/api/communities`
+}
+
+/**
+ * @summary List communities
+ */
+export const listCommunities = async ( options?: RequestInit): Promise<Community[]> => {
+
+  return customFetch<Community[]>(getListCommunitiesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListCommunitiesQueryKey = () => {
+    return [
+    `/api/communities`
+    ] as const;
+    }
+
+
+export const getListCommunitiesQueryOptions = <TData = Awaited<ReturnType<typeof listCommunities>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listCommunities>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListCommunitiesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listCommunities>>> = ({ signal }) => listCommunities({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listCommunities>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListCommunitiesQueryResult = NonNullable<Awaited<ReturnType<typeof listCommunities>>>
+export type ListCommunitiesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List communities
+ */
+
+export function useListCommunities<TData = Awaited<ReturnType<typeof listCommunities>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listCommunities>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListCommunitiesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getCreateCommunityUrl = () => {
+
+
+
+
+  return `/api/communities`
+}
+
+/**
+ * @summary Create a community
+ */
+export const createCommunity = async (communityInput: CommunityInput, options?: RequestInit): Promise<Community> => {
+
+  return customFetch<Community>(getCreateCommunityUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      communityInput,)
+  }
+);}
+
+
+
+
+export const getCreateCommunityMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCommunity>>, TError,{data: BodyType<CommunityInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createCommunity>>, TError,{data: BodyType<CommunityInput>}, TContext> => {
+
+const mutationKey = ['createCommunity'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCommunity>>, {data: BodyType<CommunityInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createCommunity(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateCommunityMutationResult = NonNullable<Awaited<ReturnType<typeof createCommunity>>>
+    export type CreateCommunityMutationBody = BodyType<CommunityInput>
+    export type CreateCommunityMutationError = ErrorType<Error>
+
+    /**
+ * @summary Create a community
+ */
+export const useCreateCommunity = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCommunity>>, TError,{data: BodyType<CommunityInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createCommunity>>,
+        TError,
+        {data: BodyType<CommunityInput>},
+        TContext
+      > => {
+      return useMutation(getCreateCommunityMutationOptions(options));
+    }
+
+export const getGetCommunityUrl = (id: number,) => {
+
+
+
+
+  return `/api/communities/${id}`
+}
+
+/**
+ * @summary Get a community by id
+ */
+export const getCommunity = async (id: number, options?: RequestInit): Promise<Community> => {
+
+  return customFetch<Community>(getGetCommunityUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetCommunityQueryKey = (id: number,) => {
+    return [
+    `/api/communities/${id}`
+    ] as const;
+    }
+
+
+export const getGetCommunityQueryOptions = <TData = Awaited<ReturnType<typeof getCommunity>>, TError = ErrorType<Error>>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getCommunity>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCommunityQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommunity>>> = ({ signal }) => getCommunity(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommunity>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetCommunityQueryResult = NonNullable<Awaited<ReturnType<typeof getCommunity>>>
+export type GetCommunityQueryError = ErrorType<Error>
+
+
+/**
+ * @summary Get a community by id
+ */
+
+export function useGetCommunity<TData = Awaited<ReturnType<typeof getCommunity>>, TError = ErrorType<Error>>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getCommunity>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetCommunityQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getUpdateCommunityUrl = (id: number,) => {
+
+
+
+
+  return `/api/communities/${id}`
+}
+
+/**
+ * @summary Update a community
+ */
+export const updateCommunity = async (id: number,
+    communityUpdate: CommunityUpdate, options?: RequestInit): Promise<Community> => {
+
+  return customFetch<Community>(getUpdateCommunityUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      communityUpdate,)
+  }
+);}
+
+
+
+
+export const getUpdateCommunityMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCommunity>>, TError,{id: number;data: BodyType<CommunityUpdate>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCommunity>>, TError,{id: number;data: BodyType<CommunityUpdate>}, TContext> => {
+
+const mutationKey = ['updateCommunity'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCommunity>>, {id: number;data: BodyType<CommunityUpdate>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateCommunity(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateCommunityMutationResult = NonNullable<Awaited<ReturnType<typeof updateCommunity>>>
+    export type UpdateCommunityMutationBody = BodyType<CommunityUpdate>
+    export type UpdateCommunityMutationError = ErrorType<Error>
+
+    /**
+ * @summary Update a community
+ */
+export const useUpdateCommunity = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCommunity>>, TError,{id: number;data: BodyType<CommunityUpdate>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateCommunity>>,
+        TError,
+        {id: number;data: BodyType<CommunityUpdate>},
+        TContext
+      > => {
+      return useMutation(getUpdateCommunityMutationOptions(options));
+    }
+
+export const getDeleteCommunityUrl = (id: number,) => {
+
+
+
+
+  return `/api/communities/${id}`
+}
+
+/**
+ * @summary Delete a community
+ */
+export const deleteCommunity = async (id: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteCommunityUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteCommunityMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCommunity>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteCommunity>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['deleteCommunity'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteCommunity>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteCommunity(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteCommunityMutationResult = NonNullable<Awaited<ReturnType<typeof deleteCommunity>>>
+
+    export type DeleteCommunityMutationError = ErrorType<Error>
+
+    /**
+ * @summary Delete a community
+ */
+export const useDeleteCommunity = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCommunity>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteCommunity>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteCommunityMutationOptions(options));
     }
 
 export const getListPostsUrl = (params?: ListPostsParams,) => {

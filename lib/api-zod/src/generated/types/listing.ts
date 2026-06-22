@@ -37,6 +37,8 @@ export interface Listing {
   featured: boolean;
   /** @nullable */
   agentId?: number | null;
+  /** @nullable */
+  communityId?: number | null;
   createdAt: Date;
   updatedAt: Date;
 }

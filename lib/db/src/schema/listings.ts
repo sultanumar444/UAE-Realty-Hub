@@ -9,6 +9,7 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 import { agentsTable } from "./agents";
+import { communitiesTable } from "./communities";
 
 export const listingsTable = pgTable("listings", {
   id: serial("id").primaryKey(),
@@ -24,6 +25,9 @@ export const listingsTable = pgTable("listings", {
   area: integer("area"),
   city: text("city").notNull().default("Dubai"),
   community: text("community"),
+  communityId: integer("community_id").references(() => communitiesTable.id, {
+    onDelete: "set null",
+  }),
   address: text("address"),
   latitude: text("latitude"),
   longitude: text("longitude"),

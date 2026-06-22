@@ -70,6 +70,8 @@ export interface Listing {
   featured: boolean;
   /** @nullable */
   agentId?: number | null;
+  /** @nullable */
+  communityId?: number | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -96,6 +98,8 @@ export interface ListingInput {
   featured?: boolean;
   /** @nullable */
   agentId?: number | null;
+  /** @nullable */
+  communityId?: number | null;
 }
 
 export interface ListingUpdate {
@@ -123,6 +127,8 @@ export interface ListingUpdate {
   featured?: boolean;
   /** @nullable */
   agentId?: number | null;
+  /** @nullable */
+  communityId?: number | null;
 }
 
 export interface Lead {
@@ -204,6 +210,54 @@ export interface AgentUpdate {
   photoUrl?: string;
   clerkUserId?: string;
   active?: boolean;
+}
+
+export interface Community {
+  id: number;
+  name: string;
+  slug: string;
+  emirate: string;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  imageUrl?: string | null;
+  /** @nullable */
+  priceFrom?: number | null;
+  /** @nullable */
+  rentFrom?: number | null;
+  /** @nullable */
+  propertyTypes?: string | null;
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CommunityInput {
+  /** @minLength 1 */
+  name: string;
+  /** @minLength 1 */
+  slug: string;
+  emirate?: string;
+  description?: string;
+  imageUrl?: string;
+  priceFrom?: number;
+  rentFrom?: number;
+  propertyTypes?: string;
+  featured?: boolean;
+}
+
+export interface CommunityUpdate {
+  /** @minLength 1 */
+  name?: string;
+  /** @minLength 1 */
+  slug?: string;
+  emirate?: string;
+  description?: string;
+  imageUrl?: string;
+  priceFrom?: number;
+  rentFrom?: number;
+  propertyTypes?: string;
+  featured?: boolean;
 }
 
 export interface Post {

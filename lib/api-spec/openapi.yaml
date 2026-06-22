@@ -425,6 +425,147 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /communities:
+    get:
+      operationId: listCommunities
+      tags: [communities]
+      summary: List communities
+      responses:
+        "200":
+          description: A list of communities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Community"
+    post:
+      operationId: createCommunity
+      tags: [communities]
+      summary: Create a community
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommunityInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Community"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Slug already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /communities/{id}:
+    get:
+      operationId: getCommunity
+      tags: [communities]
+      summary: Get a community by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A community
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Community"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateCommunity
+      tags: [communities]
+      summary: Update a community
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommunityUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Community"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Slug already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteCommunity
+      tags: [communities]
+      summary: Delete a community
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /posts:
     get:
       operationId: listPosts
@@ -801,6 +942,8 @@ components:
           type: boolean
         agentId:
           type: ["integer", "null"]
+        communityId:
+          type: ["integer", "null"]
         createdAt:
           type: string
           format: date-time
@@ -857,6 +1000,8 @@ components:
           type: boolean
         agentId:
           type: ["integer", "null"]
+        communityId:
+          type: ["integer", "null"]
 
     ListingUpdate:
       type: object
@@ -903,6 +1048,8 @@ components:
         featured:
           type: boolean
         agentId:
+          type: ["integer", "null"]
+        communityId:
           type: ["integer", "null"]
 
     Lead:
@@ -1051,6 +1198,95 @@ components:
         clerkUserId:
           type: string
         active:
+          type: boolean
+
+    Community:
+      type: object
+      required:
+        - id
+        - name
+        - slug
+        - emirate
+        - featured
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        emirate:
+          type: string
+        description:
+          type: ["string", "null"]
+        imageUrl:
+          type: ["string", "null"]
+        priceFrom:
+          type: ["integer", "null"]
+        rentFrom:
+          type: ["integer", "null"]
+        propertyTypes:
+          type: ["string", "null"]
+        featured:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CommunityInput:
+      type: object
+      required:
+        - name
+        - slug
+      properties:
+        name:
+          type: string
+          minLength: 1
+        slug:
+          type: string
+          minLength: 1
+        emirate:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        priceFrom:
+          type: integer
+        rentFrom:
+          type: integer
+        propertyTypes:
+          type: string
+        featured:
+          type: boolean
+
+    CommunityUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        slug:
+          type: string
+          minLength: 1
+        emirate:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        priceFrom:
+          type: integer
+        rentFrom:
+          type: integer
+        propertyTypes:
+          type: string
+        featured:
           type: boolean
 
     Post:

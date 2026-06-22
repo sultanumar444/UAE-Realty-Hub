@@ -49,6 +49,7 @@ export const ListListingsResponseItem = zod.object({
   "amenities": zod.array(zod.string()),
   "featured": zod.boolean(),
   "agentId": zod.number().nullish(),
+  "communityId": zod.number().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date()
 })
@@ -80,7 +81,8 @@ export const CreateListingBody = zod.object({
   "images": zod.array(zod.string()).optional(),
   "amenities": zod.array(zod.string()).optional(),
   "featured": zod.boolean().optional(),
-  "agentId": zod.number().nullish()
+  "agentId": zod.number().nullish(),
+  "communityId": zod.number().nullish()
 })
 
 
@@ -112,6 +114,7 @@ export const GetListingResponse = zod.object({
   "amenities": zod.array(zod.string()),
   "featured": zod.boolean(),
   "agentId": zod.number().nullish(),
+  "communityId": zod.number().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date()
 })
@@ -146,7 +149,8 @@ export const UpdateListingBody = zod.object({
   "images": zod.array(zod.string()).optional(),
   "amenities": zod.array(zod.string()).optional(),
   "featured": zod.boolean().optional(),
-  "agentId": zod.number().nullish()
+  "agentId": zod.number().nullish(),
+  "communityId": zod.number().nullish()
 })
 
 export const UpdateListingResponse = zod.object({
@@ -170,6 +174,7 @@ export const UpdateListingResponse = zod.object({
   "amenities": zod.array(zod.string()),
   "featured": zod.boolean(),
   "agentId": zod.number().nullish(),
+  "communityId": zod.number().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date()
 })
@@ -355,6 +360,116 @@ export const UpdateAgentResponse = zod.object({
  * @summary Delete an agent
  */
 export const DeleteAgentParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+/**
+ * @summary List communities
+ */
+export const ListCommunitiesResponseItem = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "slug": zod.string(),
+  "emirate": zod.string(),
+  "description": zod.string().nullish(),
+  "imageUrl": zod.string().nullish(),
+  "priceFrom": zod.number().nullish(),
+  "rentFrom": zod.number().nullish(),
+  "propertyTypes": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+export const ListCommunitiesResponse = zod.array(ListCommunitiesResponseItem)
+
+
+/**
+ * @summary Create a community
+ */
+
+
+
+
+export const CreateCommunityBody = zod.object({
+  "name": zod.string().min(1),
+  "slug": zod.string().min(1),
+  "emirate": zod.string().optional(),
+  "description": zod.string().optional(),
+  "imageUrl": zod.string().optional(),
+  "priceFrom": zod.number().optional(),
+  "rentFrom": zod.number().optional(),
+  "propertyTypes": zod.string().optional(),
+  "featured": zod.boolean().optional()
+})
+
+
+/**
+ * @summary Get a community by id
+ */
+export const GetCommunityParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetCommunityResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "slug": zod.string(),
+  "emirate": zod.string(),
+  "description": zod.string().nullish(),
+  "imageUrl": zod.string().nullish(),
+  "priceFrom": zod.number().nullish(),
+  "rentFrom": zod.number().nullish(),
+  "propertyTypes": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Update a community
+ */
+export const UpdateCommunityParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+
+export const UpdateCommunityBody = zod.object({
+  "name": zod.string().min(1).optional(),
+  "slug": zod.string().min(1).optional(),
+  "emirate": zod.string().optional(),
+  "description": zod.string().optional(),
+  "imageUrl": zod.string().optional(),
+  "priceFrom": zod.number().optional(),
+  "rentFrom": zod.number().optional(),
+  "propertyTypes": zod.string().optional(),
+  "featured": zod.boolean().optional()
+})
+
+export const UpdateCommunityResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "slug": zod.string(),
+  "emirate": zod.string(),
+  "description": zod.string().nullish(),
+  "imageUrl": zod.string().nullish(),
+  "priceFrom": zod.number().nullish(),
+  "rentFrom": zod.number().nullish(),
+  "propertyTypes": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Delete a community
+ */
+export const DeleteCommunityParams = zod.object({
   "id": zod.coerce.number()
 })
 

@@ -13,7 +13,7 @@ import { Blog } from "./pages/Blog";
 import { BlogPost } from "./pages/BlogPost";
 import { Crm } from "./pages/Crm";
 import NotFound from "./pages/not-found";
-import { SignInPage, SignUpPage, RequireAuth } from "./auth/clerk";
+import { SignInPage, RequireAuth } from "./auth/clerk";
 import { SiWhatsapp } from "react-icons/si";
 import { ArrowUp } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -76,7 +76,6 @@ function App() {
           <Route path="/blog" component={Blog} />
           <Route path="/blog/:slug" component={BlogPost} />
           <Route path="/sign-in/*?" component={SignInPage} />
-          <Route path="/sign-up/*?" component={SignUpPage} />
           <Route path="/crm">
             <RequireAuth>
               <Crm />

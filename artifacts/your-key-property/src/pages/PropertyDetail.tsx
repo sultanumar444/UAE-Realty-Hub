@@ -269,6 +269,8 @@ export function PropertyDetail() {
                     price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
                     title={p.title} 
                     location={p.location}
+                    community={p.community}
+                    agentName={p.agent?.name}
                     beds={p.beds === 0 ? "Studio" : p.beds} 
                     baths={p.baths} 
                     sqft={p.sqft}

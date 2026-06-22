@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import {
   useListListings,
   useListAgents,
+  useListCommunities,
   useCreateListing,
   useUpdateListing,
   useDeleteListing,
@@ -43,6 +44,7 @@ type FormState = {
   area: string;
   city: string;
   community: string;
+  communityId: string;
   address: string;
   amenities: string;
   images: string[];
@@ -63,6 +65,7 @@ const emptyForm: FormState = {
   area: "",
   city: "Dubai",
   community: "",
+  communityId: "",
   address: "",
   amenities: "",
   images: [],
@@ -84,6 +87,7 @@ function listingToForm(l: Listing): FormState {
     area: l.area != null ? String(l.area) : "",
     city: l.city ?? "Dubai",
     community: l.community ?? "",
+    communityId: l.communityId != null ? String(l.communityId) : "",
     address: l.address ?? "",
     amenities: (l.amenities ?? []).join(", "),
     images: l.images ?? [],
@@ -110,6 +114,7 @@ function formToInput(f: FormState): ListingInput {
     area: toInt(f.area),
     city: f.city,
     community: f.community.trim() || undefined,
+    communityId: f.communityId ? toInt(f.communityId) : undefined,
     address: f.address.trim() || undefined,
     amenities: f.amenities
       .split(",")
@@ -126,6 +131,8 @@ export function ListingsPanel() {
   const listingsQ = useListListings();
   const agentsQ = useListAgents();
   const agents = agentsQ.data ?? [];
+  const communitiesQ = useListCommunities();
+  const communities = communitiesQ.data ?? [];
 
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Listing | null>(null);
@@ -375,6 +382,9 @@ export function ListingsPanel() {
                   <option value="rent" className="bg-[#0A1628]">
                     Rent
                   </option>
+                  <option value="offplan" className="bg-[#0A1628]">
+                    Off Plan
+                  </option>
                 </select>
               </Field>
               <Field label="Status">
@@ -447,14 +457,41 @@ export function ListingsPanel() {
                 </select>
               </Field>
               <Field label="Community">
-                <input
-                  className={inputClass}
-                  value={form.community}
-                  onChange={(e) =>
-                    setForm({ ...form, community: e.target.value })
-                  }
-                  placeholder="Dubai Marina"
-                />
+                {communities.length > 0 ? (
+                  <select
+                    className={selectClass}
+                    value={form.communityId}
+                    onChange={(e) => {
+                      const id = e.target.value;
+                      const match = communities.find(
+                        (c) => String(c.id) === id,
+                      );
+                      setForm({
+                        ...form,
+                        communityId: id,
+                        community: match?.name ?? "",
+                      });
+                    }}
+                  >
+                    <option value="" className="bg-[#0A1628]">
+                      Unassigned
+                    </option>
+                    {communities.map((c) => (
+                      <option key={c.id} value={c.id} className="bg-[#0A1628]">
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    className={inputClass}
+                    value={form.community}
+                    onChange={(e) =>
+                      setForm({ ...form, community: e.target.value })
+                    }
+                    placeholder="Dubai Marina"
+                  />
+                )}
               </Field>
               <Field label="Agent">
                 <select

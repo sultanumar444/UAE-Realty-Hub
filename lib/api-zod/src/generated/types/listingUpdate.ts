@@ -31,4 +31,6 @@ export interface ListingUpdate {
   featured?: boolean;
   /** @nullable */
   agentId?: number | null;
+  /** @nullable */
+  communityId?: number | null;
 }

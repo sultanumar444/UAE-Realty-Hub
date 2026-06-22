@@ -4,7 +4,7 @@ export interface Property {
   location: string;
   emirate: "Dubai" | "Abu Dhabi";
   type: "Apartment" | "Villa" | "Townhouse" | "Penthouse" | "Commercial" | "Studio";
-  status: "FOR SALE" | "FOR RENT";
+  status: "FOR SALE" | "FOR RENT" | "OFF PLAN";
   price: number;
   beds: number;
   baths: number;
@@ -14,6 +14,7 @@ export interface Property {
   description: string;
   amenities: string[];
   agent: { name: string; title: string; phone: string; image: string };
+  community?: string;
   featured?: boolean;
   dbBacked?: boolean;
 }

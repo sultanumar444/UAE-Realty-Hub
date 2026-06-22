@@ -2,9 +2,9 @@ import { useEffect, useRef, type ReactNode } from "react";
 import {
   ClerkProvider,
   SignIn,
-  SignUp,
   Show,
   useClerk,
+  useUser,
 } from "@clerk/react";
 import { publishableKeyFromHost } from "@clerk/react/internal";
 import { dark } from "@clerk/themes";
@@ -88,30 +88,65 @@ export function SignInPage() {
       <SignIn
         routing="path"
         path={`${basePath}/sign-in`}
-        signUpUrl={`${basePath}/sign-up`}
         forceRedirectUrl={`${basePath}/crm`}
       />
     </div>
   );
 }
 
-export function SignUpPage() {
-  return (
-    <div className="flex min-h-[100dvh] items-center justify-center bg-background px-4 py-20">
-      <SignUp
-        routing="path"
-        path={`${basePath}/sign-up`}
-        signInUrl={`${basePath}/sign-in`}
-        forceRedirectUrl={`${basePath}/crm`}
-      />
-    </div>
-  );
+const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL ?? "")
+  .trim()
+  .toLowerCase();
+
+function AdminGate({ children }: { children: ReactNode }) {
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
+
+  if (!isLoaded) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#0A1628] text-white/60">
+        Loading...
+      </div>
+    );
+  }
+
+  const email = user?.primaryEmailAddress?.emailAddress?.trim().toLowerCase();
+
+  // Fail closed: without a configured admin email, no one may access the CRM.
+  if (!ADMIN_EMAIL || email !== ADMIN_EMAIL) {
+    return (
+      <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-6 bg-[#0A1628] px-4 text-center">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-[#C9974C]">
+            Your Key
+          </p>
+          <h1 className="mt-2 font-serif text-3xl text-white">
+            Access restricted
+          </h1>
+          <p className="mt-3 max-w-sm text-sm text-white/60">
+            This CRM is limited to the account administrator. Please sign in with
+            the administrator account.
+          </p>
+        </div>
+        <button
+          onClick={() => void signOut({ redirectUrl: `${basePath}/sign-in` })}
+          className="rounded-lg bg-[#C9974C] px-5 py-2.5 text-sm font-semibold text-[#0A1628] transition hover:bg-[#b8863b]"
+        >
+          Sign out
+        </button>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
 }
 
 export function RequireAuth({ children }: { children: ReactNode }) {
   return (
     <>
-      <Show when="signed-in">{children}</Show>
+      <Show when="signed-in">
+        <AdminGate>{children}</AdminGate>
+      </Show>
       <Show when="signed-out">
         <Redirect to="/sign-in" />
       </Show>
@@ -150,18 +185,11 @@ export function ClerkProviderWithRoutes({ children }: { children: ReactNode }) {
       proxyUrl={clerkProxyUrl}
       appearance={clerkAppearance}
       signInUrl={`${basePath}/sign-in`}
-      signUpUrl={`${basePath}/sign-up`}
       localization={{
         signIn: {
           start: {
-            title: "Team sign in",
+            title: "Administrator sign in",
             subtitle: "Access the Your Key property CRM",
-          },
-        },
-        signUp: {
-          start: {
-            title: "Create your team account",
-            subtitle: "Join the Your Key property CRM",
           },
         },
       }}

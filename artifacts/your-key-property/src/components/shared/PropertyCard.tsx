@@ -1,20 +1,22 @@
-import { Bed, Bath, Square, Heart } from "lucide-react";
+import { Bed, Bath, Square, Heart, MapPin, UserRound } from "lucide-react";
 import { Link } from "wouter";
 import { useFavorites } from "@/lib/favorites";
 
 interface PropertyCardProps {
   id?: string;
   image: string;
-  status: "FOR SALE" | "FOR RENT";
+  status: "FOR SALE" | "FOR RENT" | "OFF PLAN";
   price: string;
   title: string;
   location: string;
   beds: number | string;
   baths: number | string;
   sqft: number | string;
+  community?: string;
+  agentName?: string;
 }
 
-export function PropertyCard({ id = "1", image, status, price, title, location, beds, baths, sqft }: PropertyCardProps) {
+export function PropertyCard({ id = "1", image, status, price, title, location, beds, baths, sqft, community, agentName }: PropertyCardProps) {
   const { toggleFavorite, isFavorite } = useFavorites();
   const isFav = isFavorite(id);
 
@@ -56,9 +58,26 @@ export function PropertyCard({ id = "1", image, status, price, title, location, 
             <h3 className="font-serif font-bold text-xl text-white mb-2 line-clamp-1">
               {title}
             </h3>
-            <p className="text-white/60 font-mono text-xs mb-6 line-clamp-1 uppercase tracking-wider">
+            <p className="text-white/60 font-mono text-xs mb-3 line-clamp-1 uppercase tracking-wider">
               {location}
             </p>
+
+            {(community || agentName) && (
+              <div className="flex flex-col gap-1.5 mb-5 text-[11px] font-mono text-white/50">
+                {community && (
+                  <div className="flex items-center gap-2 line-clamp-1">
+                    <MapPin className="w-3.5 h-3.5 text-secondary shrink-0" />
+                    <span className="truncate">{community}</span>
+                  </div>
+                )}
+                {agentName && (
+                  <div className="flex items-center gap-2 line-clamp-1">
+                    <UserRound className="w-3.5 h-3.5 text-secondary shrink-0" />
+                    <span className="truncate">{agentName}</span>
+                  </div>
+                )}
+              </div>
+            )}
             
             <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto mb-6">
               <div className="flex items-center gap-2 text-white/70 font-mono text-xs">

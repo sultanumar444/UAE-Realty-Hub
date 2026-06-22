@@ -37,7 +37,10 @@ A Dubai & Abu Dhabi real estate brokerage website with a built-in team CRM. The 
 
 ## Architecture decisions
 
-- Public pages (`/`, `/properties`, `/contact`, `/blog`, property detail) are open; only `/crm` and all write/admin API routes are gated (Clerk `requireAuth`). `POST /leads` is intentionally public for lead capture.
+- Single-admin CRM: there is no public sign-up. Only the account whose email equals `ADMIN_EMAIL` (server) / `VITE_ADMIN_EMAIL` (client) may reach `/crm` or any write/admin API. Both gates are fail-closed: if the admin email env var is missing, the server returns 500 and the client blocks the CRM. The admin user is provisioned directly in Clerk (dev) and must be re-created in the production Clerk instance after publishing.
+- Communities are a first-class entity: `communitiesTable` + nullable `communityId` FK on listings (legacy `community` text retained as fallback). Admin manages them in the CRM Communities tab and assigns each listing to a community + agent. The public `/communities` page is DB-driven with a bundled fallback when empty.
+- Listing purpose supports `sale`, `rent`, and `offplan`; the public mapper renders these as `FOR SALE`, `FOR RENT`, and `OFF PLAN`.
+- Public pages (`/`, `/properties`, `/contact`, `/blog`, `/communities`, property detail) are open; only `/crm` and all write/admin API routes are gated (Clerk `requireAuth`). `POST /leads` is intentionally public for lead capture.
 - Blog/insights: posts have a draft/published workflow. Public GET `/posts*` endpoints gate to published-only for anonymous callers via `getAuth(req)` (clerkMiddleware is global), while the authenticated CRM sees drafts. Server publishes a post (sets `publishedAt`) when status first becomes "published". Each blog page sets SEO meta tags via `useSeo`.
 - The public site reads listings from the DB but falls back to a bundled static catalogue (`src/lib/properties.ts`) when no published listings exist, so the marketing site never renders empty.
 - DB-backed `Property` objects carry `dbBacked: true`; the property-detail enquiry form only attaches `listingId` for DB-backed listings to avoid FK violations against static fallback IDs.

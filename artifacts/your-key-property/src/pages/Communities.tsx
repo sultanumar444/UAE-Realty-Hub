@@ -1,9 +1,22 @@
+import { useMemo, useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useCurrency } from "@/lib/currency";
+import { storageUrl } from "@/lib/listingApi";
+import { useListCommunities } from "@workspace/api-client-react";
 import { motion } from "framer-motion";
 
-const COMMUNITIES = [
+type CommunityCard = {
+  name: string;
+  em: string;
+  img: string;
+  desc: string;
+  priceBuy: number | null;
+  priceRent: number | null;
+  types: string;
+};
+
+const FALLBACK_COMMUNITIES: CommunityCard[] = [
   { name: "Dubai Marina", em: "Dubai", img: "/images/dubai-skyline.png", desc: "A vibrant waterfront community known for its high-rise towers, luxury yachts, and bustling promenade.", priceBuy: 1500, priceRent: 120000, types: "Apartments, Penthouses" },
   { name: "Downtown Dubai", em: "Dubai", img: "/images/luxury-villa.png", desc: "The center of now, featuring the Burj Khalifa, Dubai Mall, and premium luxury residences.", priceBuy: 2200, priceRent: 150000, types: "Apartments, Penthouses" },
   { name: "Palm Jumeirah", em: "Dubai", img: "/images/modern-apartment.png", desc: "World-famous man-made island offering ultra-luxury villas and beachfront apartments.", priceBuy: 3500, priceRent: 250000, types: "Villas, Apartments" },
@@ -16,6 +29,28 @@ const COMMUNITIES = [
 
 export function Communities() {
   const { formatPrice } = useCurrency();
+  const communitiesQ = useListCommunities();
+  const [emirateFilter, setEmirateFilter] = useState<"all" | "Dubai" | "Abu Dhabi">("all");
+
+  const allCommunities: CommunityCard[] = useMemo(() => {
+    const data = communitiesQ.data ?? [];
+    if (data.length === 0) return FALLBACK_COMMUNITIES;
+    return data.map((c) => ({
+      name: c.name,
+      em: c.emirate || "Dubai",
+      img: storageUrl(c.imageUrl),
+      desc: c.description ?? "",
+      priceBuy: c.priceFrom ?? null,
+      priceRent: c.rentFrom ?? null,
+      types: c.propertyTypes ?? "",
+    }));
+  }, [communitiesQ.data]);
+
+  const COMMUNITIES =
+    emirateFilter === "all"
+      ? allCommunities
+      : allCommunities.filter((c) => c.em === emirateFilter);
+
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Navbar />
@@ -29,9 +64,23 @@ export function Communities() {
           </div>
           
           <div className="flex justify-center gap-6 mb-16 border-b border-white/10 pb-4">
-            <button className="text-sm font-mono font-bold text-secondary uppercase tracking-widest border-b-2 border-secondary px-2 py-1 -mb-[18px]">All Elevations</button>
-            <button className="text-sm font-mono font-medium text-white/60 hover:text-white uppercase tracking-widest transition-colors px-2 py-1">Dubai</button>
-            <button className="text-sm font-mono font-medium text-white/60 hover:text-white uppercase tracking-widest transition-colors px-2 py-1">Abu Dhabi</button>
+            {([
+              { id: "all", label: "All Elevations" },
+              { id: "Dubai", label: "Dubai" },
+              { id: "Abu Dhabi", label: "Abu Dhabi" },
+            ] as const).map((f) => (
+              <button
+                key={f.id}
+                onClick={() => setEmirateFilter(f.id)}
+                className={`text-sm font-mono uppercase tracking-widest transition-colors px-2 py-1 ${
+                  emirateFilter === f.id
+                    ? "font-bold text-secondary border-b-2 border-secondary -mb-[18px]"
+                    : "font-medium text-white/60 hover:text-white"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -54,20 +103,24 @@ export function Communities() {
                   <h3 className="text-2xl font-serif font-bold text-white mb-3">{c.name}</h3>
                   <p className="text-white/60 text-sm font-mono leading-relaxed mb-6 flex-grow">{c.desc}</p>
                   
-                  <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-6 mt-auto mb-4">
-                    <div>
-                      <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">Avg Buy</div>
-                      <div className="font-mono font-bold text-secondary text-sm">{formatPrice(c.priceBuy)} <span className="text-white/50 text-[10px]">/ sqft</span></div>
+                  {(c.priceBuy != null || c.priceRent != null) && (
+                    <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-6 mt-auto mb-4">
+                      <div>
+                        <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">Avg Buy</div>
+                        <div className="font-mono font-bold text-secondary text-sm">{c.priceBuy != null ? <>{formatPrice(c.priceBuy)} <span className="text-white/50 text-[10px]">/ sqft</span></> : "—"}</div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">Avg Rent</div>
+                        <div className="font-mono font-bold text-secondary text-sm">{c.priceRent != null ? <>{formatPrice(c.priceRent)} <span className="text-white/50 text-[10px]">/ yr</span></> : "—"}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">Avg Rent</div>
-                      <div className="font-mono font-bold text-secondary text-sm">{formatPrice(c.priceRent)} <span className="text-white/50 text-[10px]">/ yr</span></div>
-                    </div>
-                  </div>
+                  )}
                   
-                  <div className="text-[10px] text-white/40 font-mono uppercase tracking-widest pt-4 border-t border-white/10">
-                    <span className="text-white/70">Types:</span> {c.types}
-                  </div>
+                  {c.types && (
+                    <div className="text-[10px] text-white/40 font-mono uppercase tracking-widest pt-4 border-t border-white/10 mt-auto">
+                      <span className="text-white/70">Types:</span> {c.types}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}

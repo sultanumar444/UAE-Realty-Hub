@@ -28,4 +28,6 @@ export interface ListingInput {
   featured?: boolean;
   /** @nullable */
   agentId?: number | null;
+  /** @nullable */
+  communityId?: number | null;
 }
