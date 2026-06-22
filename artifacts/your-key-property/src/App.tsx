@@ -77,6 +77,11 @@ function App() {
           <Route path="/blog/:slug" component={BlogPost} />
           <Route path="/sign-in/*?" component={SignInPage} />
           <Route path="/sign-up/*?" component={SignUpPage} />
+          <Route path="/crm">
+            <RequireAuth>
+              <Crm />
+            </RequireAuth>
+          </Route>
           <Route path="/crm/:rest*">
             <RequireAuth>
               <Crm />
