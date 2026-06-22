@@ -10,8 +10,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
-
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -45,6 +43,20 @@
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
   --font-mono: var(--app-font-mono);
+
+  /* Fluid type scale: shrinks on small laptops/tablets, caps on large screens */
+  --text-3xl: clamp(1.5rem, 1.15rem + 1.1vw, 1.875rem);
+  --text-3xl--line-height: 1.2;
+  --text-4xl: clamp(1.75rem, 1.25rem + 1.6vw, 2.25rem);
+  --text-4xl--line-height: 1.15;
+  --text-5xl: clamp(2rem, 1.4rem + 2.2vw, 3rem);
+  --text-5xl--line-height: 1.1;
+  --text-6xl: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  --text-6xl--line-height: 1.1;
+  --text-7xl: clamp(2.5rem, 1.4rem + 4.2vw, 4.5rem);
+  --text-7xl--line-height: 1.05;
+  --text-8xl: clamp(2.75rem, 1rem + 5vw, 6rem);
+  --text-8xl--line-height: 1.05;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -88,9 +100,9 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --app-font-sans: 'DM Sans', sans-serif;
-  --app-font-serif: 'Cormorant Garamond', serif;
-  --app-font-mono: 'JetBrains Mono', monospace;
+  --app-font-sans: 'Questrial', sans-serif;
+  --app-font-serif: 'Questrial', sans-serif;
+  --app-font-mono: 'Questrial', sans-serif;
   --radius: 0.5rem;
 }
 

@@ -9,11 +9,11 @@ const tooltipStyle = {
     border: "1px solid rgba(255,255,255,0.15)",
     borderRadius: "0px",
     backdropFilter: "blur(8px)",
-    fontFamily: "'JetBrains Mono', monospace",
+    fontFamily: "'Questrial', sans-serif",
     fontSize: "12px",
     color: "#fff",
   },
-  labelStyle: { color: "rgba(255,255,255,0.6)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px" },
+  labelStyle: { color: "rgba(255,255,255,0.6)", fontFamily: "'Questrial', sans-serif", fontSize: "11px" },
   itemStyle: { color: "#fff" },
 };
 

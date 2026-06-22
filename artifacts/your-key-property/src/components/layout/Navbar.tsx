@@ -47,7 +47,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
           {NAV_LINKS.map((link) => (
             <Link key={link.name} href={link.href}>
               <span
@@ -61,7 +61,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-mono font-bold text-white outline-none">
               {currency} <span className="text-[8px]">▼</span>
@@ -92,10 +92,10 @@ export function Navbar() {
 
           <a href="tel:+971506692770" className="flex items-center gap-2 text-white font-mono text-xs hover:text-secondary transition-colors">
             <Phone className="w-4 h-4 text-secondary" />
-            <span>+971 50 669 2770</span>
+            <span className="hidden xl:inline">+971 50 669 2770</span>
           </a>
           <Link href="/crm">
-            <Button className="bg-transparent border border-white/30 hover:bg-white hover:text-[#0A1628] text-white rounded-none px-6 font-mono text-xs uppercase tracking-widest transition-colors">
+            <Button className="bg-transparent border border-white/30 hover:bg-white hover:text-[#0A1628] text-white rounded-none px-4 xl:px-6 font-mono text-xs uppercase tracking-widest transition-colors">
               List Property
             </Button>
           </Link>
