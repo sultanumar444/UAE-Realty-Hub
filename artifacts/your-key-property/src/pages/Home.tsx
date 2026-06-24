@@ -130,7 +130,7 @@ export function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/60 to-transparent" />
           </motion.div>
           
-          <div className="container relative z-10 mx-auto px-4 text-center mt-20">
+          <div className="container relative z-10 mx-auto px-4 text-center mt-44">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
