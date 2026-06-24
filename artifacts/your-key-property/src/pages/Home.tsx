@@ -403,7 +403,7 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <MortgageTools showRoi={false} title="Mortgage Tools" subtitle="Plan every financial angle of your purchase." />
+              <MortgageTools showRoi={false} centerHeader title="Mortgage Tools" subtitle="Plan every financial angle of your purchase." />
             </motion.div>
           </div>
         </section>

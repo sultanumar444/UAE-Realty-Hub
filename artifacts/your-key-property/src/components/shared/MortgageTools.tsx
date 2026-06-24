@@ -114,11 +114,11 @@ function MortgageCalculator() {
           <ResultCard label="Total Interest" value={formatPrice(monthly * years * 12 - loan)} accent />
         </div>
       </div>
-      <div className="bg-[#0A1628]/60 border border-white/10 p-6 flex flex-col">
+      <div className="bg-[#0A1628]/60 border border-white/10 p-5 flex flex-col">
         <div className="relative flex items-center justify-center">
-          <ResponsiveContainer width="100%" height={190}>
+          <ResponsiveContainer width="100%" height={150}>
             <PieChart>
-              <Pie data={pieData} innerRadius={62} outerRadius={88} paddingAngle={3} dataKey="value" startAngle={90} endAngle={-270}>
+              <Pie data={pieData} innerRadius={48} outerRadius={70} paddingAngle={3} dataKey="value" startAngle={90} endAngle={-270}>
                 {pieData.map((_, i) => (
                   <Cell key={i} fill={COLORS[i]} stroke="none" />
                 ))}
@@ -137,13 +137,13 @@ function MortgageCalculator() {
             <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">Loan</span>
           </div>
         </div>
-        <div className="text-center mt-5">
-          <div className="text-4xl font-mono text-white">{formatPrice(monthly)}</div>
+        <div className="text-center mt-4">
+          <div className="text-3xl font-mono text-white">{formatPrice(monthly)}</div>
           <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mt-1">Monthly Payment</div>
         </div>
-        <div className="bg-secondary mt-6 p-5 text-center">
+        <div className="bg-secondary mt-4 p-4 text-center">
           <div className="text-[10px] font-mono text-[#0A1628]/70 uppercase tracking-widest mb-1">Total Loan Amount</div>
-          <div className="text-2xl font-mono font-bold text-[#0A1628]">{formatPrice(loan)}</div>
+          <div className="text-xl font-mono font-bold text-[#0A1628]">{formatPrice(loan)}</div>
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Link href="/properties">
               <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-none font-mono text-[11px] uppercase tracking-widest">
@@ -402,19 +402,21 @@ interface MortgageToolsProps {
   showRoi?: boolean;
   title?: string;
   subtitle?: string;
+  centerHeader?: boolean;
 }
 
 export function MortgageTools({
   showRoi = true,
   title = "Investment ROI Visualizer",
   subtitle = "Every tool to model your returns and plan your purchase.",
+  centerHeader = false,
 }: MortgageToolsProps = {}) {
   const tools = showRoi ? TOOLS : TOOLS.filter((tool) => tool.id !== "roi");
   const defaultValue = tools[0]?.id ?? "mortgage";
 
   return (
     <div className="glass-panel p-6 md:p-8">
-      <div className="mb-8 border-b border-white/10 pb-4">
+      <div className={`mb-8 border-b border-white/10 pb-4${centerHeader ? " text-center" : ""}`}>
         <h2 className="text-2xl font-serif font-bold text-white mb-2">{title}</h2>
         <p className="text-white/60 font-mono text-sm">{subtitle}</p>
       </div>
