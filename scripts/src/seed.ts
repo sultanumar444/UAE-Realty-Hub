@@ -5,6 +5,7 @@ import {
   listingsTable,
   postsTable,
   communitiesTable,
+  offPlanProjectsTable,
 } from "@workspace/db";
 
 async function seedPosts() {
@@ -269,6 +270,7 @@ async function main() {
     console.log("Listings already present, skipping base listing seed.");
     await backfillListingCommunities();
     await seedOffPlan();
+    await seedOffPlanProjects();
     return;
   }
 
@@ -428,6 +430,120 @@ async function main() {
 
   await backfillListingCommunities();
   await seedOffPlan();
+  await seedOffPlanProjects();
+}
+
+async function seedOffPlanProjects() {
+  const existing = await db.select().from(offPlanProjectsTable).limit(1);
+  if (existing.length > 0) {
+    console.log("Off-plan projects already present, skipping.");
+    return;
+  }
+
+  const agents = await db.select().from(agentsTable);
+  const byName = new Map(agents.map((a) => [a.name, a.id]));
+  const priya = byName.get("Priya Sharma") ?? null;
+  const saeed = byName.get("Saeed Al Mansoori") ?? null;
+
+  await db.insert(offPlanProjectsTable).values([
+    {
+      slug: "opula-residences",
+      name: "Opula Residences",
+      developer: "Aldar",
+      emirate: "Abu Dhabi",
+      location: "Yas Bay",
+      community: "Yas Island",
+      tagline: "Waterfront branded living on Yas Island",
+      description:
+        "Opula Residences is a landmark waterfront development on Yas Island, offering a curated collection of studio to four-bedroom residences with uninterrupted views over Yas Bay. Designed for those who value architectural precision and resort-grade amenities, every home is finished to branded-residence standards.\n\nResidents enjoy direct access to the Yas Bay promenade, an infinity pool overlooking the marina, a fully equipped wellness floor, and round-the-clock concierge. With a flexible launch payment plan and handover scheduled for Q2 2027, Opula represents one of the most compelling off-plan opportunities in Abu Dhabi.",
+      heroImage: "/images/render-yas.png",
+      logoImage: "/images/yourkey-logo-white.png",
+      gallery: [
+        "/images/render-yas.png",
+        "/images/glass-facade.png",
+        "/images/looking-up-towers.png",
+        "/images/penthouse.png",
+        "/images/modern-apartment.png",
+        "/images/property-1.png",
+      ],
+      amenities: [
+        "Infinity Pool",
+        "Private Beach Access",
+        "Wellness Floor & Spa",
+        "State-of-the-art Gym",
+        "24/7 Concierge",
+        "Waterfront Promenade",
+        "Kids' Play Area",
+        "Smart Home System",
+      ],
+      highlights: [
+        "Direct Yas Bay waterfront frontage",
+        "Branded-residence finishes throughout",
+        "5 minutes to Yas Mall and F1 circuit",
+        "Flexible 60/40 payment plan",
+        "Handover Q2 2027",
+      ],
+      floorPlans: [
+        {
+          type: "Studio",
+          bedrooms: "Studio",
+          size: "430 sqft",
+          price: 980000,
+          image: "/images/modern-apartment.png",
+        },
+        {
+          type: "1 Bedroom Apartment",
+          bedrooms: "1 BR",
+          size: "760 sqft",
+          price: 1450000,
+          image: "/images/property-1.png",
+        },
+        {
+          type: "2 Bedroom Apartment",
+          bedrooms: "2 BR",
+          size: "1,180 sqft",
+          price: 2300000,
+          image: "/images/property-2.png",
+        },
+        {
+          type: "3 Bedroom Penthouse",
+          bedrooms: "3 BR",
+          size: "2,050 sqft",
+          price: 4600000,
+          image: "/images/penthouse.png",
+        },
+      ],
+      paymentMilestones: [
+        { label: "On Booking", percentage: "20%" },
+        { label: "During Construction", percentage: "40%" },
+        { label: "On Handover", percentage: "30%" },
+        { label: "Post Handover", percentage: "10%" },
+      ],
+      materials: [
+        "/images/render-yas.png",
+        "/images/glass-facade.png",
+        "/images/penthouse.png",
+        "/images/luxury-villa.png",
+      ],
+      locationImage: "/images/abudhabi-skyline.png",
+      mapAddress: "Yas Bay, Yas Island, Abu Dhabi",
+      agentId: priya ?? saeed,
+      startingPrice: 980000,
+      handover: "Q2 2027",
+      paymentPlan: "60 / 40",
+      bedrooms: "Studio - 4 BR",
+      unitTypes: "Apartments, Penthouses",
+      brochureUrl: "https://www.yourkey.ae",
+      seoTitle: "Opula Residences — Off-Plan on Yas Island | Your Key",
+      seoDescription:
+        "Branded waterfront residences on Yas Island, Abu Dhabi. Studio to 4-bedroom homes from AED 980,000 with a flexible payment plan and Q2 2027 handover.",
+      featured: true,
+      status: "published",
+      publishedAt: new Date(),
+    },
+  ]);
+
+  console.log("Seeded off-plan projects.");
 }
 
 main()

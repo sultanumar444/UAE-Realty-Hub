@@ -652,6 +652,21 @@ export const ListOffPlanProjectsResponseItem = zod.object({
   "gallery": zod.array(zod.string()),
   "amenities": zod.array(zod.string()),
   "highlights": zod.array(zod.string()),
+  "floorPlans": zod.array(zod.object({
+  "type": zod.string(),
+  "bedrooms": zod.string().optional(),
+  "size": zod.string().optional(),
+  "price": zod.number().optional(),
+  "image": zod.string().optional()
+})).optional(),
+  "paymentMilestones": zod.array(zod.object({
+  "label": zod.string(),
+  "percentage": zod.string()
+})).optional(),
+  "materials": zod.array(zod.string()).optional(),
+  "locationImage": zod.string().nullish(),
+  "mapAddress": zod.string().nullish(),
+  "agentId": zod.number().nullish(),
   "startingPrice": zod.number().nullish(),
   "handover": zod.string().nullish(),
   "paymentPlan": zod.string().nullish(),
@@ -690,6 +705,21 @@ export const CreateOffPlanProjectBody = zod.object({
   "gallery": zod.array(zod.string()).optional(),
   "amenities": zod.array(zod.string()).optional(),
   "highlights": zod.array(zod.string()).optional(),
+  "floorPlans": zod.array(zod.object({
+  "type": zod.string(),
+  "bedrooms": zod.string().optional(),
+  "size": zod.string().optional(),
+  "price": zod.number().optional(),
+  "image": zod.string().optional()
+})).optional(),
+  "paymentMilestones": zod.array(zod.object({
+  "label": zod.string(),
+  "percentage": zod.string()
+})).optional(),
+  "materials": zod.array(zod.string()).optional(),
+  "locationImage": zod.string().optional(),
+  "mapAddress": zod.string().optional(),
+  "agentId": zod.number().nullish(),
   "startingPrice": zod.number().nullish(),
   "handover": zod.string().optional(),
   "paymentPlan": zod.string().optional(),
@@ -725,6 +755,21 @@ export const GetOffPlanProjectBySlugResponse = zod.object({
   "gallery": zod.array(zod.string()),
   "amenities": zod.array(zod.string()),
   "highlights": zod.array(zod.string()),
+  "floorPlans": zod.array(zod.object({
+  "type": zod.string(),
+  "bedrooms": zod.string().optional(),
+  "size": zod.string().optional(),
+  "price": zod.number().optional(),
+  "image": zod.string().optional()
+})).optional(),
+  "paymentMilestones": zod.array(zod.object({
+  "label": zod.string(),
+  "percentage": zod.string()
+})).optional(),
+  "materials": zod.array(zod.string()).optional(),
+  "locationImage": zod.string().nullish(),
+  "mapAddress": zod.string().nullish(),
+  "agentId": zod.number().nullish(),
   "startingPrice": zod.number().nullish(),
   "handover": zod.string().nullish(),
   "paymentPlan": zod.string().nullish(),
@@ -763,6 +808,21 @@ export const GetOffPlanProjectResponse = zod.object({
   "gallery": zod.array(zod.string()),
   "amenities": zod.array(zod.string()),
   "highlights": zod.array(zod.string()),
+  "floorPlans": zod.array(zod.object({
+  "type": zod.string(),
+  "bedrooms": zod.string().optional(),
+  "size": zod.string().optional(),
+  "price": zod.number().optional(),
+  "image": zod.string().optional()
+})).optional(),
+  "paymentMilestones": zod.array(zod.object({
+  "label": zod.string(),
+  "percentage": zod.string()
+})).optional(),
+  "materials": zod.array(zod.string()).optional(),
+  "locationImage": zod.string().nullish(),
+  "mapAddress": zod.string().nullish(),
+  "agentId": zod.number().nullish(),
   "startingPrice": zod.number().nullish(),
   "handover": zod.string().nullish(),
   "paymentPlan": zod.string().nullish(),
@@ -804,6 +864,21 @@ export const UpdateOffPlanProjectBody = zod.object({
   "gallery": zod.array(zod.string()).optional(),
   "amenities": zod.array(zod.string()).optional(),
   "highlights": zod.array(zod.string()).optional(),
+  "floorPlans": zod.array(zod.object({
+  "type": zod.string(),
+  "bedrooms": zod.string().optional(),
+  "size": zod.string().optional(),
+  "price": zod.number().optional(),
+  "image": zod.string().optional()
+})).optional(),
+  "paymentMilestones": zod.array(zod.object({
+  "label": zod.string(),
+  "percentage": zod.string()
+})).optional(),
+  "materials": zod.array(zod.string()).optional(),
+  "locationImage": zod.string().optional(),
+  "mapAddress": zod.string().optional(),
+  "agentId": zod.number().nullish(),
   "startingPrice": zod.number().nullish(),
   "handover": zod.string().optional(),
   "paymentPlan": zod.string().optional(),
@@ -831,6 +906,21 @@ export const UpdateOffPlanProjectResponse = zod.object({
   "gallery": zod.array(zod.string()),
   "amenities": zod.array(zod.string()),
   "highlights": zod.array(zod.string()),
+  "floorPlans": zod.array(zod.object({
+  "type": zod.string(),
+  "bedrooms": zod.string().optional(),
+  "size": zod.string().optional(),
+  "price": zod.number().optional(),
+  "image": zod.string().optional()
+})).optional(),
+  "paymentMilestones": zod.array(zod.object({
+  "label": zod.string(),
+  "percentage": zod.string()
+})).optional(),
+  "materials": zod.array(zod.string()).optional(),
+  "locationImage": zod.string().nullish(),
+  "mapAddress": zod.string().nullish(),
+  "agentId": zod.number().nullish(),
   "startingPrice": zod.number().nullish(),
   "handover": zod.string().nullish(),
   "paymentPlan": zod.string().nullish(),

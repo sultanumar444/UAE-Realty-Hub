@@ -319,6 +319,19 @@ export interface PostUpdate {
   authorId?: number | null;
 }
 
+export interface FloorPlan {
+  type: string;
+  bedrooms?: string;
+  size?: string;
+  price?: number;
+  image?: string;
+}
+
+export interface PaymentMilestone {
+  label: string;
+  percentage: string;
+}
+
 export interface OffPlanProject {
   id: number;
   slug: string;
@@ -340,6 +353,15 @@ export interface OffPlanProject {
   gallery: string[];
   amenities: string[];
   highlights: string[];
+  floorPlans?: FloorPlan[];
+  paymentMilestones?: PaymentMilestone[];
+  materials?: string[];
+  /** @nullable */
+  locationImage?: string | null;
+  /** @nullable */
+  mapAddress?: string | null;
+  /** @nullable */
+  agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   /** @nullable */
@@ -380,6 +402,13 @@ export interface OffPlanProjectInput {
   gallery?: string[];
   amenities?: string[];
   highlights?: string[];
+  floorPlans?: FloorPlan[];
+  paymentMilestones?: PaymentMilestone[];
+  materials?: string[];
+  locationImage?: string;
+  mapAddress?: string;
+  /** @nullable */
+  agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   handover?: string;
@@ -409,6 +438,13 @@ export interface OffPlanProjectUpdate {
   gallery?: string[];
   amenities?: string[];
   highlights?: string[];
+  floorPlans?: FloorPlan[];
+  paymentMilestones?: PaymentMilestone[];
+  materials?: string[];
+  locationImage?: string;
+  mapAddress?: string;
+  /** @nullable */
+  agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   handover?: string;

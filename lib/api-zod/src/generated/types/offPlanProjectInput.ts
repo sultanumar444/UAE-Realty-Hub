@@ -5,6 +5,8 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { FloorPlan } from './floorPlan';
+import type { PaymentMilestone } from './paymentMilestone';
 
 export interface OffPlanProjectInput {
   /** @minLength 1 */
@@ -22,6 +24,13 @@ export interface OffPlanProjectInput {
   gallery?: string[];
   amenities?: string[];
   highlights?: string[];
+  floorPlans?: FloorPlan[];
+  paymentMilestones?: PaymentMilestone[];
+  materials?: string[];
+  locationImage?: string;
+  mapAddress?: string;
+  /** @nullable */
+  agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   handover?: string;

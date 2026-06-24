@@ -3,12 +3,17 @@ import { useParams, Link } from "wouter";
 import { toast } from "sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { Faq } from "@/components/shared/Faq";
 import {
   useGetOffPlanProjectBySlug,
+  useListAgents,
   useCreateLead,
   getGetOffPlanProjectBySlugQueryKey,
+  type OffPlanProject as OffPlanProjectModel,
+  type Agent,
 } from "@workspace/api-client-react";
 import { projectHero, projectImage, projectGallery } from "@/lib/offPlanApi";
+import { storageUrl } from "@/lib/listingApi";
 import { useSeo } from "@/lib/useSeo";
 import { useLanguage } from "@/lib/language";
 import { useCurrency } from "@/lib/currency";
@@ -24,7 +29,12 @@ import {
   CheckCircle2,
   Download,
   ArrowRight,
+  Phone,
+  Mail,
 } from "lucide-react";
+
+const inputClass =
+  "w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm";
 
 export function OffPlanProject() {
   const { t } = useLanguage();
@@ -40,24 +50,12 @@ export function OffPlanProject() {
   });
   const project = projectQ.data;
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
-
-  const createLead = useCreateLead({
-    mutation: {
-      onSuccess: () => {
-        toast.success(t("Enquiry sent. Our team will be in touch shortly."));
-        setName("");
-        setEmail("");
-        setPhone("");
-        setMessage("");
-      },
-      onError: (e) =>
-        toast.error(e.message || t("Could not send your enquiry. Please try again.")),
-    },
-  });
+  const agentsQ = useListAgents();
+  const agents = agentsQ.data ?? [];
+  const agent =
+    (project?.agentId != null
+      ? agents.find((a) => a.id === project.agentId)
+      : undefined) ?? agents.find((a) => a.active);
 
   useSeo({
     title: project ? project.seoTitle || project.name : "Off-Plan Project",
@@ -104,6 +102,9 @@ export function OffPlanProject() {
   }
 
   const gallery = projectGallery(project);
+  const materials = (project.materials ?? []).map((p) => storageUrl(p));
+  const floorPlans = project.floorPlans ?? [];
+  const milestones = project.paymentMilestones ?? [];
   const startingPrice =
     project.startingPrice && project.startingPrice > 0
       ? formatPrice(project.startingPrice)
@@ -121,31 +122,13 @@ export function OffPlanProject() {
   if (project.unitTypes)
     facts.push({ icon: Building2, label: t("Unit Types"), value: project.unitTypes });
 
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!name.trim()) {
-      toast.error(t("Please enter your name"));
-      return;
-    }
-    if (!email.trim() && !phone.trim()) {
-      toast.error(t("Please provide an email or phone number"));
-      return;
-    }
-    createLead.mutate({
-      data: {
-        name: name.trim(),
-        email: email.trim() || undefined,
-        phone: phone.trim() || undefined,
-        message:
-          message.trim() ||
-          `Interested in ${project!.name}${project!.location ? ` (${project!.location})` : ""}`,
-        source: `off-plan:${project!.slug}`,
-      },
-    });
-  }
-
-  const inputClass =
-    "w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm";
+  const mapQuery =
+    project.mapAddress ||
+    [project.location || project.community, project.emirate]
+      .filter(Boolean)
+      .join(", ") ||
+    project.name;
+  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
@@ -252,7 +235,7 @@ export function OffPlanProject() {
             )}
 
             {project.amenities.length > 0 && (
-              <div className="mb-14">
+              <div className="mb-4">
                 <h2 className="mb-6 font-serif text-2xl font-bold text-white md:text-3xl">
                   {t("Amenities")}
                 </h2>
@@ -268,80 +251,28 @@ export function OffPlanProject() {
                 </div>
               </div>
             )}
-
-            {gallery.length > 1 && (
-              <div className="mb-4">
-                <h2 className="mb-6 font-serif text-2xl font-bold text-white md:text-3xl">
-                  {t("Gallery")}
-                </h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {gallery.map((src, i) => (
-                    <div
-                      key={i}
-                      className="overflow-hidden rounded-xl border border-white/10"
-                    >
-                      <img
-                        src={src}
-                        alt={`${project.name} ${i + 1}`}
-                        className="aspect-[4/3] w-full object-cover transition duration-500 hover:scale-105"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* SIDEBAR — REGISTER INTEREST */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-28 glass-panel p-8">
+            <div id="enquire" className="sticky top-28 glass-panel p-8">
+              {startingPrice && (
+                <div className="mb-5 border-b border-white/10 pb-5">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-white/50">
+                    {t("Starting From")}
+                  </div>
+                  <div className="font-serif text-3xl font-bold text-secondary">
+                    {startingPrice}
+                  </div>
+                </div>
+              )}
               <h3 className="mb-2 font-serif text-2xl font-bold text-white">
                 {t("Register Your Interest")}
               </h3>
               <p className="mb-6 text-sm text-white/60">
                 {t("Request the brochure, pricing and payment plan for this project.")}
               </p>
-              <form className="space-y-4" onSubmit={submit}>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={t("Full Name")}
-                  className={inputClass}
-                />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("Email")}
-                  className={inputClass}
-                />
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder={t("Phone")}
-                  className={inputClass}
-                />
-                <textarea
-                  rows={3}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder={t("Message")}
-                  className={inputClass}
-                />
-                <Button
-                  type="submit"
-                  disabled={createLead.isPending}
-                  className="w-full bg-secondary hover:bg-secondary/90 text-[#0A1628] font-mono uppercase tracking-widest disabled:opacity-60"
-                >
-                  {createLead.isPending && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  {t("Enquire Now")}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </form>
+              <LeadForm project={project} t={t} />
 
               {project.brochureUrl && (
                 <a
@@ -356,11 +287,370 @@ export function OffPlanProject() {
             </div>
           </aside>
         </div>
+
+        {/* PROPERTY TYPES & FLOOR PLANS */}
+        {floorPlans.length > 0 && (
+          <section className="relative z-10 border-t border-white/10 py-16">
+            <div className="container mx-auto px-4">
+              <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
+                {t("Property Types & Floor Plans")}
+              </h2>
+              <div className="overflow-hidden rounded-xl border border-white/10">
+                <div className="hidden grid-cols-[80px_1.5fr_1fr_1fr_1fr_auto] gap-4 border-b border-white/10 bg-white/[0.04] px-5 py-3 text-[10px] font-mono uppercase tracking-widest text-white/50 md:grid">
+                  <span>{t("Layout")}</span>
+                  <span>{t("Unit Type")}</span>
+                  <span>{t("Bedrooms")}</span>
+                  <span>{t("Size")}</span>
+                  <span>{t("Starting From")}</span>
+                  <span />
+                </div>
+                {floorPlans.map((fp, i) => (
+                  <div
+                    key={i}
+                    className="grid grid-cols-2 items-center gap-4 border-b border-white/10 px-5 py-4 last:border-b-0 md:grid-cols-[80px_1.5fr_1fr_1fr_1fr_auto]"
+                  >
+                    <div className="row-span-2 h-16 w-16 overflow-hidden rounded-md border border-white/10 bg-white/5 md:row-span-1">
+                      {fp.image ? (
+                        <img
+                          src={projectImage(fp.image)}
+                          alt={fp.type}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-white/25">
+                          <Building2 className="h-6 w-6" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="font-serif text-base font-bold text-white">
+                      {fp.type}
+                    </div>
+                    <div className="font-mono text-sm text-white/70">
+                      {fp.bedrooms || "—"}
+                    </div>
+                    <div className="font-mono text-sm text-white/70">
+                      {fp.size || "—"}
+                    </div>
+                    <div className="font-mono text-sm font-bold text-secondary">
+                      {fp.price && fp.price > 0 ? formatPrice(fp.price) : "—"}
+                    </div>
+                    <a
+                      href="#enquire"
+                      className="justify-self-start rounded-md border border-secondary/60 px-4 py-2 text-[10px] font-mono uppercase tracking-widest text-secondary transition hover:bg-secondary hover:text-[#0A1628] md:justify-self-end"
+                    >
+                      {t("Enquire")}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* GET A FREE CONSULTATION */}
+        {agent && <Consultation agent={agent} project={project} t={t} />}
+
+        {/* LOCATION BANNER IMAGE */}
+        {project.locationImage && (
+          <section className="relative z-10">
+            <img
+              src={projectImage(project.locationImage)}
+              alt={`${project.name} location`}
+              className="h-[280px] w-full object-cover md:h-[440px]"
+            />
+          </section>
+        )}
+
+        {/* ATTRACTIVE PAYMENT PLAN */}
+        {milestones.length > 0 && (
+          <section className="relative z-10 py-16">
+            <div className="container mx-auto px-4">
+              <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
+                {t("Attractive Payment Plan")}
+                {project.developer ? ` ${t("from")} ${project.developer}` : ""}
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {milestones.map((m, i) => (
+                  <div
+                    key={i}
+                    className="glass-panel flex flex-col items-center p-8 text-center"
+                  >
+                    <div className="font-serif text-4xl font-bold text-secondary">
+                      {m.percentage}
+                    </div>
+                    <div className="mt-3 font-mono text-xs uppercase tracking-widest text-white/70">
+                      {m.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* DOWNLOAD BROCHURE */}
+        {project.brochureUrl && (
+          <section className="relative z-10 py-12">
+            <div className="container mx-auto px-4">
+              <div className="glass-panel flex flex-col items-center justify-between gap-6 p-10 md:flex-row">
+                <div>
+                  <h2 className="font-serif text-2xl font-bold text-white">
+                    {t("Download Brochure")}
+                  </h2>
+                  <p className="mt-2 text-sm text-white/60">
+                    {t("Get the full project brochure with floor plans and pricing.")}
+                  </p>
+                </div>
+                <a
+                  href={project.brochureUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-secondary px-8 py-3.5 text-xs font-mono font-bold uppercase tracking-widest text-[#0A1628] transition hover:bg-secondary/90"
+                >
+                  <Download className="h-4 w-4" /> {t("Download Brochure")}
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* LOCATION MAP */}
+        <section className="relative z-10 py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
+              {t("Location")}
+            </h2>
+            <div className="overflow-hidden rounded-xl border border-white/10">
+              <iframe
+                title={`${project.name} location map`}
+                src={mapSrc}
+                className="h-[360px] w-full md:h-[460px]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* PROJECT MATERIALS */}
+        {materials.length > 0 && (
+          <section className="relative z-10 py-12">
+            <div className="container mx-auto px-4">
+              <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
+                {t("Project Materials")}
+              </h2>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {materials.map((src, i) => (
+                  <a
+                    key={i}
+                    href={src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="overflow-hidden rounded-xl border border-white/10"
+                  >
+                    <img
+                      src={src}
+                      alt={`${project.name} material ${i + 1}`}
+                      className="aspect-[3/4] w-full object-cover transition duration-500 hover:scale-105"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* GALLERY */}
+        {gallery.length > 1 && (
+          <section className="relative z-10 py-12">
+            <div className="container mx-auto px-4">
+              <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
+                {t("Gallery")}
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {gallery.map((src, i) => (
+                  <div
+                    key={i}
+                    className="overflow-hidden rounded-xl border border-white/10"
+                  >
+                    <img
+                      src={src}
+                      alt={`${project.name} ${i + 1}`}
+                      className="aspect-[4/3] w-full object-cover transition duration-500 hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* POPULAR QUESTIONS */}
+        <Faq />
       </main>
 
       <div className="relative z-10 bg-[#0f172a]">
         <Footer />
       </div>
     </div>
+  );
+}
+
+function LeadForm({
+  project,
+  t,
+}: {
+  project: OffPlanProjectModel;
+  t: (k: string) => string;
+}) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+
+  const createLead = useCreateLead({
+    mutation: {
+      onSuccess: () => {
+        toast.success(t("Enquiry sent. Our team will be in touch shortly."));
+        setName("");
+        setEmail("");
+        setPhone("");
+        setMessage("");
+      },
+      onError: (e) =>
+        toast.error(e.message || t("Could not send your enquiry. Please try again.")),
+    },
+  });
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim()) {
+      toast.error(t("Please enter your name"));
+      return;
+    }
+    if (!email.trim() && !phone.trim()) {
+      toast.error(t("Please provide an email or phone number"));
+      return;
+    }
+    createLead.mutate({
+      data: {
+        name: name.trim(),
+        email: email.trim() || undefined,
+        phone: phone.trim() || undefined,
+        message:
+          message.trim() ||
+          `Interested in ${project.name}${project.location ? ` (${project.location})` : ""}`,
+        source: `off-plan:${project.slug}`,
+      },
+    });
+  }
+
+  return (
+    <form className="space-y-4" onSubmit={submit}>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder={t("Full Name")}
+        className={inputClass}
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={t("Email")}
+        className={inputClass}
+      />
+      <input
+        type="tel"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder={t("Phone")}
+        className={inputClass}
+      />
+      <textarea
+        rows={3}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder={t("Message")}
+        className={inputClass}
+      />
+      <Button
+        type="submit"
+        disabled={createLead.isPending}
+        className="w-full bg-secondary hover:bg-secondary/90 text-[#0A1628] font-mono uppercase tracking-widest disabled:opacity-60"
+      >
+        {createLead.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {t("Enquire Now")}
+        <ArrowRight className="ml-2 h-4 w-4" />
+      </Button>
+    </form>
+  );
+}
+
+function Consultation({
+  agent,
+  project,
+  t,
+}: {
+  agent: Agent;
+  project: OffPlanProjectModel;
+  t: (k: string) => string;
+}) {
+  return (
+    <section className="relative z-10 border-y border-white/10 bg-white/[0.03] py-16">
+      <div className="container mx-auto grid grid-cols-1 gap-10 px-4 lg:grid-cols-2 lg:items-center">
+        <div className="flex items-center gap-6">
+          <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            {agent.photoUrl ? (
+              <img
+                src={storageUrl(agent.photoUrl)}
+                alt={agent.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-3xl font-serif text-white/40">
+                {agent.name.charAt(0)}
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="text-[10px] font-mono uppercase tracking-widest text-secondary">
+              {t("Get a Free Consultation")}
+            </div>
+            <h2 className="mt-2 font-serif text-2xl font-bold text-white md:text-3xl">
+              {agent.name}
+            </h2>
+            {agent.title && (
+              <p className="mt-1 font-mono text-sm text-white/60">{agent.title}</p>
+            )}
+            <div className="mt-4 space-y-2 font-mono text-sm text-white/70">
+              {agent.phone && (
+                <a
+                  href={`tel:${agent.phone}`}
+                  className="flex items-center gap-2 transition hover:text-secondary"
+                >
+                  <Phone className="h-4 w-4 text-secondary" /> {agent.phone}
+                </a>
+              )}
+              {agent.email && (
+                <a
+                  href={`mailto:${agent.email}`}
+                  className="flex items-center gap-2 transition hover:text-secondary"
+                >
+                  <Mail className="h-4 w-4 text-secondary" /> {agent.email}
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="glass-panel p-8">
+          <h3 className="mb-6 font-serif text-xl font-bold text-white">
+            {t("Get a free consultation from our sales team")}
+          </h3>
+          <LeadForm project={project} t={t} />
+        </div>
+      </div>
+    </section>
   );
 }

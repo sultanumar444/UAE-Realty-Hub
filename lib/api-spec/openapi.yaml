@@ -1620,6 +1620,24 @@ components:
           type: array
           items:
             type: string
+        floorPlans:
+          type: array
+          items:
+            $ref: "#/components/schemas/FloorPlan"
+        paymentMilestones:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentMilestone"
+        materials:
+          type: array
+          items:
+            type: string
+        locationImage:
+          type: ["string", "null"]
+        mapAddress:
+          type: ["string", "null"]
+        agentId:
+          type: ["integer", "null"]
         startingPrice:
           type: ["integer", "null"]
         handover:
@@ -1690,6 +1708,24 @@ components:
           type: array
           items:
             type: string
+        floorPlans:
+          type: array
+          items:
+            $ref: "#/components/schemas/FloorPlan"
+        paymentMilestones:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentMilestone"
+        materials:
+          type: array
+          items:
+            type: string
+        locationImage:
+          type: string
+        mapAddress:
+          type: string
+        agentId:
+          type: ["integer", "null"]
         startingPrice:
           type: ["integer", "null"]
         handover:
@@ -1748,6 +1784,24 @@ components:
           type: array
           items:
             type: string
+        floorPlans:
+          type: array
+          items:
+            $ref: "#/components/schemas/FloorPlan"
+        paymentMilestones:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentMilestone"
+        materials:
+          type: array
+          items:
+            type: string
+        locationImage:
+          type: string
+        mapAddress:
+          type: string
+        agentId:
+          type: ["integer", "null"]
         startingPrice:
           type: ["integer", "null"]
         handover:
@@ -1767,4 +1821,31 @@ components:
         featured:
           type: boolean
         status:
+          type: string
+
+    FloorPlan:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        bedrooms:
+          type: string
+        size:
+          type: string
+        price:
+          type: number
+        image:
+          type: string
+
+    PaymentMilestone:
+      type: object
+      required:
+        - label
+        - percentage
+      properties:
+        label:
+          type: string
+        percentage:
           type: string

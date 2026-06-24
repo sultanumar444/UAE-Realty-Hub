@@ -381,7 +381,21 @@ const AR: Record<string, string> = {
     "اطلب الكتيب والأسعار وخطة الدفع لهذا المشروع.",
   "Phone": "الهاتف",
   "Enquire Now": "استفسر الآن",
-  "Download Brochure": "تحميل الكتيب"
+  "Download Brochure": "تحميل الكتيب",
+  "Unit Type": "نوع الوحدة",
+  "Property Types & Floor Plans": "أنواع العقارات والمخططات",
+  "Layout": "المخطط",
+  "Size": "المساحة",
+  "Enquire": "استفسر",
+  "from": "من",
+  "Attractive Payment Plan": "خطة دفع مميزة",
+  "Get a Free Consultation": "احصل على استشارة مجانية",
+  "Get a free consultation from our sales team":
+    "احصل على استشارة مجانية من فريق المبيعات",
+  "Location": "الموقع",
+  "Project Materials": "مواد المشروع",
+  "Get the full project brochure with floor plans and pricing.":
+    "احصل على كتيب المشروع الكامل مع المخططات والأسعار."
 };
 
 interface LanguageContextType {

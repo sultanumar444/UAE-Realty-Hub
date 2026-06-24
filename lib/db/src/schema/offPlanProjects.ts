@@ -1,6 +1,27 @@
-import { pgTable, serial, text, timestamp, integer, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  integer,
+  boolean,
+  jsonb,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
+
+export type FloorPlan = {
+  type: string;
+  bedrooms?: string;
+  size?: string;
+  price?: number;
+  image?: string;
+};
+
+export type PaymentMilestone = {
+  label: string;
+  percentage: string;
+};
 
 export const offPlanProjectsTable = pgTable("off_plan_projects", {
   id: serial("id").primaryKey(),
@@ -17,6 +38,18 @@ export const offPlanProjectsTable = pgTable("off_plan_projects", {
   gallery: text("gallery").array().notNull().default([]),
   amenities: text("amenities").array().notNull().default([]),
   highlights: text("highlights").array().notNull().default([]),
+  floorPlans: jsonb("floor_plans")
+    .$type<FloorPlan[]>()
+    .notNull()
+    .default([]),
+  paymentMilestones: jsonb("payment_milestones")
+    .$type<PaymentMilestone[]>()
+    .notNull()
+    .default([]),
+  materials: text("materials").array().notNull().default([]),
+  locationImage: text("location_image"),
+  mapAddress: text("map_address"),
+  agentId: integer("agent_id"),
   startingPrice: integer("starting_price"),
   handover: text("handover"),
   paymentPlan: text("payment_plan"),
