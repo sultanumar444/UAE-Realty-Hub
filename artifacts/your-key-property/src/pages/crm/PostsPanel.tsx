@@ -193,7 +193,7 @@ export function PostsPanel() {
           <Loader2 className="h-6 w-6 animate-spin" />
         </div>
       ) : posts.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-white/15 py-16 text-center text-white/50">
+        <div className="rounded-lg border border-dashed border-white/15 py-16 text-center text-white/50">
           No posts yet. Create your first insight article.
         </div>
       ) : (
@@ -201,7 +201,7 @@ export function PostsPanel() {
           {posts.map((p) => (
             <div
               key={p.id}
-              className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-3"
+              className="flex items-center gap-4 rounded-lg border border-white/10 bg-white/[0.03] p-3"
             >
               <img
                 src={postCover(p)}

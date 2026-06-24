@@ -143,10 +143,10 @@
   }
 }
 
-/* 12px radius on all bordered elements (full-border only) */
+/* 8px radius on all bordered elements (full-border only) */
 @layer base {
   [class~="border"] {
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
   }
 }
 

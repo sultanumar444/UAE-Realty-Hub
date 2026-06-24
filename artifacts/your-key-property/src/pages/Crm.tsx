@@ -42,7 +42,7 @@ export function Crm() {
           </div>
         </div>
 
-        <div className="mb-8 flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
+        <div className="mb-8 flex gap-1 rounded-lg border border-white/10 bg-white/[0.03] p-1">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}

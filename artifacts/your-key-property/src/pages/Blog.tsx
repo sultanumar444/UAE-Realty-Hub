@@ -39,14 +39,14 @@ export function Blog() {
               <Loader2 className="h-7 w-7 animate-spin" />
             </div>
           ) : posts.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-white/15 py-24 text-center text-white/50">
+            <div className="rounded-lg border border-dashed border-white/15 py-24 text-center text-white/50">
               No articles published yet. Check back soon.
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post) => (
                 <Link key={post.id} href={`/blog/${post.slug}`}>
-                  <article className="group h-full cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] transition hover:border-secondary/50">
+                  <article className="group h-full cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition hover:border-secondary/50">
                     <div className="aspect-[16/10] overflow-hidden">
                       <img
                         src={postCover(post)}

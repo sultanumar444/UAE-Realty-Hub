@@ -146,12 +146,12 @@ function MortgageCalculator() {
           <div className="text-xl font-mono font-bold text-[#0A1628]">{formatPrice(loan)}</div>
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Link href="/properties">
-              <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-xl font-mono text-[11px] uppercase tracking-widest">
+              <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-lg font-mono text-[11px] uppercase tracking-widest">
                 View Units
               </Button>
             </Link>
             <GetInTouchDialog>
-              <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-xl font-mono text-[11px] uppercase tracking-widest">
+              <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-lg font-mono text-[11px] uppercase tracking-widest">
                 Get Pre-Approval
               </Button>
             </GetInTouchDialog>
@@ -426,7 +426,7 @@ export function MortgageTools({
             <TabsTrigger
               key={tool.id}
               value={tool.id}
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white/60 data-[state=active]:bg-secondary data-[state=active]:text-[#0A1628] data-[state=active]:border-secondary"
+              className="rounded-lg border border-white/15 bg-white/5 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white/60 data-[state=active]:bg-secondary data-[state=active]:text-[#0A1628] data-[state=active]:border-secondary"
             >
               {tool.label}
             </TabsTrigger>

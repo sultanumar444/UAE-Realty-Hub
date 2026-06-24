@@ -57,7 +57,7 @@ export function LeadsPanel() {
           <Loader2 className="h-6 w-6 animate-spin" />
         </div>
       ) : leads.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-white/15 py-16 text-center text-white/50">
+        <div className="rounded-lg border border-dashed border-white/15 py-16 text-center text-white/50">
           No leads yet. Enquiries from the website appear here.
         </div>
       ) : (
@@ -67,7 +67,7 @@ export function LeadsPanel() {
             return (
               <div
                 key={lead.id}
-                className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
+                className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">

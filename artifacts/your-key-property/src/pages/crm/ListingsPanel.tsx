@@ -232,11 +232,11 @@ export function ListingsPanel() {
           <Loader2 className="h-6 w-6 animate-spin" />
         </div>
       ) : listings.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-white/15 py-16 text-center text-white/50">
+        <div className="rounded-lg border border-dashed border-white/15 py-16 text-center text-white/50">
           No listings yet. Create your first property.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-white/10">
+        <div className="overflow-x-auto rounded-lg border border-white/10">
           <table className="w-full text-left text-sm">
             <thead className="bg-white/5 text-xs uppercase tracking-wide text-white/50">
               <tr>

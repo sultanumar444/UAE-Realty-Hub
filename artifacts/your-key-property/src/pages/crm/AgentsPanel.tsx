@@ -159,7 +159,7 @@ export function AgentsPanel() {
           <Loader2 className="h-6 w-6 animate-spin" />
         </div>
       ) : agents.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-white/15 py-16 text-center text-white/50">
+        <div className="rounded-lg border border-dashed border-white/15 py-16 text-center text-white/50">
           No team members yet.
         </div>
       ) : (
@@ -167,7 +167,7 @@ export function AgentsPanel() {
           {agents.map((a) => (
             <div
               key={a.id}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
+              className="rounded-lg border border-white/10 bg-white/[0.03] p-4"
             >
               <div className="flex items-start gap-3">
                 <img

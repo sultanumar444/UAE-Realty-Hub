@@ -233,7 +233,7 @@ export function Home() {
                 <Button
                   type="button"
                   onClick={handleHeroSearch}
-                  className="w-full bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-xl flex items-center justify-center gap-2 font-mono uppercase tracking-widest"
+                  className="w-full bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-lg flex items-center justify-center gap-2 font-mono uppercase tracking-widest"
                 >
                   <Search className="w-4 h-4" />
                   <span>Search Properties</span>
@@ -275,7 +275,7 @@ export function Home() {
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">Featured Properties</h2>
               </div>
               <Link href="/properties">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-xl px-8 font-mono uppercase tracking-widest">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">
                   View Portfolio
                 </Button>
               </Link>
@@ -365,7 +365,7 @@ export function Home() {
             </div>
             <div className="text-center mt-12">
               <Link href="/off-plan">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-xl px-8 font-mono uppercase tracking-widest">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">
                   View All Off-Plan
                 </Button>
               </Link>
@@ -448,7 +448,7 @@ export function Home() {
             </div>
             <div className="text-center mt-12">
               <Link href="/communities">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-xl px-8 font-mono uppercase tracking-widest">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">
                   Explore All Communities
                 </Button>
               </Link>
@@ -567,7 +567,7 @@ export function Home() {
 
             <div className="text-center mt-14">
               <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-xl px-8 py-6 font-mono uppercase tracking-widest">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 py-6 font-mono uppercase tracking-widest">
                   Read All Reviews on Google
                 </Button>
               </a>
@@ -600,7 +600,7 @@ export function Home() {
               <form className="glass-panel p-4 flex flex-col md:flex-row gap-4 max-w-3xl mx-auto">
                 <input type="text" placeholder="Your Name" className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
                 <input type="email" placeholder="Email" className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
-                <Button type="button" className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-xl font-mono uppercase tracking-widest">
+                <Button type="button" className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-lg font-mono uppercase tracking-widest">
                   Request Contact
                 </Button>
               </form>

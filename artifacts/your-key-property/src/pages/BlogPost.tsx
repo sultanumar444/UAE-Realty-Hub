@@ -135,7 +135,7 @@ export function BlogPost() {
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 {related.map((r) => (
                   <Link key={r.id} href={`/blog/${r.slug}`}>
-                    <div className="group cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] transition hover:border-secondary/50">
+                    <div className="group cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition hover:border-secondary/50">
                       <div className="aspect-[16/10] overflow-hidden">
                         <img
                           src={postCover(r)}

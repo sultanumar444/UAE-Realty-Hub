@@ -161,7 +161,7 @@ export function Navbar() {
           </a>
 
           <GetInTouchDialog>
-            <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] rounded-xl px-4 xl:px-6 font-mono text-xs uppercase tracking-widest transition-colors font-bold">
+            <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] rounded-lg px-4 xl:px-6 font-mono text-xs uppercase tracking-widest transition-colors font-bold">
               {t("nav.getInTouch")}
             </Button>
           </GetInTouchDialog>
@@ -194,7 +194,7 @@ export function Navbar() {
                     <select 
                       value={lang} 
                       onChange={(e) => setLang(e.target.value as "en" | "ar")}
-                      className="bg-white/10 px-2 py-2 text-xs font-mono font-bold text-white rounded-xl border border-white/20 outline-none"
+                      className="bg-white/10 px-2 py-2 text-xs font-mono font-bold text-white rounded-lg border border-white/20 outline-none"
                     >
                       <option value="en" className="bg-[#0A1628]">EN</option>
                       <option value="ar" className="bg-[#0A1628]">AR</option>
@@ -202,7 +202,7 @@ export function Navbar() {
                     <select 
                       value={currency} 
                       onChange={(e) => setCurrency(e.target.value as any)}
-                      className="bg-white/10 px-2 py-2 text-xs font-mono font-bold text-white rounded-xl border border-white/20 outline-none"
+                      className="bg-white/10 px-2 py-2 text-xs font-mono font-bold text-white rounded-lg border border-white/20 outline-none"
                     >
                       <option value="AED" className="bg-[#0A1628]">AED</option>
                       <option value="USD" className="bg-[#0A1628]">USD</option>
@@ -226,7 +226,7 @@ export function Navbar() {
                   </a>
 
                   <GetInTouchDialog>
-                    <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] rounded-xl w-full font-mono text-xs uppercase tracking-widest font-bold">
+                    <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] rounded-lg w-full font-mono text-xs uppercase tracking-widest font-bold">
                       {t("nav.getInTouch")}
                     </Button>
                   </GetInTouchDialog>
