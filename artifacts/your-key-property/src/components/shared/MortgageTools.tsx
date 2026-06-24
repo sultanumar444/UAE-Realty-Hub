@@ -4,6 +4,7 @@ import { useCurrency } from "@/lib/currency";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { GetInTouchDialog } from "@/components/shared/GetInTouchDialog";
+import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Area,
@@ -389,6 +390,7 @@ function Affordability() {
 }
 
 const TOOLS = [
+  { id: "roi", label: "ROI Visualizer", node: <RoiVisualizer initialPrice={3500000} /> },
   { id: "mortgage", label: "Mortgage Calculator", node: <MortgageCalculator /> },
   { id: "amortization", label: "Amortization", node: <Amortization /> },
   { id: "refinancing", label: "Refinancing", node: <Refinancing /> },
@@ -400,10 +402,10 @@ export function MortgageTools() {
   return (
     <div className="glass-panel p-6 md:p-8">
       <div className="mb-8 border-b border-white/10 pb-4">
-        <h2 className="text-2xl font-serif font-bold text-white mb-2">Mortgage Tools</h2>
-        <p className="text-white/60 font-mono text-sm">Plan every financial angle of your purchase.</p>
+        <h2 className="text-2xl font-serif font-bold text-white mb-2">Investment ROI Visualizer</h2>
+        <p className="text-white/60 font-mono text-sm">Every tool to model your returns and plan your purchase.</p>
       </div>
-      <Tabs defaultValue="mortgage">
+      <Tabs defaultValue="roi">
         <TabsList className="flex flex-wrap h-auto bg-transparent gap-2 mb-8 p-0">
           {TOOLS.map((tool) => (
             <TabsTrigger

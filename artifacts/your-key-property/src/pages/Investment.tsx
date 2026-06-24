@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 import { MortgageTools } from "@/components/shared/MortgageTools";
 
 export function Investment() {
@@ -12,7 +11,7 @@ export function Investment() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto mb-16 text-center">
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-6 drop-shadow-lg">
-              Investment ROI Visualizer
+              Investment Tools
             </h1>
             <p className="text-xl text-white/80 font-mono">
               Data-driven insights to model your returns from altitude. 
@@ -20,8 +19,7 @@ export function Investment() {
             </p>
           </div>
           
-          <div className="max-w-6xl mx-auto space-y-8">
-            <RoiVisualizer initialPrice={3500000} />
+          <div className="max-w-6xl mx-auto">
             <MortgageTools />
           </div>
         </div>
