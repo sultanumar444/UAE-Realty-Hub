@@ -61,7 +61,7 @@ export function GetInTouchDialog({ children }: GetInTouchDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="bg-white text-[#0A1628] border-none rounded-none p-0 max-w-lg [&>button]:hidden">
+      <DialogContent className="bg-white text-[#0A1628] border-none rounded-xl p-0 max-w-lg [&>button]:hidden">
         <div className="p-8 md:p-10">
           <div className="flex items-start justify-between mb-8">
             <h2 className="text-2xl md:text-3xl font-serif font-bold uppercase tracking-wide text-[#0A1628]">
@@ -137,7 +137,7 @@ export function GetInTouchDialog({ children }: GetInTouchDialogProps) {
             <Button
               type="submit"
               disabled={createLead.isPending}
-              className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-none py-6 font-mono uppercase tracking-widest flex items-center justify-center gap-2"
+              className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-xl py-6 font-mono uppercase tracking-widest flex items-center justify-center gap-2"
             >
               {createLead.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
               {createLead.isPending ? t("git.sending") : t("git.submit")}

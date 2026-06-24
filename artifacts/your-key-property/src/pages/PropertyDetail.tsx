@@ -179,13 +179,13 @@ export function PropertyDetail() {
                   </div>
                   
                   <div className="space-y-4">
-                    <Button className="w-full bg-secondary hover:bg-secondary/90 text-white flex gap-2 rounded-none h-14 font-mono uppercase tracking-widest text-xs">
+                    <Button className="w-full bg-secondary hover:bg-secondary/90 text-white flex gap-2 rounded-xl h-14 font-mono uppercase tracking-widest text-xs">
                       <Phone className="w-4 h-4" /> Call {property.agent.phone}
                     </Button>
-                    <Button variant="outline" className="w-full border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 flex gap-2 rounded-none h-14 font-mono uppercase tracking-widest text-xs">
+                    <Button variant="outline" className="w-full border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 flex gap-2 rounded-xl h-14 font-mono uppercase tracking-widest text-xs">
                       <SiWhatsapp className="w-4 h-4" /> WhatsApp
                     </Button>
-                    <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 flex gap-2 rounded-none h-14 font-mono uppercase tracking-widest text-xs">
+                    <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 flex gap-2 rounded-xl h-14 font-mono uppercase tracking-widest text-xs">
                       <Mail className="w-4 h-4" /> Email Agent
                     </Button>
                   </div>
@@ -234,7 +234,7 @@ export function PropertyDetail() {
                     <Button
                       type="submit"
                       disabled={createLead.isPending}
-                      className="w-full bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold flex gap-2 rounded-none h-12 font-mono uppercase tracking-widest text-xs items-center justify-center"
+                      className="w-full bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold flex gap-2 rounded-xl h-12 font-mono uppercase tracking-widest text-xs items-center justify-center"
                     >
                       {createLead.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                       {createLead.isPending ? "Sending..." : "Send Enquiry"}

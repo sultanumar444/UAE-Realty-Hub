@@ -46,23 +46,23 @@ export function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" placeholder="John Doe" className="rounded-none border-border" />
+                  <Input id="name" placeholder="John Doe" className="rounded-xl border-border" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" placeholder="+971 50 000 0000" className="rounded-none border-border" />
+                  <Input id="phone" placeholder="+971 50 000 0000" className="rounded-xl border-border" />
                 </div>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="john@example.com" className="rounded-none border-border" />
+                <Input id="email" type="email" placeholder="john@example.com" className="rounded-xl border-border" />
               </div>
               
               <div className="space-y-2">
                 <Label>Interest</Label>
                 <Select>
-                  <SelectTrigger className="rounded-none border-border w-full">
+                  <SelectTrigger className="rounded-xl border-border w-full">
                     <SelectValue placeholder="Select an option" />
                   </SelectTrigger>
                   <SelectContent>
@@ -79,11 +79,11 @@ export function Contact() {
                 <Textarea 
                   id="message" 
                   placeholder="How can we assist you?" 
-                  className="min-h-[120px] rounded-none border-border resize-none" 
+                  className="min-h-[120px] rounded-xl border-border resize-none" 
                 />
               </div>
               
-              <Button type="submit" className="w-full rounded-none h-12 text-md tracking-wider uppercase">
+              <Button type="submit" className="w-full rounded-xl h-12 text-md tracking-wider uppercase">
                 Submit Inquiry
               </Button>
             </form>

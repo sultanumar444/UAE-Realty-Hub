@@ -53,7 +53,7 @@ export function Favorites() {
               <h3 className="font-serif font-bold text-2xl text-white mb-4">You haven't saved any properties yet</h3>
               <p className="text-white/60 font-mono text-sm mb-8">Browse our portfolio and click the heart icon to save them here.</p>
               <Link href="/properties">
-                <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold font-mono uppercase tracking-widest px-8 py-6 rounded-none">
+                <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold font-mono uppercase tracking-widest px-8 py-6 rounded-xl">
                   Explore Altitudes
                 </Button>
               </Link>

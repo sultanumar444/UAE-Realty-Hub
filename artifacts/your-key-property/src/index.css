@@ -143,6 +143,13 @@
   }
 }
 
+/* 12px radius on all bordered elements (full-border only) */
+@layer base {
+  [class~="border"] {
+    border-radius: 0.75rem;
+  }
+}
+
 /* Glassmorphism utilities */
 .glass-panel {
   @apply bg-white/5 backdrop-blur-md border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] shadow-xl relative overflow-hidden;
