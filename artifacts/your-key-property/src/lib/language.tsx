@@ -290,6 +290,8 @@ const AR: Record<string, string> = {
   "About Us": "من نحن",
   "Contact": "اتصل بنا",
   "Our Services": "خدماتنا",
+  "What We Offer": "ما نقدمه",
+  "No communities listed yet for this emirate.": "لا توجد مجتمعات مدرجة بعد لهذه الإمارة.",
   "Contact Info": "معلومات الاتصال",
   "Office 17, 35th Floor, Al Saqr Business Tower, DIFC, Dubai": "مكتب 17، الطابق 35، برج الصقر التجاري، مركز دبي المالي العالمي، دبي",
   "Office M01, Al Mansouri Building, Al Gheel St, Al Danah, Abu Dhabi": "مكتب M01، مبنى المنصوري، شارع الغيل، الدانة، أبوظبي",

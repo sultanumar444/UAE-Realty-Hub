@@ -55,12 +55,16 @@ export function Home() {
     { name: "Dubai Marina", em: "Dubai", img: "/images/dubai-skyline.png" },
     { name: "Downtown Dubai", em: "Dubai", img: "/images/luxury-villa.png" },
     { name: "Palm Jumeirah", em: "Dubai", img: "/images/modern-apartment.png" },
-    { name: "Saadiyat Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" },
+    { name: "Dubai Creek Harbour", em: "Dubai", img: "/images/render-marina.png" },
+    { name: "Saadiyat Island", em: "Abu Dhabi", img: "/images/render-saadiyat.png" },
+    { name: "Yas Island", em: "Abu Dhabi", img: "/images/render-yas.png" },
+    { name: "Al Reem Island", em: "Abu Dhabi", img: "/images/abudhabi-skyline.png" },
+    { name: "Al Raha Beach", em: "Abu Dhabi", img: "/images/about.png" },
   ];
   const dbCommunities = communitiesQ.data ?? [];
-  const covetedAreas =
+  const allCovetedAreas =
     dbCommunities.length > 0
-      ? dbCommunities.slice(0, 4).map((c) => ({
+      ? dbCommunities.map((c) => ({
           name: c.name,
           em: c.emirate || "Dubai",
           img: storageUrl(c.imageUrl),
@@ -89,6 +93,10 @@ export function Home() {
   const [searchBeds, setSearchBeds] = useState("Any Bedrooms");
   const [searchPrice, setSearchPrice] = useState("Any Price");
   const [searchCommunity, setSearchCommunity] = useState("All Communities");
+  const [covetedEmirate, setCovetedEmirate] = useState<"Dubai" | "Abu Dhabi">("Dubai");
+  const covetedAreas = allCovetedAreas
+    .filter((a) => a.em === covetedEmirate)
+    .slice(0, 8);
 
   const communityOptions =
     dbCommunities.length > 0
@@ -417,7 +425,29 @@ export function Home() {
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L48 · Prime Altitudes")}</div>
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">{t("Coveted Locations")}</h2>
             </div>
-            
+
+            <div className="flex justify-center gap-10 mb-12">
+              {(["Dubai", "Abu Dhabi"] as const).map((em) => (
+                <button
+                  key={em}
+                  onClick={() => setCovetedEmirate(em)}
+                  className={`relative pb-2 font-mono uppercase tracking-widest text-sm transition-colors ${
+                    covetedEmirate === em ? "text-secondary" : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  {t(em)}
+                  {covetedEmirate === em && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-secondary" />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {covetedAreas.length === 0 ? (
+              <div className="text-center text-white/50 font-mono text-sm py-12">
+                {t("No communities listed yet for this emirate.")}
+              </div>
+            ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {covetedAreas.map((area, i) => {
                 const count = countForCommunity(area.name);
@@ -446,6 +476,7 @@ export function Home() {
                 );
               })}
             </div>
+            )}
             <div className="text-center mt-12">
               <Link href="/communities">
                 <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">

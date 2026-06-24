@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/language";
 
@@ -90,6 +90,40 @@ export function About() {
                   className="w-full h-64 object-cover border border-white/20 shadow-xl mt-12" 
                 />
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-32 border-t border-white/10">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("What We Offer")}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">{t("Our Services")}</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { icon: HomeIcon, title: "Buy Property", desc: "Find your dream home or next investment from our portfolio." },
+                { icon: TrendingUp, title: "Sell Property", desc: "Get the best market value with our expert strategies." },
+                { icon: Key, title: "Rent & Lease", desc: "Discover high-quality rental properties or find reliable tenants." },
+                { icon: Building, title: "Property Management", desc: "Hassle-free management of your assets." },
+                { icon: BarChart, title: "Investment Advisory", desc: "Data-driven insights to build a profitable portfolio." },
+                { icon: Calculator, title: "Free Valuation", desc: "Accurate property valuations based on current data." },
+              ].map((service, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="glass-panel p-8 flex flex-col items-center text-center group hover:bg-white/10 transition-colors"
+                >
+                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-colors">
+                    <service.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-xl font-serif font-bold text-white mb-3">{t(service.title)}</h3>
+                  <p className="text-white/60 text-sm font-mono">{t(service.desc)}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
