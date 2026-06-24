@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Button } from "@/components/ui/button";
-import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, MapPin, Search, CheckCircle2, ArrowRight, ChevronDown, Star } from "lucide-react";
+import { Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator, Search, CheckCircle2, ArrowRight, ChevronDown, Star } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useProperties } from "@/lib/useProperties";
 import { useListCommunities } from "@workspace/api-client-react";
@@ -23,6 +23,15 @@ const GOOGLE_REVIEWS = [
   { name: "Omar Khalifa", initial: "O", color: "#4285f4", when: "3 months ago", text: "Best brokerage experience I have had in the UAE. They listened, advised honestly, and secured a great price. Highly recommended to anyone." },
   { name: "Elena Petrova", initial: "E", color: "#a142f4", when: "3 months ago", text: "From the first call they were attentive and knowledgeable. They found us a fantastic rental on the Palm within days. Five stars without hesitation." },
 ];
+
+const PRICE_RANGES: Record<string, { min?: number; max?: number }> = {
+  "Any Price": {},
+  "Under AED 1M": { max: 1_000_000 },
+  "AED 1M - 2M": { min: 1_000_000, max: 2_000_000 },
+  "AED 2M - 5M": { min: 2_000_000, max: 5_000_000 },
+  "AED 5M - 10M": { min: 5_000_000, max: 10_000_000 },
+  "AED 10M+": { min: 10_000_000 },
+};
 
 export function Home() {
   const { formatPrice } = useCurrency();
@@ -73,14 +82,25 @@ export function Home() {
   // Hero search console state
   const [, navigate] = useLocation();
   const [searchTab, setSearchTab] = useState<"sale" | "rent" | "offplan">("sale");
-  const [searchArea, setSearchArea] = useState("");
   const [searchType, setSearchType] = useState("All Types");
+  const [searchBeds, setSearchBeds] = useState("Any Bedrooms");
+  const [searchPrice, setSearchPrice] = useState("Any Price");
+  const [searchCommunity, setSearchCommunity] = useState("All Communities");
+
+  const communityOptions =
+    dbCommunities.length > 0
+      ? dbCommunities.map((c) => c.name)
+      : FALLBACK_AREAS.map((a) => a.name);
 
   const handleHeroSearch = () => {
     const sp = new URLSearchParams();
     sp.set("purpose", searchTab);
-    if (searchArea.trim()) sp.set("q", searchArea.trim());
     if (searchType !== "All Types") sp.set("type", searchType);
+    if (searchBeds !== "Any Bedrooms") sp.set("beds", searchBeds);
+    if (searchCommunity !== "All Communities") sp.set("community", searchCommunity);
+    const range = PRICE_RANGES[searchPrice];
+    if (range?.min != null) sp.set("minPrice", String(range.min));
+    if (range?.max != null) sp.set("maxPrice", String(range.max));
     navigate(`/properties?${sp.toString()}`);
   };
 
@@ -148,19 +168,9 @@ export function Home() {
                   </button>
                 ))}
               </div>
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1 relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 w-5 h-5" />
-                  <input 
-                    type="text" 
-                    placeholder="Area, Community or Building" 
-                    value={searchArea}
-                    onChange={(e) => setSearchArea(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === "Enter") handleHeroSearch(); }}
-                    className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono placeholder:text-white/40"
-                  />
-                </div>
-                <div className="w-full md:w-56">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="relative">
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Property Type</label>
                   <select
                     value={searchType}
                     onChange={(e) => setSearchType(e.target.value)}
@@ -175,13 +185,53 @@ export function Home() {
                     <option className="bg-primary">Studio</option>
                   </select>
                 </div>
+                <div className="relative">
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Bedrooms</label>
+                  <select
+                    value={searchBeds}
+                    onChange={(e) => setSearchBeds(e.target.value)}
+                    className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
+                  >
+                    <option className="bg-primary">Any Bedrooms</option>
+                    <option className="bg-primary">1 Bed</option>
+                    <option className="bg-primary">2 Beds</option>
+                    <option className="bg-primary">3+ Beds</option>
+                  </select>
+                </div>
+                <div className="relative">
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Price Range</label>
+                  <select
+                    value={searchPrice}
+                    onChange={(e) => setSearchPrice(e.target.value)}
+                    className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
+                  >
+                    {Object.keys(PRICE_RANGES).map((label) => (
+                      <option key={label} className="bg-primary">{label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="relative">
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Community</label>
+                  <select
+                    value={searchCommunity}
+                    onChange={(e) => setSearchCommunity(e.target.value)}
+                    className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
+                  >
+                    <option className="bg-primary">All Communities</option>
+                    {communityOptions.map((name) => (
+                      <option key={name} className="bg-primary">{name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="mt-4">
                 <Button
                   type="button"
                   onClick={handleHeroSearch}
-                  className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-none flex gap-2 font-mono uppercase tracking-widest"
+                  className="w-full bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-none flex items-center justify-center gap-2 font-mono uppercase tracking-widest"
                 >
                   <Search className="w-4 h-4" />
-                  <span>Search</span>
+                  <span>Search Properties</span>
                 </Button>
               </div>
             </motion.div>

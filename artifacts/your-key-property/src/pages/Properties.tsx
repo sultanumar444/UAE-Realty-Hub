@@ -26,9 +26,15 @@ export function Properties() {
   const communityParam = params.get("community");
   const qParam = params.get("q");
   const typeParam = params.get("type");
+  const bedsParam = params.get("beds");
+  const minPriceParam = params.get("minPrice");
+  const maxPriceParam = params.get("maxPrice");
   useEffect(() => {
     setType(typeParam ?? "All Types");
   }, [typeParam]);
+  useEffect(() => {
+    setBeds(bedsParam ?? "Beds (Any)");
+  }, [bedsParam]);
   useEffect(() => {
     const purpose = new URLSearchParams(search).get("purpose");
     if (purpose === "sale") {
@@ -69,6 +75,9 @@ export function Properties() {
         if (!haystack.includes(q)) return false;
       }
 
+      if (minPriceParam && p.price < Number(minPriceParam)) return false;
+      if (maxPriceParam && p.price > Number(maxPriceParam)) return false;
+
       if (type !== "All Types") {
         const mappedType = TYPE_MAP[type] ?? type;
         if (p.type !== mappedType) return false;
@@ -88,7 +97,7 @@ export function Properties() {
       
       return true;
     });
-  }, [properties, type, location, beds, buyChecked, rentChecked, offPlanChecked, communityParam, qParam]);
+  }, [properties, type, location, beds, buyChecked, rentChecked, offPlanChecked, communityParam, qParam, minPriceParam, maxPriceParam]);
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
