@@ -14,6 +14,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { MortgageTools } from "@/components/shared/MortgageTools";
 import { Faq } from "@/components/shared/Faq";
+import { OffPlanShowcase } from "@/components/shared/OffPlanShowcase";
 
 const GOOGLE_PROFILE_URL = "https://share.google/2LAI96DtQ8bSoDWij";
 
@@ -258,9 +259,6 @@ export function Home() {
               aria-label={t("Scroll down to explore the portfolio")}
               className="mt-14 mx-auto flex flex-col items-center gap-2 group cursor-pointer"
             >
-              <div className="text-[10px] font-mono text-secondary uppercase tracking-widest border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm transition-colors group-hover:bg-secondary/20 group-hover:border-secondary/60">
-                {t("GROUND FLOOR")}
-              </div>
               <motion.div 
                 animate={{ y: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -380,6 +378,11 @@ export function Home() {
             </div>
           </div>
         </section>
+
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+        {/* L30 · OFF-PLAN PROJECTS SHOWCASE */}
+        <OffPlanShowcase />
 
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 

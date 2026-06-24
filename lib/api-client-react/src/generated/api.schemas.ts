@@ -319,6 +319,109 @@ export interface PostUpdate {
   authorId?: number | null;
 }
 
+export interface OffPlanProject {
+  id: number;
+  slug: string;
+  name: string;
+  /** @nullable */
+  developer?: string | null;
+  emirate: string;
+  /** @nullable */
+  location?: string | null;
+  /** @nullable */
+  community?: string | null;
+  /** @nullable */
+  tagline?: string | null;
+  description: string;
+  /** @nullable */
+  heroImage?: string | null;
+  /** @nullable */
+  logoImage?: string | null;
+  gallery: string[];
+  amenities: string[];
+  highlights: string[];
+  /** @nullable */
+  startingPrice?: number | null;
+  /** @nullable */
+  handover?: string | null;
+  /** @nullable */
+  paymentPlan?: string | null;
+  /** @nullable */
+  bedrooms?: string | null;
+  /** @nullable */
+  unitTypes?: string | null;
+  /** @nullable */
+  brochureUrl?: string | null;
+  /** @nullable */
+  seoTitle?: string | null;
+  /** @nullable */
+  seoDescription?: string | null;
+  featured: boolean;
+  status: string;
+  /** @nullable */
+  publishedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OffPlanProjectInput {
+  /** @minLength 1 */
+  slug: string;
+  /** @minLength 1 */
+  name: string;
+  developer?: string;
+  emirate?: string;
+  location?: string;
+  community?: string;
+  tagline?: string;
+  description?: string;
+  heroImage?: string;
+  logoImage?: string;
+  gallery?: string[];
+  amenities?: string[];
+  highlights?: string[];
+  /** @nullable */
+  startingPrice?: number | null;
+  handover?: string;
+  paymentPlan?: string;
+  bedrooms?: string;
+  unitTypes?: string;
+  brochureUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  featured?: boolean;
+  status?: string;
+}
+
+export interface OffPlanProjectUpdate {
+  /** @minLength 1 */
+  slug?: string;
+  /** @minLength 1 */
+  name?: string;
+  developer?: string;
+  emirate?: string;
+  location?: string;
+  community?: string;
+  tagline?: string;
+  description?: string;
+  heroImage?: string;
+  logoImage?: string;
+  gallery?: string[];
+  amenities?: string[];
+  highlights?: string[];
+  /** @nullable */
+  startingPrice?: number | null;
+  handover?: string;
+  paymentPlan?: string;
+  bedrooms?: string;
+  unitTypes?: string;
+  brochureUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  featured?: boolean;
+  status?: string;
+}
+
 export type ListListingsParams = {
 status?: string;
 purpose?: string;
@@ -330,5 +433,11 @@ featured?: boolean;
 export type ListPostsParams = {
 status?: string;
 category?: string;
+};
+
+export type ListOffPlanProjectsParams = {
+status?: string;
+emirate?: string;
+featured?: boolean;
 };
 

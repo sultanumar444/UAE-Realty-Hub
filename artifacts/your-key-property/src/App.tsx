@@ -3,6 +3,7 @@ import { Home } from "./pages/Home";
 import { Properties } from "./pages/Properties";
 import { PropertyDetail } from "./pages/PropertyDetail";
 import { OffPlan } from "./pages/OffPlan";
+import { OffPlanProject } from "./pages/OffPlanProject";
 import { Communities } from "./pages/Communities";
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
@@ -68,6 +69,7 @@ function App() {
           <Route path="/" component={Home} />
           <Route path="/properties" component={Properties} />
           <Route path="/properties/:id" component={PropertyDetail} />
+          <Route path="/off-plan/:slug" component={OffPlanProject} />
           <Route path="/off-plan" component={OffPlan} />
           <Route path="/communities" component={Communities} />
           <Route path="/about" component={About} />

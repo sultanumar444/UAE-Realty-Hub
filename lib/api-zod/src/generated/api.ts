@@ -629,6 +629,233 @@ export const DeletePostParams = zod.object({
 
 
 /**
+ * @summary List off-plan projects
+ */
+export const ListOffPlanProjectsQueryParams = zod.object({
+  "status": zod.coerce.string().optional(),
+  "emirate": zod.coerce.string().optional(),
+  "featured": zod.coerce.boolean().optional()
+})
+
+export const ListOffPlanProjectsResponseItem = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "developer": zod.string().nullish(),
+  "emirate": zod.string(),
+  "location": zod.string().nullish(),
+  "community": zod.string().nullish(),
+  "tagline": zod.string().nullish(),
+  "description": zod.string(),
+  "heroImage": zod.string().nullish(),
+  "logoImage": zod.string().nullish(),
+  "gallery": zod.array(zod.string()),
+  "amenities": zod.array(zod.string()),
+  "highlights": zod.array(zod.string()),
+  "startingPrice": zod.number().nullish(),
+  "handover": zod.string().nullish(),
+  "paymentPlan": zod.string().nullish(),
+  "bedrooms": zod.string().nullish(),
+  "unitTypes": zod.string().nullish(),
+  "brochureUrl": zod.string().nullish(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "status": zod.string(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+export const ListOffPlanProjectsResponse = zod.array(ListOffPlanProjectsResponseItem)
+
+
+/**
+ * @summary Create an off-plan project
+ */
+
+
+
+
+export const CreateOffPlanProjectBody = zod.object({
+  "slug": zod.string().min(1),
+  "name": zod.string().min(1),
+  "developer": zod.string().optional(),
+  "emirate": zod.string().optional(),
+  "location": zod.string().optional(),
+  "community": zod.string().optional(),
+  "tagline": zod.string().optional(),
+  "description": zod.string().optional(),
+  "heroImage": zod.string().optional(),
+  "logoImage": zod.string().optional(),
+  "gallery": zod.array(zod.string()).optional(),
+  "amenities": zod.array(zod.string()).optional(),
+  "highlights": zod.array(zod.string()).optional(),
+  "startingPrice": zod.number().nullish(),
+  "handover": zod.string().optional(),
+  "paymentPlan": zod.string().optional(),
+  "bedrooms": zod.string().optional(),
+  "unitTypes": zod.string().optional(),
+  "brochureUrl": zod.string().optional(),
+  "seoTitle": zod.string().optional(),
+  "seoDescription": zod.string().optional(),
+  "featured": zod.boolean().optional(),
+  "status": zod.string().optional()
+})
+
+
+/**
+ * @summary Get a published off-plan project by slug
+ */
+export const GetOffPlanProjectBySlugParams = zod.object({
+  "slug": zod.coerce.string()
+})
+
+export const GetOffPlanProjectBySlugResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "developer": zod.string().nullish(),
+  "emirate": zod.string(),
+  "location": zod.string().nullish(),
+  "community": zod.string().nullish(),
+  "tagline": zod.string().nullish(),
+  "description": zod.string(),
+  "heroImage": zod.string().nullish(),
+  "logoImage": zod.string().nullish(),
+  "gallery": zod.array(zod.string()),
+  "amenities": zod.array(zod.string()),
+  "highlights": zod.array(zod.string()),
+  "startingPrice": zod.number().nullish(),
+  "handover": zod.string().nullish(),
+  "paymentPlan": zod.string().nullish(),
+  "bedrooms": zod.string().nullish(),
+  "unitTypes": zod.string().nullish(),
+  "brochureUrl": zod.string().nullish(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "status": zod.string(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Get an off-plan project by id
+ */
+export const GetOffPlanProjectParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetOffPlanProjectResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "developer": zod.string().nullish(),
+  "emirate": zod.string(),
+  "location": zod.string().nullish(),
+  "community": zod.string().nullish(),
+  "tagline": zod.string().nullish(),
+  "description": zod.string(),
+  "heroImage": zod.string().nullish(),
+  "logoImage": zod.string().nullish(),
+  "gallery": zod.array(zod.string()),
+  "amenities": zod.array(zod.string()),
+  "highlights": zod.array(zod.string()),
+  "startingPrice": zod.number().nullish(),
+  "handover": zod.string().nullish(),
+  "paymentPlan": zod.string().nullish(),
+  "bedrooms": zod.string().nullish(),
+  "unitTypes": zod.string().nullish(),
+  "brochureUrl": zod.string().nullish(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "status": zod.string(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Update an off-plan project
+ */
+export const UpdateOffPlanProjectParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+
+export const UpdateOffPlanProjectBody = zod.object({
+  "slug": zod.string().min(1).optional(),
+  "name": zod.string().min(1).optional(),
+  "developer": zod.string().optional(),
+  "emirate": zod.string().optional(),
+  "location": zod.string().optional(),
+  "community": zod.string().optional(),
+  "tagline": zod.string().optional(),
+  "description": zod.string().optional(),
+  "heroImage": zod.string().optional(),
+  "logoImage": zod.string().optional(),
+  "gallery": zod.array(zod.string()).optional(),
+  "amenities": zod.array(zod.string()).optional(),
+  "highlights": zod.array(zod.string()).optional(),
+  "startingPrice": zod.number().nullish(),
+  "handover": zod.string().optional(),
+  "paymentPlan": zod.string().optional(),
+  "bedrooms": zod.string().optional(),
+  "unitTypes": zod.string().optional(),
+  "brochureUrl": zod.string().optional(),
+  "seoTitle": zod.string().optional(),
+  "seoDescription": zod.string().optional(),
+  "featured": zod.boolean().optional(),
+  "status": zod.string().optional()
+})
+
+export const UpdateOffPlanProjectResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "developer": zod.string().nullish(),
+  "emirate": zod.string(),
+  "location": zod.string().nullish(),
+  "community": zod.string().nullish(),
+  "tagline": zod.string().nullish(),
+  "description": zod.string(),
+  "heroImage": zod.string().nullish(),
+  "logoImage": zod.string().nullish(),
+  "gallery": zod.array(zod.string()),
+  "amenities": zod.array(zod.string()),
+  "highlights": zod.array(zod.string()),
+  "startingPrice": zod.number().nullish(),
+  "handover": zod.string().nullish(),
+  "paymentPlan": zod.string().nullish(),
+  "bedrooms": zod.string().nullish(),
+  "unitTypes": zod.string().nullish(),
+  "brochureUrl": zod.string().nullish(),
+  "seoTitle": zod.string().nullish(),
+  "seoDescription": zod.string().nullish(),
+  "featured": zod.boolean(),
+  "status": zod.string(),
+  "publishedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Delete an off-plan project
+ */
+export const DeleteOffPlanProjectParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+/**
  * Returns a presigned GCS URL for direct upload. The client sends JSON
 metadata here, then uploads the file directly to the returned URL.
 

@@ -32,10 +32,14 @@ import type {
   LeadInput,
   LeadUpdate,
   ListListingsParams,
+  ListOffPlanProjectsParams,
   ListPostsParams,
   Listing,
   ListingInput,
   ListingUpdate,
+  OffPlanProject,
+  OffPlanProjectInput,
+  OffPlanProjectUpdate,
   Post,
   PostInput,
   PostUpdate,
@@ -1980,6 +1984,457 @@ export const useDeletePost = <TError = ErrorType<Error>,
         TContext
       > => {
       return useMutation(getDeletePostMutationOptions(options));
+    }
+
+export const getListOffPlanProjectsUrl = (params?: ListOffPlanProjectsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/off-plan-projects?${stringifiedParams}` : `/api/off-plan-projects`
+}
+
+/**
+ * @summary List off-plan projects
+ */
+export const listOffPlanProjects = async (params?: ListOffPlanProjectsParams, options?: RequestInit): Promise<OffPlanProject[]> => {
+
+  return customFetch<OffPlanProject[]>(getListOffPlanProjectsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListOffPlanProjectsQueryKey = (params?: ListOffPlanProjectsParams,) => {
+    return [
+    `/api/off-plan-projects`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListOffPlanProjectsQueryOptions = <TData = Awaited<ReturnType<typeof listOffPlanProjects>>, TError = ErrorType<unknown>>(params?: ListOffPlanProjectsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listOffPlanProjects>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListOffPlanProjectsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listOffPlanProjects>>> = ({ signal }) => listOffPlanProjects(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listOffPlanProjects>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListOffPlanProjectsQueryResult = NonNullable<Awaited<ReturnType<typeof listOffPlanProjects>>>
+export type ListOffPlanProjectsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List off-plan projects
+ */
+
+export function useListOffPlanProjects<TData = Awaited<ReturnType<typeof listOffPlanProjects>>, TError = ErrorType<unknown>>(
+ params?: ListOffPlanProjectsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listOffPlanProjects>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListOffPlanProjectsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getCreateOffPlanProjectUrl = () => {
+
+
+
+
+  return `/api/off-plan-projects`
+}
+
+/**
+ * @summary Create an off-plan project
+ */
+export const createOffPlanProject = async (offPlanProjectInput: OffPlanProjectInput, options?: RequestInit): Promise<OffPlanProject> => {
+
+  return customFetch<OffPlanProject>(getCreateOffPlanProjectUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      offPlanProjectInput,)
+  }
+);}
+
+
+
+
+export const getCreateOffPlanProjectMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOffPlanProject>>, TError,{data: BodyType<OffPlanProjectInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createOffPlanProject>>, TError,{data: BodyType<OffPlanProjectInput>}, TContext> => {
+
+const mutationKey = ['createOffPlanProject'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createOffPlanProject>>, {data: BodyType<OffPlanProjectInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createOffPlanProject(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateOffPlanProjectMutationResult = NonNullable<Awaited<ReturnType<typeof createOffPlanProject>>>
+    export type CreateOffPlanProjectMutationBody = BodyType<OffPlanProjectInput>
+    export type CreateOffPlanProjectMutationError = ErrorType<Error>
+
+    /**
+ * @summary Create an off-plan project
+ */
+export const useCreateOffPlanProject = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOffPlanProject>>, TError,{data: BodyType<OffPlanProjectInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createOffPlanProject>>,
+        TError,
+        {data: BodyType<OffPlanProjectInput>},
+        TContext
+      > => {
+      return useMutation(getCreateOffPlanProjectMutationOptions(options));
+    }
+
+export const getGetOffPlanProjectBySlugUrl = (slug: string,) => {
+
+
+
+
+  return `/api/off-plan-projects/by-slug/${slug}`
+}
+
+/**
+ * @summary Get a published off-plan project by slug
+ */
+export const getOffPlanProjectBySlug = async (slug: string, options?: RequestInit): Promise<OffPlanProject> => {
+
+  return customFetch<OffPlanProject>(getGetOffPlanProjectBySlugUrl(slug),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetOffPlanProjectBySlugQueryKey = (slug: string,) => {
+    return [
+    `/api/off-plan-projects/by-slug/${slug}`
+    ] as const;
+    }
+
+
+export const getGetOffPlanProjectBySlugQueryOptions = <TData = Awaited<ReturnType<typeof getOffPlanProjectBySlug>>, TError = ErrorType<Error>>(slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOffPlanProjectBySlug>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetOffPlanProjectBySlugQueryKey(slug);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOffPlanProjectBySlug>>> = ({ signal }) => getOffPlanProjectBySlug(slug, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(slug), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOffPlanProjectBySlug>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOffPlanProjectBySlugQueryResult = NonNullable<Awaited<ReturnType<typeof getOffPlanProjectBySlug>>>
+export type GetOffPlanProjectBySlugQueryError = ErrorType<Error>
+
+
+/**
+ * @summary Get a published off-plan project by slug
+ */
+
+export function useGetOffPlanProjectBySlug<TData = Awaited<ReturnType<typeof getOffPlanProjectBySlug>>, TError = ErrorType<Error>>(
+ slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOffPlanProjectBySlug>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetOffPlanProjectBySlugQueryOptions(slug,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetOffPlanProjectUrl = (id: number,) => {
+
+
+
+
+  return `/api/off-plan-projects/${id}`
+}
+
+/**
+ * @summary Get an off-plan project by id
+ */
+export const getOffPlanProject = async (id: number, options?: RequestInit): Promise<OffPlanProject> => {
+
+  return customFetch<OffPlanProject>(getGetOffPlanProjectUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetOffPlanProjectQueryKey = (id: number,) => {
+    return [
+    `/api/off-plan-projects/${id}`
+    ] as const;
+    }
+
+
+export const getGetOffPlanProjectQueryOptions = <TData = Awaited<ReturnType<typeof getOffPlanProject>>, TError = ErrorType<Error>>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOffPlanProject>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetOffPlanProjectQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOffPlanProject>>> = ({ signal }) => getOffPlanProject(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOffPlanProject>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOffPlanProjectQueryResult = NonNullable<Awaited<ReturnType<typeof getOffPlanProject>>>
+export type GetOffPlanProjectQueryError = ErrorType<Error>
+
+
+/**
+ * @summary Get an off-plan project by id
+ */
+
+export function useGetOffPlanProject<TData = Awaited<ReturnType<typeof getOffPlanProject>>, TError = ErrorType<Error>>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOffPlanProject>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetOffPlanProjectQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getUpdateOffPlanProjectUrl = (id: number,) => {
+
+
+
+
+  return `/api/off-plan-projects/${id}`
+}
+
+/**
+ * @summary Update an off-plan project
+ */
+export const updateOffPlanProject = async (id: number,
+    offPlanProjectUpdate: OffPlanProjectUpdate, options?: RequestInit): Promise<OffPlanProject> => {
+
+  return customFetch<OffPlanProject>(getUpdateOffPlanProjectUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      offPlanProjectUpdate,)
+  }
+);}
+
+
+
+
+export const getUpdateOffPlanProjectMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateOffPlanProject>>, TError,{id: number;data: BodyType<OffPlanProjectUpdate>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateOffPlanProject>>, TError,{id: number;data: BodyType<OffPlanProjectUpdate>}, TContext> => {
+
+const mutationKey = ['updateOffPlanProject'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateOffPlanProject>>, {id: number;data: BodyType<OffPlanProjectUpdate>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateOffPlanProject(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateOffPlanProjectMutationResult = NonNullable<Awaited<ReturnType<typeof updateOffPlanProject>>>
+    export type UpdateOffPlanProjectMutationBody = BodyType<OffPlanProjectUpdate>
+    export type UpdateOffPlanProjectMutationError = ErrorType<Error>
+
+    /**
+ * @summary Update an off-plan project
+ */
+export const useUpdateOffPlanProject = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateOffPlanProject>>, TError,{id: number;data: BodyType<OffPlanProjectUpdate>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateOffPlanProject>>,
+        TError,
+        {id: number;data: BodyType<OffPlanProjectUpdate>},
+        TContext
+      > => {
+      return useMutation(getUpdateOffPlanProjectMutationOptions(options));
+    }
+
+export const getDeleteOffPlanProjectUrl = (id: number,) => {
+
+
+
+
+  return `/api/off-plan-projects/${id}`
+}
+
+/**
+ * @summary Delete an off-plan project
+ */
+export const deleteOffPlanProject = async (id: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteOffPlanProjectUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteOffPlanProjectMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteOffPlanProject>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteOffPlanProject>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['deleteOffPlanProject'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteOffPlanProject>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteOffPlanProject(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteOffPlanProjectMutationResult = NonNullable<Awaited<ReturnType<typeof deleteOffPlanProject>>>
+
+    export type DeleteOffPlanProjectMutationError = ErrorType<Error>
+
+    /**
+ * @summary Delete an off-plan project
+ */
+export const useDeleteOffPlanProject = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteOffPlanProject>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteOffPlanProject>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteOffPlanProjectMutationOptions(options));
     }
 
 export const getRequestUploadUrlUrl = () => {

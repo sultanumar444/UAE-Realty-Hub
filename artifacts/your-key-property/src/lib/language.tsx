@@ -359,7 +359,29 @@ const AR: Record<string, string> = {
   "Property Value": "قيمة العقار",
   "Total Equity": "إجمالي حقوق الملكية",
   "Cumulative Rent vs Costs": "الإيجار التراكمي مقابل التكاليف",
-  "Cumulative Costs": "التكاليف التراكمية"
+  "Cumulative Costs": "التكاليف التراكمية",
+  "L30 · Signature Projects": "L30 · مشاريع مميزة",
+  "Off-Plan Projects": "مشاريع على الخارطة",
+  "Explore the UAE's most anticipated new developments, handpicked by Your Key.":
+    "اكتشف أكثر المشاريع الجديدة المنتظرة في الإمارات، مختارة بعناية من Your Key.",
+  "Starting From": "تبدأ من",
+  "Handover": "التسليم",
+  "Payment Plan": "خطة الدفع",
+  "Explore More": "اكتشف المزيد",
+  "Previous project": "المشروع السابق",
+  "Next project": "المشروع التالي",
+  "Unit Types": "أنواع الوحدات",
+  "Project Not Found": "المشروع غير موجود",
+  "All Off-Plan": "كل المشاريع على الخارطة",
+  "About the Project": "عن المشروع",
+  "Project Highlights": "أبرز ميزات المشروع",
+  "Gallery": "معرض الصور",
+  "Register Your Interest": "سجّل اهتمامك",
+  "Request the brochure, pricing and payment plan for this project.":
+    "اطلب الكتيب والأسعار وخطة الدفع لهذا المشروع.",
+  "Phone": "الهاتف",
+  "Enquire Now": "استفسر الآن",
+  "Download Brochure": "تحميل الكتيب"
 };
 
 interface LanguageContextType {

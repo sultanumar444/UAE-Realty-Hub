@@ -5,6 +5,7 @@ import leadsRouter from "./leads";
 import agentsRouter from "./agents";
 import communitiesRouter from "./communities";
 import postsRouter from "./posts";
+import offPlanProjectsRouter from "./offPlanProjects";
 import feedsRouter from "./feeds";
 import storageRouter from "./storage";
 
@@ -16,6 +17,7 @@ router.use(leadsRouter);
 router.use(agentsRouter);
 router.use(communitiesRouter);
 router.use(postsRouter);
+router.use(offPlanProjectsRouter);
 router.use(feedsRouter);
 router.use(storageRouter);
 

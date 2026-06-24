@@ -1,17 +1,25 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { UserButton } from "@clerk/react";
-import { Building2, Inbox, Users, Newspaper, MapPin, ArrowLeft } from "lucide-react";
+import { Building2, Inbox, Users, Newspaper, MapPin, ArrowLeft, Sparkles } from "lucide-react";
 import { ListingsPanel } from "./crm/ListingsPanel";
 import { LeadsPanel } from "./crm/LeadsPanel";
 import { AgentsPanel } from "./crm/AgentsPanel";
 import { PostsPanel } from "./crm/PostsPanel";
 import { CommunitiesPanel } from "./crm/CommunitiesPanel";
+import { OffPlanProjectsPanel } from "./crm/OffPlanProjectsPanel";
 
-type Tab = "listings" | "communities" | "leads" | "agents" | "posts";
+type Tab =
+  | "listings"
+  | "offPlanProjects"
+  | "communities"
+  | "leads"
+  | "agents"
+  | "posts";
 
 const TABS: { id: Tab; label: string; icon: typeof Building2 }[] = [
   { id: "listings", label: "Listings", icon: Building2 },
+  { id: "offPlanProjects", label: "Off-Plan", icon: Sparkles },
   { id: "communities", label: "Communities", icon: MapPin },
   { id: "leads", label: "Leads", icon: Inbox },
   { id: "agents", label: "Team", icon: Users },
@@ -59,6 +67,7 @@ export function Crm() {
         </div>
 
         {tab === "listings" && <ListingsPanel />}
+        {tab === "offPlanProjects" && <OffPlanProjectsPanel />}
         {tab === "communities" && <CommunitiesPanel />}
         {tab === "leads" && <LeadsPanel />}
         {tab === "agents" && <AgentsPanel />}

@@ -731,6 +731,176 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /off-plan-projects:
+    get:
+      operationId: listOffPlanProjects
+      tags: [offPlanProjects]
+      summary: List off-plan projects
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: emirate
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: featured
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: A list of off-plan projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OffPlanProject"
+    post:
+      operationId: createOffPlanProject
+      tags: [offPlanProjects]
+      summary: Create an off-plan project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OffPlanProjectInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OffPlanProject"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /off-plan-projects/by-slug/{slug}:
+    get:
+      operationId: getOffPlanProjectBySlug
+      tags: [offPlanProjects]
+      summary: Get a published off-plan project by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An off-plan project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OffPlanProject"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /off-plan-projects/{id}:
+    get:
+      operationId: getOffPlanProject
+      tags: [offPlanProjects]
+      summary: Get an off-plan project by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: An off-plan project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OffPlanProject"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateOffPlanProject
+      tags: [offPlanProjects]
+      summary: Update an off-plan project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OffPlanProjectUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OffPlanProject"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteOffPlanProject
+      tags: [offPlanProjects]
+      summary: Delete an off-plan project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /storage/uploads/request-url:
     post:
       tags: [Storage]
@@ -1399,3 +1569,202 @@ components:
           type: string
         authorId:
           type: ["integer", "null"]
+
+    OffPlanProject:
+      type: object
+      required:
+        - id
+        - slug
+        - name
+        - emirate
+        - description
+        - gallery
+        - amenities
+        - highlights
+        - featured
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        name:
+          type: string
+        developer:
+          type: ["string", "null"]
+        emirate:
+          type: string
+        location:
+          type: ["string", "null"]
+        community:
+          type: ["string", "null"]
+        tagline:
+          type: ["string", "null"]
+        description:
+          type: string
+        heroImage:
+          type: ["string", "null"]
+        logoImage:
+          type: ["string", "null"]
+        gallery:
+          type: array
+          items:
+            type: string
+        amenities:
+          type: array
+          items:
+            type: string
+        highlights:
+          type: array
+          items:
+            type: string
+        startingPrice:
+          type: ["integer", "null"]
+        handover:
+          type: ["string", "null"]
+        paymentPlan:
+          type: ["string", "null"]
+        bedrooms:
+          type: ["string", "null"]
+        unitTypes:
+          type: ["string", "null"]
+        brochureUrl:
+          type: ["string", "null"]
+        seoTitle:
+          type: ["string", "null"]
+        seoDescription:
+          type: ["string", "null"]
+        featured:
+          type: boolean
+        status:
+          type: string
+        publishedAt:
+          type: ["string", "null"]
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    OffPlanProjectInput:
+      type: object
+      required:
+        - slug
+        - name
+      properties:
+        slug:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        developer:
+          type: string
+        emirate:
+          type: string
+        location:
+          type: string
+        community:
+          type: string
+        tagline:
+          type: string
+        description:
+          type: string
+        heroImage:
+          type: string
+        logoImage:
+          type: string
+        gallery:
+          type: array
+          items:
+            type: string
+        amenities:
+          type: array
+          items:
+            type: string
+        highlights:
+          type: array
+          items:
+            type: string
+        startingPrice:
+          type: ["integer", "null"]
+        handover:
+          type: string
+        paymentPlan:
+          type: string
+        bedrooms:
+          type: string
+        unitTypes:
+          type: string
+        brochureUrl:
+          type: string
+        seoTitle:
+          type: string
+        seoDescription:
+          type: string
+        featured:
+          type: boolean
+        status:
+          type: string
+
+    OffPlanProjectUpdate:
+      type: object
+      properties:
+        slug:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        developer:
+          type: string
+        emirate:
+          type: string
+        location:
+          type: string
+        community:
+          type: string
+        tagline:
+          type: string
+        description:
+          type: string
+        heroImage:
+          type: string
+        logoImage:
+          type: string
+        gallery:
+          type: array
+          items:
+            type: string
+        amenities:
+          type: array
+          items:
+            type: string
+        highlights:
+          type: array
+          items:
+            type: string
+        startingPrice:
+          type: ["integer", "null"]
+        handover:
+          type: string
+        paymentPlan:
+          type: string
+        bedrooms:
+          type: string
+        unitTypes:
+          type: string
+        brochureUrl:
+          type: string
+        seoTitle:
+          type: string
+        seoDescription:
+          type: string
+        featured:
+          type: boolean
+        status:
+          type: string
