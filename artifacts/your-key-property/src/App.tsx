@@ -45,7 +45,7 @@ function FloatingButtons() {
         </button>
       )}
       <a 
-        href="https://wa.me/97125551234?text=Hi,%20I'm%20interested%20in%20a%20property"
+        href="https://wa.link/hwu3q8"
         target="_blank"
         rel="noreferrer"
         className="w-14 h-14 bg-[#25D366]/90 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform animate-pulse"

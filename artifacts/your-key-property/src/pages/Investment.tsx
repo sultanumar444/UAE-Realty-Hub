@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
+import { MortgageTools } from "@/components/shared/MortgageTools";
 
 export function Investment() {
   return (
@@ -19,8 +20,9 @@ export function Investment() {
             </p>
           </div>
           
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto space-y-12">
             <RoiVisualizer initialPrice={3500000} />
+            <MortgageTools />
           </div>
         </div>
       </main>

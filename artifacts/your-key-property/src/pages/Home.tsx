@@ -9,9 +9,11 @@ import { useProperties } from "@/lib/useProperties";
 import { useListCommunities } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
+import { Faq } from "@/components/shared/Faq";
 
 const GOOGLE_PROFILE_URL = "https://share.google/2LAI96DtQ8bSoDWij";
 
@@ -35,6 +37,7 @@ const PRICE_RANGES: Record<string, { min?: number; max?: number }> = {
 
 export function Home() {
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const { properties } = useProperties();
   const communitiesQ = useListCommunities();
   const featured = properties.filter(p => p.featured);
@@ -133,11 +136,13 @@ export function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
-                Your Key to the UAE Skyline
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 drop-shadow-2xl leading-[1.05]">
+                {t("hero.title1")}
+                <br />
+                {t("hero.title2")}
               </h1>
               <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto font-sans font-light">
-                Ascend into Dubai & Abu Dhabi's most coveted addresses.
+                {t("hero.subtitle")}
               </p>
             </motion.div>
             
@@ -569,6 +574,9 @@ export function Home() {
             </div>
           </div>
         </section>
+
+        {/* FAQ */}
+        <Faq />
 
         {/* PENTHOUSE (top) */}
         <section ref={penthouseRef} className="py-40 relative z-10 flex items-center min-h-[80vh]">
