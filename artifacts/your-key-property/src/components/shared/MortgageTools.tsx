@@ -398,16 +398,29 @@ const TOOLS = [
   { id: "affordability", label: "House Affordability", node: <Affordability /> },
 ];
 
-export function MortgageTools() {
+interface MortgageToolsProps {
+  showRoi?: boolean;
+  title?: string;
+  subtitle?: string;
+}
+
+export function MortgageTools({
+  showRoi = true,
+  title = "Investment ROI Visualizer",
+  subtitle = "Every tool to model your returns and plan your purchase.",
+}: MortgageToolsProps = {}) {
+  const tools = showRoi ? TOOLS : TOOLS.filter((tool) => tool.id !== "roi");
+  const defaultValue = tools[0]?.id ?? "mortgage";
+
   return (
     <div className="glass-panel p-6 md:p-8">
       <div className="mb-8 border-b border-white/10 pb-4">
-        <h2 className="text-2xl font-serif font-bold text-white mb-2">Investment ROI Visualizer</h2>
-        <p className="text-white/60 font-mono text-sm">Every tool to model your returns and plan your purchase.</p>
+        <h2 className="text-2xl font-serif font-bold text-white mb-2">{title}</h2>
+        <p className="text-white/60 font-mono text-sm">{subtitle}</p>
       </div>
-      <Tabs defaultValue="roi">
+      <Tabs defaultValue={defaultValue}>
         <TabsList className="flex flex-wrap h-auto bg-transparent gap-2 mb-8 p-0">
-          {TOOLS.map((tool) => (
+          {tools.map((tool) => (
             <TabsTrigger
               key={tool.id}
               value={tool.id}
@@ -417,7 +430,7 @@ export function MortgageTools() {
             </TabsTrigger>
           ))}
         </TabsList>
-        {TOOLS.map((tool) => (
+        {tools.map((tool) => (
           <TabsContent key={tool.id} value={tool.id} className="mt-0">
             {tool.node}
           </TabsContent>

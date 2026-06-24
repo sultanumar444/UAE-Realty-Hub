@@ -12,7 +12,7 @@ import { useCurrency } from "@/lib/currency";
 import { useLanguage } from "@/lib/language";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
+import { MortgageTools } from "@/components/shared/MortgageTools";
 import { Faq } from "@/components/shared/Faq";
 
 const GOOGLE_PROFILE_URL = "https://share.google/2LAI96DtQ8bSoDWij";
@@ -403,7 +403,7 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <RoiVisualizer initialPrice={2500000} />
+              <MortgageTools showRoi={false} title="Mortgage Tools" subtitle="Plan every financial angle of your purchase." />
             </motion.div>
           </div>
         </section>
