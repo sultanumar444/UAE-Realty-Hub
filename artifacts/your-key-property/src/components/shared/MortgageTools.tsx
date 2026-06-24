@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { useCurrency } from "@/lib/currency";
 import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { GetInTouchDialog } from "@/components/shared/GetInTouchDialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Area,
@@ -105,25 +108,53 @@ function MortgageCalculator() {
         <Control label="Down Payment" unit="%" value={downPct} display={`${downPct}`} min={10} max={80} step={1} onChange={setDownPct} />
         <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
         <Control label="Loan Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <ResultCard label="Down Payment" value={formatPrice(downAmount)} />
+          <ResultCard label="Total Interest" value={formatPrice(monthly * years * 12 - loan)} accent />
+        </div>
       </div>
-      <div className="bg-[#0A1628]/40 border border-white/10 p-6 flex flex-col items-center justify-center">
-        <ResponsiveContainer width="100%" height={180}>
-          <PieChart>
-            <Pie data={pieData} innerRadius={55} outerRadius={80} paddingAngle={3} dataKey="value">
-              {pieData.map((_, i) => (
-                <Cell key={i} fill={COLORS[i]} stroke="none" />
-              ))}
-            </Pie>
-            <Tooltip {...tooltipStyle} formatter={(v: number) => formatPrice(v)} />
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="text-center mt-2">
-          <div className="text-3xl font-mono text-white">{formatPrice(monthly)}</div>
+      <div className="bg-[#0A1628]/60 border border-white/10 p-6 flex flex-col">
+        <div className="relative flex items-center justify-center">
+          <ResponsiveContainer width="100%" height={190}>
+            <PieChart>
+              <Pie data={pieData} innerRadius={62} outerRadius={88} paddingAngle={3} dataKey="value" startAngle={90} endAngle={-270}>
+                {pieData.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i]} stroke="none" />
+                ))}
+              </Pie>
+              <Tooltip {...tooltipStyle} formatter={(v: number) => formatPrice(v)} />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="flex items-center justify-center gap-6 mt-1">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 inline-block" style={{ background: COLORS[0] }} />
+            <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">Down Payment</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 inline-block" style={{ background: COLORS[1] }} />
+            <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">Loan</span>
+          </div>
+        </div>
+        <div className="text-center mt-5">
+          <div className="text-4xl font-mono text-white">{formatPrice(monthly)}</div>
           <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mt-1">Monthly Payment</div>
         </div>
-        <div className="grid grid-cols-2 gap-3 w-full mt-6">
-          <ResultCard label="Loan Amount" value={formatPrice(loan)} />
-          <ResultCard label="Total Interest" value={formatPrice(monthly * years * 12 - loan)} accent />
+        <div className="bg-secondary mt-6 p-5 text-center">
+          <div className="text-[10px] font-mono text-[#0A1628]/70 uppercase tracking-widest mb-1">Total Loan Amount</div>
+          <div className="text-2xl font-mono font-bold text-[#0A1628]">{formatPrice(loan)}</div>
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            <Link href="/properties">
+              <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-none font-mono text-[11px] uppercase tracking-widest">
+                View Units
+              </Button>
+            </Link>
+            <GetInTouchDialog>
+              <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-none font-mono text-[11px] uppercase tracking-widest">
+                Get Pre-Approval
+              </Button>
+            </GetInTouchDialog>
+          </div>
         </div>
       </div>
     </div>
