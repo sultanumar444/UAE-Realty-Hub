@@ -70,7 +70,8 @@
   /* Warm gold (#C9974C) */
   --gold: 36 55% 54%;
   
-  --background: var(--navy);
+  /* Page background (#233145) */
+  --background: 215 33% 20%;
   --foreground: 0 0% 100%;
   
   --border: 0 0% 100% / 0.15;
@@ -107,7 +108,7 @@
 }
 
 .dark {
-  --background: var(--navy);
+  --background: 215 33% 20%;
   --foreground: 0 0% 100%;
   --border: 0 0% 100% / 0.15;
   --input: 0 0% 100% / 0.1;
