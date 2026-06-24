@@ -158,73 +158,73 @@ export function Home() {
                   { id: "sale", label: "Buy" },
                   { id: "rent", label: "Rent" },
                   { id: "offplan", label: "Off-Plan" },
-                ] as const).map((t) => (
+                ] as const).map((tab) => (
                   <button
-                    key={t.id}
+                    key={tab.id}
                     type="button"
-                    onClick={() => setSearchTab(t.id)}
+                    onClick={() => setSearchTab(tab.id)}
                     className={`text-sm font-mono uppercase tracking-widest pb-1 transition-colors ${
-                      searchTab === t.id
+                      searchTab === tab.id
                         ? "font-semibold text-secondary border-b-2 border-secondary"
                         : "font-medium text-white/60 hover:text-white"
                     }`}
                   >
-                    {t.label}
+                    {t(tab.label)}
                   </button>
                 ))}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="relative">
-                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Property Type</label>
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">{t("Property Type")}</label>
                   <select
                     value={searchType}
                     onChange={(e) => setSearchType(e.target.value)}
                     className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
                   >
-                    <option className="bg-primary">All Types</option>
-                    <option className="bg-primary">Apartments</option>
-                    <option className="bg-primary">Villas</option>
-                    <option className="bg-primary">Townhouses</option>
-                    <option className="bg-primary">Penthouse</option>
-                    <option className="bg-primary">Commercial</option>
-                    <option className="bg-primary">Studio</option>
+                    <option value="All Types" className="bg-primary">{t("All Types")}</option>
+                    <option value="Apartments" className="bg-primary">{t("Apartments")}</option>
+                    <option value="Villas" className="bg-primary">{t("Villas")}</option>
+                    <option value="Townhouses" className="bg-primary">{t("Townhouses")}</option>
+                    <option value="Penthouse" className="bg-primary">{t("Penthouse")}</option>
+                    <option value="Commercial" className="bg-primary">{t("Commercial")}</option>
+                    <option value="Studio" className="bg-primary">{t("Studio")}</option>
                   </select>
                 </div>
                 <div className="relative">
-                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Bedrooms</label>
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">{t("Bedrooms")}</label>
                   <select
                     value={searchBeds}
                     onChange={(e) => setSearchBeds(e.target.value)}
                     className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
                   >
-                    <option className="bg-primary">Any Bedrooms</option>
-                    <option className="bg-primary">1 Bed</option>
-                    <option className="bg-primary">2 Beds</option>
-                    <option className="bg-primary">3+ Beds</option>
+                    <option value="Any Bedrooms" className="bg-primary">{t("Any Bedrooms")}</option>
+                    <option value="1 Bed" className="bg-primary">{t("1 Bed")}</option>
+                    <option value="2 Beds" className="bg-primary">{t("2 Beds")}</option>
+                    <option value="3+ Beds" className="bg-primary">{t("3+ Beds")}</option>
                   </select>
                 </div>
                 <div className="relative">
-                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Price Range</label>
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">{t("Price Range")}</label>
                   <select
                     value={searchPrice}
                     onChange={(e) => setSearchPrice(e.target.value)}
                     className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
                   >
                     {Object.keys(PRICE_RANGES).map((label) => (
-                      <option key={label} className="bg-primary">{label}</option>
+                      <option key={label} value={label} className="bg-primary">{t(label)}</option>
                     ))}
                   </select>
                 </div>
                 <div className="relative">
-                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">Community</label>
+                  <label className="block text-[10px] font-mono text-secondary uppercase tracking-widest mb-1 px-1">{t("Community")}</label>
                   <select
                     value={searchCommunity}
                     onChange={(e) => setSearchCommunity(e.target.value)}
                     className="w-full px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono appearance-none"
                   >
-                    <option className="bg-primary">All Communities</option>
+                    <option value="All Communities" className="bg-primary">{t("All Communities")}</option>
                     {communityOptions.map((name) => (
-                      <option key={name} className="bg-primary">{name}</option>
+                      <option key={name} value={name} className="bg-primary">{name}</option>
                     ))}
                   </select>
                 </div>
@@ -236,7 +236,7 @@ export function Home() {
                   className="w-full bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-lg flex items-center justify-center gap-2 font-mono uppercase tracking-widest"
                 >
                   <Search className="w-4 h-4" />
-                  <span>Search Properties</span>
+                  <span>{t("Search Properties")}</span>
                 </Button>
               </div>
             </motion.div>
@@ -247,11 +247,11 @@ export function Home() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 1 }}
               onClick={scrollToPortfolio}
-              aria-label="Scroll down to explore the portfolio"
+              aria-label={t("Scroll down to explore the portfolio")}
               className="mt-14 mx-auto flex flex-col items-center gap-2 group cursor-pointer"
             >
               <div className="text-[10px] font-mono text-secondary uppercase tracking-widest border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm transition-colors group-hover:bg-secondary/20 group-hover:border-secondary/60">
-                GROUND FLOOR
+                {t("GROUND FLOOR")}
               </div>
               <motion.div 
                 animate={{ y: [0, 10, 0] }}
@@ -271,12 +271,12 @@ export function Home() {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
               <div>
-                <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L12 · The Portfolio</div>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">Featured Properties</h2>
+                <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L12 · The Portfolio")}</div>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">{t("Featured Properties")}</h2>
               </div>
               <Link href="/properties">
                 <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">
-                  View Portfolio
+                  {t("View Portfolio")}
                 </Button>
               </Link>
             </div>
@@ -294,12 +294,12 @@ export function Home() {
                     id={p.id}
                     image={p.image}
                     status={p.status} 
-                    price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
+                    price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / ${t("yr")}` : formatPrice(p.price)} 
                     title={p.title} 
                     location={p.location}
                     community={p.community}
                     agentName={p.agent?.name}
-                    beds={p.beds === 0 ? "Studio" : p.beds} 
+                    beds={p.beds === 0 ? t("Studio") : p.beds} 
                     baths={p.baths} 
                     sqft={p.sqft}
                   />
@@ -315,10 +315,10 @@ export function Home() {
         <section ref={risingRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L24 · Rising</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">Towers Under Construction</h2>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L24 · Rising")}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">{t("Towers Under Construction")}</h2>
               <p className="text-white/70 max-w-2xl mx-auto font-mono text-sm">
-                Secure your future with Dubai & Abu Dhabi's most anticipated new developments.
+                {t("Secure your future with Dubai & Abu Dhabi's most anticipated new developments.")}
               </p>
             </div>
             
@@ -341,7 +341,7 @@ export function Home() {
                         location={p.location}
                         community={p.community}
                         agentName={p.agent?.name}
-                        beds={p.beds === 0 ? "Studio" : p.beds}
+                        beds={p.beds === 0 ? t("Studio") : p.beds}
                         baths={p.baths}
                         sqft={p.sqft}
                       />
@@ -366,7 +366,7 @@ export function Home() {
             <div className="text-center mt-12">
               <Link href="/off-plan">
                 <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">
-                  View All Off-Plan
+                  {t("View All Off-Plan")}
                 </Button>
               </Link>
             </div>
@@ -379,8 +379,8 @@ export function Home() {
         <section ref={numbersRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L36 · The Numbers</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Investment Analytics</h2>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L36 · The Numbers")}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">{t("Investment Analytics")}</h2>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
@@ -392,7 +392,7 @@ export function Home() {
               ].map((stat, i) => (
                 <div key={i} className="text-center flex flex-col gap-3 border border-white/15 p-8">
                   <span className="text-4xl md:text-6xl font-mono font-bold text-secondary">{stat.val}</span>
-                  <span className="text-white/70 text-xs font-mono uppercase tracking-widest">{stat.label}</span>
+                  <span className="text-white/70 text-xs font-mono uppercase tracking-widest">{t(stat.label)}</span>
                 </div>
               ))}
             </div>
@@ -403,7 +403,7 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <MortgageTools showRoi={false} centerHeader title="Mortgage Tools" subtitle="Plan every financial angle of your purchase." />
+              <MortgageTools showRoi={false} centerHeader title={t("Mortgage Tools")} subtitle={t("Plan every financial angle of your purchase.")} />
             </motion.div>
           </div>
         </section>
@@ -414,8 +414,8 @@ export function Home() {
         <section ref={primeRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L48 · Prime Altitudes</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Coveted Locations</h2>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L48 · Prime Altitudes")}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">{t("Coveted Locations")}</h2>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -434,7 +434,7 @@ export function Home() {
                         <img src={area.img} alt={area.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] to-transparent opacity-80" />
                         <div className="absolute top-4 right-4 bg-secondary/90 backdrop-blur-sm text-white text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest border border-white/20">
-                          {count} {count === 1 ? "Property" : "Properties"}
+                          {count} {count === 1 ? t("Property") : t("Properties")}
                         </div>
                         <div className="absolute bottom-6 left-6">
                           <div className="text-[10px] text-secondary font-mono uppercase tracking-widest mb-2">{area.em}</div>
@@ -449,7 +449,7 @@ export function Home() {
             <div className="text-center mt-12">
               <Link href="/communities">
                 <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 font-mono uppercase tracking-widest">
-                  Explore All Communities
+                  {t("Explore All Communities")}
                 </Button>
               </Link>
             </div>
@@ -462,8 +462,8 @@ export function Home() {
         <section ref={conciergeRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L54 · Concierge</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Bespoke Services</h2>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L54 · Concierge")}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">{t("Bespoke Services")}</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -486,8 +486,8 @@ export function Home() {
                     <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-colors">
                       <service.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-xl font-serif font-bold text-white mb-3">{service.title}</h3>
-                    <p className="text-white/60 text-sm font-mono">{service.desc}</p>
+                    <h3 className="text-xl font-serif font-bold text-white mb-3">{t(service.title)}</h3>
+                    <p className="text-white/60 text-sm font-mono">{t(service.desc)}</p>
                   </motion.div>
                 </Link>
               ))}
@@ -499,8 +499,8 @@ export function Home() {
         <section ref={trustRef} className="py-24 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">CLOUD · Trust</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-8 drop-shadow-md">What Our Clients Say</h2>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("CLOUD · Trust")}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-8 drop-shadow-md">{t("What Our Clients Say")}</h2>
 
               <div className="inline-flex flex-col sm:flex-row items-center gap-5 glass-panel px-8 py-5">
                 <div className="flex items-center gap-3">
@@ -511,8 +511,8 @@ export function Home() {
                     <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
                   </svg>
                   <div className="text-left">
-                    <div className="font-serif font-bold text-white text-lg leading-tight">Google Reviews</div>
-                    <div className="text-[11px] font-mono text-white/50 uppercase tracking-widest">Your Key Property Management</div>
+                    <div className="font-serif font-bold text-white text-lg leading-tight">{t("Google Reviews")}</div>
+                    <div className="text-[11px] font-mono text-white/50 uppercase tracking-widest">{t("Your Key Property Management")}</div>
                   </div>
                 </div>
                 <div className="hidden sm:block w-px h-10 bg-white/20" />
@@ -546,7 +546,7 @@ export function Home() {
                     </div>
                     <div className="flex-grow min-w-0">
                       <div className="font-serif font-bold text-white text-base leading-tight truncate">{r.name}</div>
-                      <div className="text-[11px] font-mono text-white/40">{r.when}</div>
+                      <div className="text-[11px] font-mono text-white/40">{t(r.when)}</div>
                     </div>
                     <svg className="w-5 h-5 shrink-0" viewBox="0 0 48 48" aria-hidden="true">
                       <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
@@ -560,7 +560,7 @@ export function Home() {
                       <Star key={s} className="w-4 h-4 fill-[#fbbc04] text-[#fbbc04]" />
                     ))}
                   </div>
-                  <p className="text-white/75 text-sm leading-relaxed">{r.text}</p>
+                  <p className="text-white/75 text-sm leading-relaxed">{t(r.text)}</p>
                 </motion.div>
               ))}
             </div>
@@ -568,7 +568,7 @@ export function Home() {
             <div className="text-center mt-14">
               <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="border-white/30 text-white hover:bg-white hover:text-primary rounded-lg px-8 py-6 font-mono uppercase tracking-widest">
-                  Read All Reviews on Google
+                  {t("Read All Reviews on Google")}
                 </Button>
               </a>
             </div>
@@ -588,20 +588,20 @@ export function Home() {
               transition={{ duration: 1 }}
             >
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-6 border border-secondary/30 px-4 py-2 inline-block bg-secondary/10 backdrop-blur-sm">
-                PH · PENTHOUSE
+                {t("PH · PENTHOUSE")}
               </div>
               <h2 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
-                You've reached the summit.
+                {t("You've reached the summit.")}
               </h2>
               <p className="text-xl text-white/90 mb-12 font-mono">
-                Ready to elevate your real estate portfolio? Contact our concierge team for a private consultation.
+                {t("Ready to elevate your real estate portfolio? Contact our concierge team for a private consultation.")}
               </p>
               
               <form className="glass-panel p-4 flex flex-col md:flex-row gap-4 max-w-3xl mx-auto">
-                <input type="text" placeholder="Your Name" className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
-                <input type="email" placeholder="Email" className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
+                <input type="text" placeholder={t("Your Name")} className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
+                <input type="email" placeholder={t("Email")} className="flex-1 px-4 py-4 bg-white/5 border border-white/20 text-white font-mono outline-none focus:border-secondary placeholder:text-white/40" />
                 <Button type="button" className="bg-secondary hover:bg-secondary/90 text-white py-6 md:py-4 px-10 rounded-lg font-mono uppercase tracking-widest">
-                  Request Contact
+                  {t("Request Contact")}
                 </Button>
               </form>
             </motion.div>

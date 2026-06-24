@@ -6,9 +6,11 @@ import { PROPERTIES } from "@/lib/properties";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { motion } from "framer-motion";
 
 export function Favorites() {
+  const { t } = useLanguage();
   const { favoriteIds } = useFavorites();
   const { formatPrice } = useCurrency();
   
@@ -21,8 +23,8 @@ export function Favorites() {
       <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
           <div className="mb-12">
-            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Saved Altitudes</div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Your Portfolio</h1>
+            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("Saved Altitudes")}</div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">{t("Your Portfolio")}</h1>
           </div>
           
           {favoriteProperties.length > 0 ? (
@@ -41,7 +43,7 @@ export function Favorites() {
                     price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
                     title={p.title} 
                     location={p.location}
-                    beds={p.beds === 0 ? "Studio" : p.beds} 
+                    beds={p.beds === 0 ? t("Studio") : p.beds} 
                     baths={p.baths} 
                     sqft={p.sqft}
                   />
@@ -50,11 +52,11 @@ export function Favorites() {
             </div>
           ) : (
             <div className="text-center py-32 glass-panel max-w-3xl mx-auto">
-              <h3 className="font-serif font-bold text-2xl text-white mb-4">You haven't saved any properties yet</h3>
-              <p className="text-white/60 font-mono text-sm mb-8">Browse our portfolio and click the heart icon to save them here.</p>
+              <h3 className="font-serif font-bold text-2xl text-white mb-4">{t("You haven't saved any properties yet")}</h3>
+              <p className="text-white/60 font-mono text-sm mb-8">{t("Browse our portfolio and click the heart icon to save them here.")}</p>
               <Link href="/properties">
                 <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold font-mono uppercase tracking-widest px-8 py-6 rounded-lg">
-                  Explore Altitudes
+                  {t("Explore Altitudes")}
                 </Button>
               </Link>
             </div>

@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { GetInTouchDialog } from "@/components/shared/GetInTouchDialog";
@@ -87,6 +88,7 @@ function ResultCard({ label, value, accent }: { label: string; value: string; ac
 /* ---------------- Mortgage Calculator ---------------- */
 function MortgageCalculator() {
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const [price, setPrice] = useState(1500000);
   const [downPct, setDownPct] = useState(25);
   const [rate, setRate] = useState(4.5);
@@ -105,13 +107,13 @@ function MortgageCalculator() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <Control label="Property Price" unit="" value={price} display={formatPrice(price)} min={300000} max={30000000} step={50000} onChange={setPrice} />
-        <Control label="Down Payment" unit="%" value={downPct} display={`${downPct}`} min={10} max={80} step={1} onChange={setDownPct} />
-        <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
-        <Control label="Loan Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
+        <Control label={t("Property Price")} unit="" value={price} display={formatPrice(price)} min={300000} max={30000000} step={50000} onChange={setPrice} />
+        <Control label={t("Down Payment")} unit="%" value={downPct} display={`${downPct}`} min={10} max={80} step={1} onChange={setDownPct} />
+        <Control label={t("Interest Rate")} unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
+        <Control label={t("Loan Period")} unit={t("yrs")} value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
         <div className="grid grid-cols-2 gap-3 pt-2">
-          <ResultCard label="Down Payment" value={formatPrice(downAmount)} />
-          <ResultCard label="Total Interest" value={formatPrice(monthly * years * 12 - loan)} accent />
+          <ResultCard label={t("Down Payment")} value={formatPrice(downAmount)} />
+          <ResultCard label={t("Total Interest")} value={formatPrice(monthly * years * 12 - loan)} accent />
         </div>
       </div>
       <div className="bg-[#0A1628]/60 border border-white/10 p-5 flex flex-col">
@@ -130,29 +132,29 @@ function MortgageCalculator() {
         <div className="flex items-center justify-center gap-6 mt-1">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 inline-block" style={{ background: COLORS[0] }} />
-            <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">Down Payment</span>
+            <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">{t("Down Payment")}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 inline-block" style={{ background: COLORS[1] }} />
-            <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">Loan</span>
+            <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest">{t("Loan")}</span>
           </div>
         </div>
         <div className="text-center mt-4">
           <div className="text-3xl font-mono text-white">{formatPrice(monthly)}</div>
-          <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mt-1">Monthly Payment</div>
+          <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mt-1">{t("Monthly Payment")}</div>
         </div>
         <div className="bg-secondary mt-4 p-4 text-center">
-          <div className="text-[10px] font-mono text-[#0A1628]/70 uppercase tracking-widest mb-1">Total Loan Amount</div>
+          <div className="text-[10px] font-mono text-[#0A1628]/70 uppercase tracking-widest mb-1">{t("Total Loan Amount")}</div>
           <div className="text-xl font-mono font-bold text-[#0A1628]">{formatPrice(loan)}</div>
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Link href="/properties">
               <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-lg font-mono text-[11px] uppercase tracking-widest">
-                View Units
+                {t("View Units")}
               </Button>
             </Link>
             <GetInTouchDialog>
               <Button className="w-full bg-[#0A1628] hover:bg-[#0A1628]/90 text-white rounded-lg font-mono text-[11px] uppercase tracking-widest">
-                Get Pre-Approval
+                {t("Get Pre-Approval")}
               </Button>
             </GetInTouchDialog>
           </div>
@@ -165,6 +167,7 @@ function MortgageCalculator() {
 /* ---------------- Amortization ---------------- */
 function Amortization() {
   const { formatPrice, symbol, convert } = useCurrency();
+  const { t } = useLanguage();
   const [loan, setLoan] = useState(1125000);
   const [rate, setRate] = useState(4.5);
   const [years, setYears] = useState(25);
@@ -199,16 +202,16 @@ function Amortization() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="space-y-6 lg:col-span-1">
-        <Control label="Loan Amount" unit="" value={loan} display={formatPrice(loan)} min={200000} max={20000000} step={25000} onChange={setLoan} />
-        <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
-        <Control label="Loan Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
+        <Control label={t("Loan Amount")} unit="" value={loan} display={formatPrice(loan)} min={200000} max={20000000} step={25000} onChange={setLoan} />
+        <Control label={t("Interest Rate")} unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
+        <Control label={t("Loan Period")} unit={t("yrs")} value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
         <div className="grid grid-cols-1 gap-3 pt-2">
-          <ResultCard label="Total Interest Paid" value={formatPrice(totalInterest)} accent />
-          <ResultCard label="Total Repayment" value={formatPrice(loan + totalInterest)} />
+          <ResultCard label={t("Total Interest Paid")} value={formatPrice(totalInterest)} accent />
+          <ResultCard label={t("Total Repayment")} value={formatPrice(loan + totalInterest)} />
         </div>
       </div>
       <div className="lg:col-span-2 h-[320px]">
-        <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">Balance & Equity Over Time</h3>
+        <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">{t("Balance & Equity Over Time")}</h3>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <defs>
@@ -225,8 +228,8 @@ function Amortization() {
             <XAxis dataKey="year" stroke="rgba(255,255,255,0.5)" fontSize={11} tickLine={false} axisLine={false} />
             <YAxis stroke="rgba(255,255,255,0.5)" fontSize={10} tickFormatter={(val) => `${symbol} ${(convert(val) / 1000000).toFixed(1)}M`} tickLine={false} axisLine={false} />
             <Tooltip {...tooltipStyle} formatter={(v: number) => formatPrice(v)} />
-            <Area type="monotone" dataKey="principal" name="Equity (Principal Paid)" stroke="#C9974C" fill="url(#mtPrincipal)" />
-            <Area type="monotone" dataKey="balance" name="Outstanding Balance" stroke="#7c6df2" fill="url(#mtBalance)" />
+            <Area type="monotone" dataKey="principal" name={t("Equity (Principal Paid)")} stroke="#C9974C" fill="url(#mtPrincipal)" />
+            <Area type="monotone" dataKey="balance" name={t("Outstanding Balance")} stroke="#7c6df2" fill="url(#mtBalance)" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -237,6 +240,7 @@ function Amortization() {
 /* ---------------- Refinancing ---------------- */
 function Refinancing() {
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const [balance, setBalance] = useState(1000000);
   const [currentRate, setCurrentRate] = useState(5.5);
   const [newRate, setNewRate] = useState(4.0);
@@ -250,21 +254,21 @@ function Refinancing() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <Control label="Outstanding Balance" unit="" value={balance} display={formatPrice(balance)} min={200000} max={20000000} step={25000} onChange={setBalance} />
-        <Control label="Current Rate" unit="%" value={currentRate} display={currentRate.toFixed(2)} min={1} max={10} step={0.05} onChange={setCurrentRate} />
-        <Control label="New Rate" unit="%" value={newRate} display={newRate.toFixed(2)} min={1} max={10} step={0.05} onChange={setNewRate} />
-        <Control label="Remaining Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
+        <Control label={t("Outstanding Balance")} unit="" value={balance} display={formatPrice(balance)} min={200000} max={20000000} step={25000} onChange={setBalance} />
+        <Control label={t("Current Rate")} unit="%" value={currentRate} display={currentRate.toFixed(2)} min={1} max={10} step={0.05} onChange={setCurrentRate} />
+        <Control label={t("New Rate")} unit="%" value={newRate} display={newRate.toFixed(2)} min={1} max={10} step={0.05} onChange={setNewRate} />
+        <Control label={t("Remaining Period")} unit={t("yrs")} value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
       </div>
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          <ResultCard label="Current Monthly" value={formatPrice(currentMonthly)} />
-          <ResultCard label="New Monthly" value={formatPrice(newMonthly)} accent />
+          <ResultCard label={t("Current Monthly")} value={formatPrice(currentMonthly)} />
+          <ResultCard label={t("New Monthly")} value={formatPrice(newMonthly)} accent />
         </div>
         <div className="bg-secondary/10 border border-secondary/30 p-6 text-center">
-          <div className="text-[10px] font-mono text-secondary uppercase tracking-widest mb-2">Estimated Lifetime Saving</div>
+          <div className="text-[10px] font-mono text-secondary uppercase tracking-widest mb-2">{t("Estimated Lifetime Saving")}</div>
           <div className={`text-3xl font-mono ${lifetimeSaving >= 0 ? "text-secondary" : "text-red-400"}`}>{formatPrice(lifetimeSaving)}</div>
           <div className="text-xs font-mono text-white/50 mt-2">
-            {monthlySaving >= 0 ? `${formatPrice(monthlySaving)} saved every month` : "Refinancing increases your payment"}
+            {monthlySaving >= 0 ? `${formatPrice(monthlySaving)} ${t("saved every month")}` : t("Refinancing increases your payment")}
           </div>
         </div>
       </div>
@@ -275,6 +279,7 @@ function Refinancing() {
 /* ---------------- Rent vs Buy ---------------- */
 function RentVsBuy() {
   const { formatPrice, symbol, convert } = useCurrency();
+  const { t } = useLanguage();
   const [price, setPrice] = useState(1500000);
   const [rent, setRent] = useState(90000);
   const [years, setYears] = useState(10);
@@ -306,27 +311,27 @@ function RentVsBuy() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="space-y-6 lg:col-span-1">
-        <Control label="Property Price" unit="" value={price} display={formatPrice(price)} min={300000} max={20000000} step={50000} onChange={setPrice} />
-        <Control label="Annual Rent" unit="" value={rent} display={formatPrice(rent)} min={20000} max={1000000} step={5000} onChange={setRent} />
-        <Control label="Appreciation" unit="%" value={appreciation} display={appreciation.toFixed(1)} min={0} max={15} step={0.5} onChange={setAppreciation} />
-        <Control label="Horizon" unit="yrs" value={years} display={`${years}`} min={3} max={25} step={1} onChange={setYears} />
+        <Control label={t("Property Price")} unit="" value={price} display={formatPrice(price)} min={300000} max={20000000} step={50000} onChange={setPrice} />
+        <Control label={t("Annual Rent")} unit="" value={rent} display={formatPrice(rent)} min={20000} max={1000000} step={5000} onChange={setRent} />
+        <Control label={t("Appreciation")} unit="%" value={appreciation} display={appreciation.toFixed(1)} min={0} max={15} step={0.5} onChange={setAppreciation} />
+        <Control label={t("Horizon")} unit={t("yrs")} value={years} display={`${years}`} min={3} max={25} step={1} onChange={setYears} />
         <div className={`p-4 border text-center ${buyWins ? "bg-secondary/10 border-secondary/30" : "bg-white/5 border-white/10"}`}>
-          <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-1">Verdict</div>
+          <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-1">{t("Verdict")}</div>
           <div className={`text-lg font-mono ${buyWins ? "text-secondary" : "text-white"}`}>
-            {buyWins ? "Buying wins long-term" : "Renting is cheaper here"}
+            {buyWins ? t("Buying wins long-term") : t("Renting is cheaper here")}
           </div>
         </div>
       </div>
       <div className="lg:col-span-2 h-[320px]">
-        <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">Net Cost of Buying vs Renting</h3>
+        <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">{t("Net Cost of Buying vs Renting")}</h3>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
             <XAxis dataKey="year" stroke="rgba(255,255,255,0.5)" fontSize={11} tickLine={false} axisLine={false} />
             <YAxis stroke="rgba(255,255,255,0.5)" fontSize={10} tickFormatter={(val) => `${symbol} ${(convert(val) / 1000000).toFixed(1)}M`} tickLine={false} axisLine={false} />
             <Tooltip {...tooltipStyle} formatter={(v: number) => formatPrice(v)} />
-            <Area type="monotone" dataKey="buy" name="Net Cost — Buy" stroke="#C9974C" fill="transparent" />
-            <Area type="monotone" dataKey="rent" name="Cumulative Rent" stroke="#7c6df2" fill="transparent" />
+            <Area type="monotone" dataKey="buy" name={t("Net Cost — Buy")} stroke="#C9974C" fill="transparent" />
+            <Area type="monotone" dataKey="rent" name={t("Cumulative Rent")} stroke="#7c6df2" fill="transparent" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -337,6 +342,7 @@ function RentVsBuy() {
 /* ---------------- House Affordability ---------------- */
 function Affordability() {
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const [income, setIncome] = useState(40000);
   const [debts, setDebts] = useState(3000);
   const [savings, setSavings] = useState(500000);
@@ -350,26 +356,26 @@ function Affordability() {
   const maxPrice = maxLoan + downCovered;
 
   const barData = [
-    { name: "Down Payment", value: Math.round(downCovered) },
-    { name: "Financed", value: Math.round(maxLoan) },
+    { name: t("Down Payment"), value: Math.round(downCovered) },
+    { name: t("Financed"), value: Math.round(maxLoan) },
   ];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <Control label="Monthly Income" unit="" value={income} display={formatPrice(income)} min={10000} max={300000} step={1000} onChange={setIncome} />
-        <Control label="Monthly Debts" unit="" value={debts} display={formatPrice(debts)} min={0} max={100000} step={500} onChange={setDebts} />
-        <Control label="Savings for Down Payment" unit="" value={savings} display={formatPrice(savings)} min={0} max={10000000} step={25000} onChange={setSavings} />
-        <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
+        <Control label={t("Monthly Income")} unit="" value={income} display={formatPrice(income)} min={10000} max={300000} step={1000} onChange={setIncome} />
+        <Control label={t("Monthly Debts")} unit="" value={debts} display={formatPrice(debts)} min={0} max={100000} step={500} onChange={setDebts} />
+        <Control label={t("Savings for Down Payment")} unit="" value={savings} display={formatPrice(savings)} min={0} max={10000000} step={25000} onChange={setSavings} />
+        <Control label={t("Interest Rate")} unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
       </div>
       <div className="space-y-4">
         <div className="bg-secondary/10 border border-secondary/30 p-6 text-center">
-          <div className="text-[10px] font-mono text-secondary uppercase tracking-widest mb-2">You Can Afford Up To</div>
+          <div className="text-[10px] font-mono text-secondary uppercase tracking-widest mb-2">{t("You Can Afford Up To")}</div>
           <div className="text-3xl font-mono text-secondary">{formatPrice(maxPrice)}</div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <ResultCard label="Max Loan" value={formatPrice(maxLoan)} />
-          <ResultCard label="Max Monthly" value={formatPrice(Math.max(0, maxInstalment))} />
+          <ResultCard label={t("Max Loan")} value={formatPrice(maxLoan)} />
+          <ResultCard label={t("Max Monthly")} value={formatPrice(Math.max(0, maxInstalment))} />
         </div>
         <div className="h-[140px]">
           <ResponsiveContainer width="100%" height="100%">
@@ -411,14 +417,15 @@ export function MortgageTools({
   subtitle = "Every tool to model your returns and plan your purchase.",
   centerHeader = false,
 }: MortgageToolsProps = {}) {
+  const { t } = useLanguage();
   const tools = showRoi ? TOOLS : TOOLS.filter((tool) => tool.id !== "roi");
   const defaultValue = tools[0]?.id ?? "mortgage";
 
   return (
     <div className="glass-panel p-6 md:p-8">
       <div className={`mb-8 border-b border-white/10 pb-4${centerHeader ? " text-center" : ""}`}>
-        <h2 className="text-2xl font-serif font-bold text-white mb-2">{title}</h2>
-        <p className="text-white/60 font-mono text-sm">{subtitle}</p>
+        <h2 className="text-2xl font-serif font-bold text-white mb-2">{t(title)}</h2>
+        <p className="text-white/60 font-mono text-sm">{t(subtitle)}</p>
       </div>
       <Tabs defaultValue={defaultValue}>
         <TabsList className="flex flex-wrap h-auto bg-transparent gap-2 mb-8 p-0">
@@ -428,7 +435,7 @@ export function MortgageTools({
               value={tool.id}
               className="rounded-lg border border-white/15 bg-white/5 px-4 py-2 font-mono text-xs uppercase tracking-widest text-white/60 data-[state=active]:bg-secondary data-[state=active]:text-[#0A1628] data-[state=active]:border-secondary"
             >
-              {tool.label}
+              {t(tool.label)}
             </TabsTrigger>
           ))}
         </TabsList>

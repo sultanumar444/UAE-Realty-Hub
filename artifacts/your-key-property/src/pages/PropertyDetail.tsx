@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { useProperty } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
 import { useFavorites } from "@/lib/favorites";
+import { useLanguage } from "@/lib/language";
 import { MortgageCalculator } from "@/components/shared/MortgageCalculator";
 import { RoiVisualizer } from "@/components/shared/RoiVisualizer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
@@ -16,6 +17,7 @@ import { useCreateLead } from "@workspace/api-client-react";
 
 export function PropertyDetail() {
   const params = useParams();
+  const { t } = useLanguage();
   const { property, properties } = useProperty(params.id || "");
   const { formatPrice } = useCurrency();
   const { toggleFavorite, isFavorite } = useFavorites();
@@ -26,12 +28,12 @@ export function PropertyDetail() {
   const createLead = useCreateLead({
     mutation: {
       onSuccess: () => {
-        toast.success("Enquiry sent. The agent will contact you shortly.");
+        toast.success(t("Enquiry sent. The agent will contact you shortly."));
         setLeadName("");
         setLeadContact("");
       },
       onError: (e) =>
-        toast.error(e.message || "Could not send your enquiry. Please try again."),
+        toast.error(e.message || t("Could not send your enquiry. Please try again.")),
     },
   });
 
@@ -45,9 +47,9 @@ export function PropertyDetail() {
         <Navbar />
         <main className="flex-grow flex items-center justify-center pt-32 pb-24 relative z-10">
           <div className="text-center glass-panel p-12">
-            <h1 className="text-3xl font-serif font-bold text-white mb-4">Property Not Found</h1>
+            <h1 className="text-3xl font-serif font-bold text-white mb-4">{t("Property Not Found")}</h1>
             <Link href="/properties">
-              <Button className="bg-secondary hover:bg-secondary/90 text-white font-mono uppercase tracking-widest">Back to Portfolio</Button>
+              <Button className="bg-secondary hover:bg-secondary/90 text-white font-mono uppercase tracking-widest">{t("Back to Portfolio")}</Button>
             </Link>
           </div>
         </main>
@@ -83,7 +85,7 @@ export function PropertyDetail() {
               </div>
               <div className="text-right">
                 <div className="text-4xl font-serif font-bold text-secondary">
-                  {property.status === "FOR RENT" ? `${formatPrice(property.price)} / yr` : formatPrice(property.price)}
+                  {property.status === "FOR RENT" ? `${formatPrice(property.price)} / ${t("yr")}` : formatPrice(property.price)}
                 </div>
               </div>
             </div>
@@ -118,33 +120,33 @@ export function PropertyDetail() {
               <div className="glass-panel p-8 mb-12">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                   <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Type</span>
+                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">{t("Type")}</span>
                     <span className="text-lg font-mono text-white">{property.type}</span>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center gap-1"><Bed className="w-3 h-3 text-secondary"/> Bedrooms</span>
-                    <span className="text-lg font-mono text-white">{property.beds === 0 ? "Studio" : property.beds}</span>
+                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center gap-1"><Bed className="w-3 h-3 text-secondary"/> {t("Bedrooms")}</span>
+                    <span className="text-lg font-mono text-white">{property.beds === 0 ? t("Studio") : property.beds}</span>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center gap-1"><Bath className="w-3 h-3 text-secondary"/> Bathrooms</span>
+                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center gap-1"><Bath className="w-3 h-3 text-secondary"/> {t("Bathrooms")}</span>
                     <span className="text-lg font-mono text-white">{property.baths}</span>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center gap-1"><Square className="w-3 h-3 text-secondary"/> Area</span>
-                    <span className="text-lg font-mono text-white">{property.sqft} sqft</span>
+                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center gap-1"><Square className="w-3 h-3 text-secondary"/> {t("Area")}</span>
+                    <span className="text-lg font-mono text-white">{property.sqft} {t("sqft")}</span>
                   </div>
                 </div>
               </div>
               
               <div className="mb-12">
-                <h2 className="text-2xl font-serif font-bold text-secondary mb-6">About this Property</h2>
+                <h2 className="text-2xl font-serif font-bold text-secondary mb-6">{t("About this Property")}</h2>
                 <div className="text-white/80 font-mono text-sm leading-relaxed whitespace-pre-wrap glass-panel p-8">
                   {property.description}
                 </div>
               </div>
               
               <div className="mb-12">
-                <h2 className="text-2xl font-serif font-bold text-secondary mb-6">Amenities</h2>
+                <h2 className="text-2xl font-serif font-bold text-secondary mb-6">{t("Amenities")}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 glass-panel p-8">
                   {property.amenities.map((amenity, i) => (
                     <div key={i} className="flex items-center gap-3 text-white/80 font-mono text-sm">
@@ -169,7 +171,7 @@ export function PropertyDetail() {
                 
                 {/* Agent Card */}
                 <div className="glass-panel p-8">
-                  <h3 className="text-xs font-mono text-white/50 uppercase tracking-widest mb-6">Listed By</h3>
+                  <h3 className="text-xs font-mono text-white/50 uppercase tracking-widest mb-6">{t("Listed By")}</h3>
                   <div className="flex items-center gap-6 mb-8">
                     <img src={property.agent.image} alt={property.agent.name} className="w-20 h-20 rounded-full object-cover border border-white/20" />
                     <div>
@@ -180,13 +182,13 @@ export function PropertyDetail() {
                   
                   <div className="space-y-4">
                     <Button className="w-full bg-secondary hover:bg-secondary/90 text-white flex gap-2 rounded-lg h-14 font-mono uppercase tracking-widest text-xs">
-                      <Phone className="w-4 h-4" /> Call {property.agent.phone}
+                      <Phone className="w-4 h-4" /> {t("Call")} {property.agent.phone}
                     </Button>
                     <Button variant="outline" className="w-full border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 flex gap-2 rounded-lg h-14 font-mono uppercase tracking-widest text-xs">
-                      <SiWhatsapp className="w-4 h-4" /> WhatsApp
+                      <SiWhatsapp className="w-4 h-4" /> {t("WhatsApp")}
                     </Button>
                     <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 flex gap-2 rounded-lg h-14 font-mono uppercase tracking-widest text-xs">
-                      <Mail className="w-4 h-4" /> Email Agent
+                      <Mail className="w-4 h-4" /> {t("Email Agent")}
                     </Button>
                   </div>
 
@@ -195,7 +197,7 @@ export function PropertyDetail() {
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (!leadName.trim() || !leadContact.trim()) {
-                        toast.error("Please enter your name and contact");
+                        toast.error(t("Please enter your name and contact"));
                         return;
                       }
                       const isEmail = leadContact.includes("@");
@@ -215,20 +217,20 @@ export function PropertyDetail() {
                     }}
                   >
                     <h4 className="text-xs font-mono text-white/50 uppercase tracking-widest">
-                      Request a viewing
+                      {t("Request a viewing")}
                     </h4>
                     <input
                       type="text"
                       value={leadName}
                       onChange={(e) => setLeadName(e.target.value)}
-                      placeholder="Your name"
+                      placeholder={t("Your name")}
                       className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
                     />
                     <input
                       type="text"
                       value={leadContact}
                       onChange={(e) => setLeadContact(e.target.value)}
-                      placeholder="Email or phone"
+                      placeholder={t("Email or phone")}
                       className="w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm"
                     />
                     <Button
@@ -237,7 +239,7 @@ export function PropertyDetail() {
                       className="w-full bg-secondary hover:bg-secondary/90 text-[#0A1628] font-bold flex gap-2 rounded-lg h-12 font-mono uppercase tracking-widest text-xs items-center justify-center"
                     >
                       {createLead.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
-                      {createLead.isPending ? "Sending..." : "Send Enquiry"}
+                      {createLead.isPending ? t("Sending...") : t("Send Enquiry")}
                     </Button>
                   </form>
                 </div>
@@ -257,8 +259,8 @@ export function PropertyDetail() {
           {/* Similar Properties */}
           {similarProperties.length > 0 && (
             <div className="mt-24 pt-16 border-t border-white/10">
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3 text-center">Portfolio</div>
-              <h2 className="text-4xl font-serif font-bold text-white mb-12 text-center">Similar Altitudes</h2>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3 text-center">{t("Portfolio")}</div>
+              <h2 className="text-4xl font-serif font-bold text-white mb-12 text-center">{t("Similar Altitudes")}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {similarProperties.map(p => (
                   <PropertyCard 
@@ -266,12 +268,12 @@ export function PropertyDetail() {
                     id={p.id}
                     image={p.image}
                     status={p.status} 
-                    price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
+                    price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / ${t("yr")}` : formatPrice(p.price)} 
                     title={p.title} 
                     location={p.location}
                     community={p.community}
                     agentName={p.agent?.name}
-                    beds={p.beds === 0 ? "Studio" : p.beds} 
+                    beds={p.beds === 0 ? t("Studio") : p.beds} 
                     baths={p.baths} 
                     sqft={p.sqft}
                   />

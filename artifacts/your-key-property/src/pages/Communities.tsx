@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { storageUrl } from "@/lib/listingApi";
 import { useProperties } from "@/lib/useProperties";
 import { useListCommunities } from "@workspace/api-client-react";
@@ -31,6 +32,7 @@ const FALLBACK_COMMUNITIES: CommunityCard[] = [
 
 export function Communities() {
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const communitiesQ = useListCommunities();
   const { properties } = useProperties();
   const [emirateFilter, setEmirateFilter] = useState<"all" | "Dubai" | "Abu Dhabi">("all");
@@ -64,16 +66,16 @@ export function Communities() {
       <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Prime Altitudes</div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">Explore UAE Communities</h1>
-            <p className="text-lg text-white/70 font-mono">Discover the perfect neighborhood for your lifestyle</p>
+            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("Prime Altitudes")}</div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">{t("Explore UAE Communities")}</h1>
+            <p className="text-lg text-white/70 font-mono">{t("Discover the perfect neighborhood for your lifestyle")}</p>
           </div>
           
           <div className="flex justify-center gap-6 mb-16 border-b border-white/10 pb-4">
             {([
-              { id: "all", label: "All Elevations" },
-              { id: "Dubai", label: "Dubai" },
-              { id: "Abu Dhabi", label: "Abu Dhabi" },
+              { id: "all", label: t("All Elevations") },
+              { id: "Dubai", label: t("Dubai") },
+              { id: "Abu Dhabi", label: t("Abu Dhabi") },
             ] as const).map((f) => (
               <button
                 key={f.id}
@@ -108,7 +110,7 @@ export function Communities() {
                     {c.em}
                   </div>
                   <div className="absolute top-4 right-4 bg-[#0A1628]/80 backdrop-blur-sm text-white text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest border border-white/20">
-                    {count} {count === 1 ? "Property" : "Properties"}
+                    {count} {count === 1 ? t("Property") : t("Properties")}
                   </div>
                 </div>
                 </Link>
@@ -119,19 +121,19 @@ export function Communities() {
                   {(c.priceBuy != null || c.priceRent != null) && (
                     <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-6 mt-auto mb-4">
                       <div>
-                        <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">Avg Buy</div>
-                        <div className="font-mono font-bold text-secondary text-sm">{c.priceBuy != null ? <>{formatPrice(c.priceBuy)} <span className="text-white/50 text-[10px]">/ sqft</span></> : "—"}</div>
+                        <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">{t("Avg Buy")}</div>
+                        <div className="font-mono font-bold text-secondary text-sm">{c.priceBuy != null ? <>{formatPrice(c.priceBuy)} <span className="text-white/50 text-[10px]">/ {t("sqft")}</span></> : "—"}</div>
                       </div>
                       <div>
-                        <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">Avg Rent</div>
-                        <div className="font-mono font-bold text-secondary text-sm">{c.priceRent != null ? <>{formatPrice(c.priceRent)} <span className="text-white/50 text-[10px]">/ yr</span></> : "—"}</div>
+                        <div className="text-[10px] text-white/50 font-mono uppercase tracking-widest mb-1">{t("Avg Rent")}</div>
+                        <div className="font-mono font-bold text-secondary text-sm">{c.priceRent != null ? <>{formatPrice(c.priceRent)} <span className="text-white/50 text-[10px]">/ {t("yr")}</span></> : "—"}</div>
                       </div>
                     </div>
                   )}
                   
                   {c.types && (
                     <div className="text-[10px] text-white/40 font-mono uppercase tracking-widest pt-4 border-t border-white/10 mt-auto">
-                      <span className="text-white/70">Types:</span> {c.types}
+                      <span className="text-white/70">{t("Types:")}</span> {c.types}
                     </div>
                   )}
                 </div>

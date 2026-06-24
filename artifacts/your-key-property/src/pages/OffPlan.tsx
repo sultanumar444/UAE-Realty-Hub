@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/shared/PropertyCard";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { motion } from "framer-motion";
 
 const FALLBACK_PROJECTS = [
@@ -17,6 +18,7 @@ const FALLBACK_PROJECTS = [
 ];
 
 export function OffPlan() {
+  const { t } = useLanguage();
   const { formatPrice } = useCurrency();
   const { properties } = useProperties();
   const [emirateFilter, setEmirateFilter] = useState<"all" | "Dubai" | "Abu Dhabi">("all");
@@ -34,18 +36,18 @@ export function OffPlan() {
       <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
           <div className="mb-12">
-            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Future Altitudes</div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">Off-Plan Properties</h1>
-            <p className="text-lg text-white/70 font-mono">Towers under construction in Dubai &amp; Abu Dhabi</p>
+            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("Future Altitudes")}</div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">{t("Off-Plan Properties")}</h1>
+            <p className="text-lg text-white/70 font-mono">{t("Towers under construction in Dubai & Abu Dhabi")}</p>
           </div>
 
           {offPlan.length > 0 ? (
             <>
               <div className="flex flex-wrap gap-4 mb-12 glass-panel p-4">
                 {([
-                  { id: "all", label: "All Projects" },
-                  { id: "Dubai", label: "Dubai" },
-                  { id: "Abu Dhabi", label: "Abu Dhabi" },
+                  { id: "all", label: t("All Projects") },
+                  { id: "Dubai", label: t("Dubai") },
+                  { id: "Abu Dhabi", label: t("Abu Dhabi") },
                 ] as const).map((f) => (
                   <button
                     key={f.id}
@@ -62,7 +64,7 @@ export function OffPlan() {
               </div>
 
               <div className="mb-8 text-xs font-mono uppercase tracking-widest text-white/60">
-                Showing {visible.length} {visible.length === 1 ? "project" : "projects"}
+                {t("Showing")} {visible.length} {visible.length === 1 ? t("project") : t("projects")}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -82,7 +84,7 @@ export function OffPlan() {
                       location={p.location}
                       community={p.community}
                       agentName={p.agent?.name}
-                      beds={p.beds === 0 ? "Studio" : p.beds}
+                      beds={p.beds === 0 ? t("Studio") : p.beds}
                       baths={p.baths}
                       sqft={p.sqft}
                     />

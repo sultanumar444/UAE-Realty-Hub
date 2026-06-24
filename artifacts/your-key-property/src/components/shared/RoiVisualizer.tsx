@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { Slider } from "@/components/ui/slider";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
@@ -36,6 +37,7 @@ const PRESETS = {
 
 export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVisualizerProps) {
   const { formatPrice, convert, toAed, symbol, currency } = useCurrency();
+  const { t } = useLanguage();
   const [price, setPrice] = useState(initialPrice);
   const [priceInput, setPriceInput] = useState(String(Math.round(convert(initialPrice))));
   const [area, setArea] = useState<keyof typeof PRESETS>("Custom");
@@ -132,8 +134,8 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
     <div className={`glass-panel p-6 ${compact ? "space-y-6" : "space-y-8"}`}>
       {!compact && (
         <div className="mb-6 border-b border-white/10 pb-4">
-          <h2 className="text-2xl font-serif font-bold text-white mb-2">Investment ROI Visualizer</h2>
-          <p className="text-white/60 font-mono text-sm">Model your returns from altitude.</p>
+          <h2 className="text-2xl font-serif font-bold text-white mb-2">{t("Investment ROI Visualizer")}</h2>
+          <p className="text-white/60 font-mono text-sm">{t("Model your returns from altitude.")}</p>
         </div>
       )}
       
@@ -141,7 +143,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
         {/* Controls */}
         <div className="space-y-6 lg:col-span-1 border-r border-white/10 pr-0 lg:pr-8">
           <div>
-            <label className="text-xs font-mono text-secondary mb-2 block uppercase tracking-widest">Property Price ({symbol})</label>
+            <label className="text-xs font-mono text-secondary mb-2 block uppercase tracking-widest">{t("Property Price")} ({symbol})</label>
             <input 
               type="number" 
               value={priceInput}
@@ -151,7 +153,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
           </div>
           
           <div>
-            <label className="text-xs font-mono text-secondary mb-2 block uppercase tracking-widest">Area Preset</label>
+            <label className="text-xs font-mono text-secondary mb-2 block uppercase tracking-widest">{t("Area Preset")}</label>
             <select 
               value={area}
               onChange={(e) => handleAreaChange(e.target.value as keyof typeof PRESETS)}
@@ -166,7 +168,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
           <div className="space-y-4">
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-xs font-mono text-white/70 uppercase">Rental Yield</span>
+                <span className="text-xs font-mono text-white/70 uppercase">{t("Rental Yield")}</span>
                 <span className="text-xs font-mono text-secondary">{rentalYield.toFixed(1)}%</span>
               </div>
               <Slider value={[rentalYield]} min={1} max={15} step={0.1} onValueChange={(v) => { setRentalYield(v[0]); setArea("Custom"); }} />
@@ -174,7 +176,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
             
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-xs font-mono text-white/70 uppercase">Capital Appreciation</span>
+                <span className="text-xs font-mono text-white/70 uppercase">{t("Capital Appreciation")}</span>
                 <span className="text-xs font-mono text-secondary">{appreciation.toFixed(1)}%</span>
               </div>
               <Slider value={[appreciation]} min={-5} max={20} step={0.1} onValueChange={(v) => setAppreciation(v[0])} />
@@ -182,7 +184,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
             
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-xs font-mono text-white/70 uppercase">Service Charge & Costs</span>
+                <span className="text-xs font-mono text-white/70 uppercase">{t("Service Charge & Costs")}</span>
                 <span className="text-xs font-mono text-secondary">{serviceCharge.toFixed(1)}%</span>
               </div>
               <Slider value={[serviceCharge]} min={0} max={5} step={0.1} onValueChange={(v) => setServiceCharge(v[0])} />
@@ -190,7 +192,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
             
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-xs font-mono text-white/70 uppercase">Down Payment</span>
+                <span className="text-xs font-mono text-white/70 uppercase">{t("Down Payment")}</span>
                 <span className="text-xs font-mono text-secondary">{downPayment}%</span>
               </div>
               <Slider value={[downPayment]} min={10} max={100} step={5} onValueChange={(v) => setDownPayment(v[0])} />
@@ -198,7 +200,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
             
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-xs font-mono text-white/70 uppercase">Holding Period (Years)</span>
+                <span className="text-xs font-mono text-white/70 uppercase">{t("Holding Period (Years)")}</span>
                 <span className="text-xs font-mono text-secondary">{holdingPeriod}</span>
               </div>
               <Slider value={[holdingPeriod]} min={1} max={15} step={1} onValueChange={(v) => setHoldingPeriod(v[0])} />
@@ -211,31 +213,31 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
           {/* Metrics Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-white/5 p-4 border border-white/10">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Total ROI</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Total ROI")}</div>
               <div className={`text-xl font-mono ${totalRoiPercentage >= 0 ? "text-green-400" : "text-red-400"}`}>{totalRoiPercentage >= 0 ? "+" : ""}{totalRoiPercentage.toFixed(1)}%</div>
             </div>
             <div className="bg-white/5 p-4 border border-white/10">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Gross Yield</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Gross Yield")}</div>
               <div className="text-xl font-mono text-white">{grossYield.toFixed(1)}%</div>
             </div>
             <div className="bg-white/5 p-4 border border-white/10">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Net Yield</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Net Yield")}</div>
               <div className="text-xl font-mono text-white">{(rentalYield - serviceCharge).toFixed(1)}%</div>
             </div>
             <div className="bg-white/5 p-4 border border-white/10">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Cash on Cash</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Cash on Cash")}</div>
               <div className="text-xl font-mono text-white">{cashOnCash.toFixed(1)}%</div>
             </div>
             <div className="bg-white/5 p-4 border border-white/10">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Break-Even</div>
-              <div className="text-xl font-mono text-white">{breakEvenYear ? `Year ${breakEvenYear}` : `> ${holdingPeriod}y`}</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Break-Even")}</div>
+              <div className="text-xl font-mono text-white">{breakEvenYear ? `${t("Year")} ${breakEvenYear}` : `> ${holdingPeriod}y`}</div>
             </div>
             <div className="bg-white/5 p-4 border border-white/10">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Projected Exit Value</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Projected Exit Value")}</div>
               <div className="text-xl font-mono text-white truncate">{formatPrice(projectedExitValue)}</div>
             </div>
             <div className="bg-white/5 p-4 border border-white/10 md:col-span-2">
-              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">Total Net Profit</div>
+              <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-2">{t("Total Net Profit")}</div>
               <div className="text-xl font-mono text-secondary truncate">{formatPrice(totalNetProfit)}</div>
             </div>
           </div>
@@ -243,7 +245,7 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
           {/* Charts */}
           <div className="space-y-8">
             <div className="h-[250px]">
-              <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">Projected Value & Equity</h3>
+              <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">{t("Projected Value & Equity")}</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                   <defs>
@@ -260,22 +262,22 @@ export function RoiVisualizer({ initialPrice = 2500000, compact = false }: RoiVi
                   <XAxis dataKey="year" stroke="rgba(255,255,255,0.5)" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="rgba(255,255,255,0.5)" fontSize={10} tickFormatter={(val) => `${symbol} ${(convert(val)/1000000).toFixed(1)}M`} tickLine={false} axisLine={false} />
                   <Tooltip {...tooltipStyle} formatter={(value: number) => formatPrice(value)} cursor={{ stroke: 'rgba(255,255,255,0.2)' }} />
-                  <Area type="monotone" dataKey="propertyValue" name="Property Value" stroke="#C9974C" fillOpacity={1} fill="url(#colorValue)" />
-                  <Area type="monotone" dataKey="equity" name="Total Equity" stroke="#10b981" fillOpacity={1} fill="url(#colorEquity)" />
+                  <Area type="monotone" dataKey="propertyValue" name={t("Property Value")} stroke="#C9974C" fillOpacity={1} fill="url(#colorValue)" />
+                  <Area type="monotone" dataKey="equity" name={t("Total Equity")} stroke="#10b981" fillOpacity={1} fill="url(#colorEquity)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
             
             <div className="h-[250px]">
-              <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">Cumulative Rent vs Costs</h3>
+              <h3 className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4">{t("Cumulative Rent vs Costs")}</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
                   <XAxis dataKey="year" stroke="rgba(255,255,255,0.5)" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="rgba(255,255,255,0.5)" fontSize={10} tickFormatter={(val) => `${symbol} ${(convert(val)/1000000).toFixed(1)}M`} tickLine={false} axisLine={false} />
                   <Tooltip {...tooltipStyle} formatter={(value: number) => formatPrice(value)} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-                  <Bar dataKey="cumulativeRent" name="Cumulative Rent" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="cumulativeCosts" name="Cumulative Costs" fill="#ef4444" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="cumulativeRent" name={t("Cumulative Rent")} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="cumulativeCosts" name={t("Cumulative Costs")} fill="#ef4444" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

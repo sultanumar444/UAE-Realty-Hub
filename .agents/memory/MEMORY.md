@@ -1,1 +1,2 @@
 - [pnpm add reformats workspace yaml](pnpm-add-rewrites-workspace-yaml.md) — `pnpm add` can strip the root `pnpm-workspace.yaml` security/minimumReleaseAge block; check the diff and restore.
+- [Arabic i18n architecture](i18n-arabic-architecture.md) — t() falls back to an English-string-keyed AR dict; wrap copy with t("English"), keep <select> value English, CRM stays English.

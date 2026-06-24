@@ -4,9 +4,11 @@ import { Footer } from "@/components/layout/Footer";
 import { useListPosts } from "@workspace/api-client-react";
 import { postCover, formatPostDate, excerptFrom } from "@/lib/blogApi";
 import { useSeo } from "@/lib/useSeo";
+import { useLanguage } from "@/lib/language";
 import { Loader2 } from "lucide-react";
 
 export function Blog() {
+  const { t } = useLanguage();
   useSeo({
     title: "Insights & Market Intelligence",
     description:
@@ -23,14 +25,13 @@ export function Blog() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="mb-12">
             <p className="text-xs font-mono uppercase tracking-[0.3em] text-secondary mb-4">
-              Insights
+              {t("Insights")}
             </p>
             <h1 className="font-serif text-4xl md:text-6xl font-bold text-white">
-              Market Intelligence
+              {t("Market Intelligence")}
             </h1>
             <p className="mt-4 max-w-2xl text-white/60">
-              Perspectives on the Dubai and Abu Dhabi property markets — trends,
-              neighbourhood guides, and investment strategy from our advisors.
+              {t("Perspectives on the Dubai and Abu Dhabi property markets — trends, neighbourhood guides, and investment strategy from our advisors.")}
             </p>
           </div>
 
@@ -40,7 +41,7 @@ export function Blog() {
             </div>
           ) : posts.length === 0 ? (
             <div className="rounded-lg border border-dashed border-white/15 py-24 text-center text-white/50">
-              No articles published yet. Check back soon.
+              {t("No articles published yet. Check back soon.")}
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -68,7 +69,7 @@ export function Blog() {
                         {excerptFrom(post)}
                       </p>
                       <span className="mt-4 inline-block text-xs font-mono uppercase tracking-widest text-secondary">
-                        Read article →
+                        {t("Read article")} →
                       </span>
                     </div>
                   </article>

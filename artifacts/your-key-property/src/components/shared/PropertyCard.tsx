@@ -1,6 +1,7 @@
 import { Bed, Bath, Square, Heart, MapPin, UserRound } from "lucide-react";
 import { Link } from "wouter";
 import { useFavorites } from "@/lib/favorites";
+import { useLanguage } from "@/lib/language";
 
 interface PropertyCardProps {
   id?: string;
@@ -18,6 +19,7 @@ interface PropertyCardProps {
 
 export function PropertyCard({ id = "1", image, status, price, title, location, beds, baths, sqft, community, agentName }: PropertyCardProps) {
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { t } = useLanguage();
   const isFav = isFavorite(id);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -39,7 +41,7 @@ export function PropertyCard({ id = "1", image, status, price, title, location, 
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/80 to-transparent opacity-60" />
             <div className="absolute top-4 left-4 z-10">
               <span className="bg-secondary/90 backdrop-blur-sm text-white text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest border border-white/20">
-                {status}
+                {t(status)}
               </span>
             </div>
             <button 
@@ -90,12 +92,12 @@ export function PropertyCard({ id = "1", image, status, price, title, location, 
               </div>
               <div className="flex items-center gap-2 text-white/70 font-mono text-xs">
                 <Square className="w-4 h-4 text-secondary" />
-                <span>{sqft} sqft</span>
+                <span>{sqft} {t("sqft")}</span>
               </div>
             </div>
             
             <button className="w-full py-3 border border-white/20 text-white font-mono text-xs uppercase tracking-widest hover:bg-secondary hover:border-secondary hover:text-white transition-colors">
-              View Details
+              {t("View Details")}
             </button>
           </div>
         </div>

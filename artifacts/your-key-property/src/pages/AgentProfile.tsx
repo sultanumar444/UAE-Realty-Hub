@@ -6,6 +6,7 @@ import { useListAgents } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
 import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import { Phone, Mail, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -13,6 +14,7 @@ export function AgentProfile() {
   const [, params] = useRoute("/agents/:id");
   const id = params?.id ? Number(params.id) : undefined;
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const agentsQ = useListAgents();
   const { properties } = useProperties();
 
@@ -27,16 +29,16 @@ export function AgentProfile() {
         <div className="container mx-auto px-4">
           <Link href="/agents">
             <span className="inline-flex items-center gap-2 mb-10 text-xs font-mono uppercase tracking-widest text-secondary hover:text-white transition-colors cursor-pointer">
-              <ArrowLeft className="w-4 h-4" /> Back to team
+              <ArrowLeft className="w-4 h-4" /> {t("Back to team")}
             </span>
           </Link>
 
           {!agent ? (
             <div className="text-center py-32 glass-panel">
-              <h1 className="font-serif font-bold text-2xl text-white mb-4">Agent not found</h1>
+              <h1 className="font-serif font-bold text-2xl text-white mb-4">{t("Agent not found")}</h1>
               <Link href="/agents">
                 <span className="text-secondary font-mono text-sm uppercase tracking-widest cursor-pointer hover:text-white">
-                  View the team
+                  {t("View the team")}
                 </span>
               </Link>
             </div>
@@ -48,7 +50,7 @@ export function AgentProfile() {
                 </div>
                 <div className="text-center md:text-left flex-grow">
                   <div className="text-[10px] text-secondary font-mono uppercase tracking-[3px] mb-3">
-                    {agent.title || "Property Consultant"}
+                    {agent.title || t("Property Consultant")}
                   </div>
                   <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">
                     {agent.name}
@@ -73,13 +75,13 @@ export function AgentProfile() {
 
               <div className="flex items-end justify-between mb-10">
                 <div>
-                  <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Portfolio</div>
+                  <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("Portfolio")}</div>
                   <h2 className="text-3xl md:text-4xl font-serif font-bold text-white drop-shadow-md">
-                    Listings by {agent.name.split(" ")[0]}
+                    {t("Listings by")} {agent.name.split(" ")[0]}
                   </h2>
                 </div>
                 <div className="text-xs font-mono uppercase tracking-widest text-white/60">
-                  {listings.length} {listings.length === 1 ? "property" : "properties"}
+                  {listings.length} {listings.length === 1 ? t("property") : t("properties")}
                 </div>
               </div>
 
@@ -96,12 +98,12 @@ export function AgentProfile() {
                         id={p.id}
                         image={p.image}
                         status={p.status}
-                        price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)}
+                        price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / ${t("yr")}` : formatPrice(p.price)}
                         title={p.title}
                         location={p.location}
                         community={p.community}
                         agentName={p.agent?.name}
-                        beds={p.beds === 0 ? "Studio" : p.beds}
+                        beds={p.beds === 0 ? t("Studio") : p.beds}
                         baths={p.baths}
                         sqft={p.sqft}
                       />
@@ -110,7 +112,7 @@ export function AgentProfile() {
                 </div>
               ) : (
                 <div className="text-center py-24 glass-panel">
-                  <p className="text-white/60 font-mono text-sm">No active listings for this agent yet.</p>
+                  <p className="text-white/60 font-mono text-sm">{t("No active listings for this agent yet.")}</p>
                 </div>
               )}
             </>

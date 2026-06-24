@@ -8,10 +8,12 @@ import {
 } from "@workspace/api-client-react";
 import { postCover, formatPostDate, readingTime, excerptFrom } from "@/lib/blogApi";
 import { useSeo } from "@/lib/useSeo";
+import { useLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
 import { Loader2, ArrowLeft } from "lucide-react";
 
 export function BlogPost() {
+  const { t } = useLanguage();
   const params = useParams();
   const slug = params.slug || "";
   const postQ = useGetPostBySlug(slug, {
@@ -55,11 +57,11 @@ export function BlogPost() {
         <main className="flex-grow flex items-center justify-center pt-32 pb-24 relative z-10">
           <div className="text-center glass-panel p-12">
             <h1 className="text-3xl font-serif font-bold text-white mb-4">
-              Article Not Found
+              {t("Article Not Found")}
             </h1>
             <Link href="/blog">
               <Button className="bg-secondary hover:bg-secondary/90 text-white font-mono uppercase tracking-widest">
-                Back to Insights
+                {t("Back to Insights")}
               </Button>
             </Link>
           </div>
@@ -77,7 +79,7 @@ export function BlogPost() {
           <div className="mx-auto max-w-3xl">
             <Link href="/blog">
               <span className="mb-8 inline-flex cursor-pointer items-center gap-1.5 text-xs font-mono uppercase tracking-widest text-white/60 transition hover:text-secondary">
-                <ArrowLeft className="h-4 w-4" /> All Insights
+                <ArrowLeft className="h-4 w-4" /> {t("All Insights")}
               </span>
             </Link>
 
@@ -87,7 +89,7 @@ export function BlogPost() {
               )}
               <span>{formatPostDate(post.publishedAt)}</span>
               <span>·</span>
-              <span>{readingTime(post.content)} min read</span>
+              <span>{readingTime(post.content)} {t("min read")}</span>
             </div>
 
             <h1 className="font-serif text-3xl md:text-5xl font-bold leading-tight text-white">
@@ -130,7 +132,7 @@ export function BlogPost() {
           {related.length > 0 && (
             <div className="mx-auto mt-20 max-w-5xl border-t border-white/10 pt-12">
               <h2 className="mb-8 font-serif text-2xl font-bold text-white">
-                More insights
+                {t("More insights")}
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 {related.map((r) => (

@@ -7,8 +7,10 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 
 export function Properties() {
+  const { t } = useLanguage();
   const { formatPrice } = useCurrency();
   const { properties } = useProperties();
   const [type, setType] = useState<string>("All Types");
@@ -106,17 +108,17 @@ export function Properties() {
       <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
           <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">
-            {communityParam ? "Coveted Location" : "Portfolio"}
+            {communityParam ? t("Coveted Location") : t("Portfolio")}
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-3 drop-shadow-md">
-            {communityParam || "Elevated Living"}
+            {communityParam || t("Elevated Living")}
           </h1>
           {communityParam && (
             <a
               href="/properties"
               className="inline-block mb-12 text-xs font-mono uppercase tracking-widest text-secondary hover:text-white transition-colors"
             >
-              &larr; View all locations
+              &larr; {t("View all locations")}
             </a>
           )}
           {!communityParam && <div className="mb-12" />}
@@ -128,35 +130,35 @@ export function Properties() {
                 onChange={(e) => setType(e.target.value)}
                 className="px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm appearance-none"
               >
-                <option className="bg-primary">All Types</option>
-                <option className="bg-primary">Apartments</option>
-                <option className="bg-primary">Villas</option>
-                <option className="bg-primary">Townhouses</option>
-                <option className="bg-primary">Penthouse</option>
-                <option className="bg-primary">Commercial</option>
-                <option className="bg-primary">Studio</option>
+                <option className="bg-primary" value="All Types">{t("All Types")}</option>
+                <option className="bg-primary" value="Apartments">{t("Apartments")}</option>
+                <option className="bg-primary" value="Villas">{t("Villas")}</option>
+                <option className="bg-primary" value="Townhouses">{t("Townhouses")}</option>
+                <option className="bg-primary" value="Penthouse">{t("Penthouse")}</option>
+                <option className="bg-primary" value="Commercial">{t("Commercial")}</option>
+                <option className="bg-primary" value="Studio">{t("Studio")}</option>
               </select>
               <select 
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm appearance-none"
               >
-                <option className="bg-primary">Any Location</option>
-                <option className="bg-primary">Dubai</option>
-                <option className="bg-primary">Abu Dhabi</option>
-                <option className="bg-primary">Dubai Marina</option>
-                <option className="bg-primary">Downtown Dubai</option>
-                <option className="bg-primary">Saadiyat Island</option>
+                <option className="bg-primary" value="Any Location">{t("Any Location")}</option>
+                <option className="bg-primary" value="Dubai">{t("Dubai")}</option>
+                <option className="bg-primary" value="Abu Dhabi">{t("Abu Dhabi")}</option>
+                <option className="bg-primary" value="Dubai Marina">{t("Dubai Marina")}</option>
+                <option className="bg-primary" value="Downtown Dubai">{t("Downtown Dubai")}</option>
+                <option className="bg-primary" value="Saadiyat Island">{t("Saadiyat Island")}</option>
               </select>
               <select 
                 value={beds}
                 onChange={(e) => setBeds(e.target.value)}
                 className="px-4 py-4 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm appearance-none"
               >
-                <option className="bg-primary">Beds (Any)</option>
-                <option className="bg-primary">1 Bed</option>
-                <option className="bg-primary">2 Beds</option>
-                <option className="bg-primary">3+ Beds</option>
+                <option className="bg-primary" value="Beds (Any)">{t("Beds (Any)")}</option>
+                <option className="bg-primary" value="1 Bed">{t("1 Bed")}</option>
+                <option className="bg-primary" value="2 Beds">{t("2 Beds")}</option>
+                <option className="bg-primary" value="3+ Beds">{t("3+ Beds")}</option>
               </select>
             </div>
           </div>
@@ -164,22 +166,22 @@ export function Properties() {
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="hidden lg:block w-64 shrink-0">
               <div className="glass-panel p-8 sticky top-32">
-                <h3 className="text-xs font-mono text-secondary uppercase tracking-widest mb-6">Refine Search</h3>
+                <h3 className="text-xs font-mono text-secondary uppercase tracking-widest mb-6">{t("Refine Search")}</h3>
                 <div className="space-y-6">
                   <div>
-                    <label className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4 block">Status</label>
+                    <label className="text-xs font-mono text-white/70 uppercase tracking-widest mb-4 block">{t("Status")}</label>
                     <div className="flex flex-col gap-4">
                       <label className="flex items-center gap-3 text-sm font-mono cursor-pointer">
                         <input type="checkbox" checked={buyChecked} onChange={(e) => setBuyChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
-                        Buy
+                        {t("Buy")}
                       </label>
                       <label className="flex items-center gap-3 text-sm font-mono cursor-pointer">
                         <input type="checkbox" checked={rentChecked} onChange={(e) => setRentChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
-                        Rent
+                        {t("Rent")}
                       </label>
                       <label className="flex items-center gap-3 text-sm font-mono cursor-pointer">
                         <input type="checkbox" checked={offPlanChecked} onChange={(e) => setOffPlanChecked(e.target.checked)} className="w-4 h-4 accent-secondary bg-white/10 border-white/20" /> 
-                        Off-Plan
+                        {t("Off-Plan")}
                       </label>
                     </div>
                   </div>
@@ -189,7 +191,7 @@ export function Properties() {
             
             <div className="flex-1">
               <div className="mb-8 flex justify-between items-center text-xs font-mono uppercase tracking-widest text-white/60">
-                Showing {filteredProperties.length} results
+                {t("Showing")} {filteredProperties.length} {t("results")}
               </div>
               
               {filteredProperties.length > 0 ? (
@@ -200,12 +202,12 @@ export function Properties() {
                       id={p.id}
                       image={p.image}
                       status={p.status} 
-                      price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / yr` : formatPrice(p.price)} 
+                      price={p.status === "FOR RENT" ? `${formatPrice(p.price)} / ${t("yr")}` : formatPrice(p.price)} 
                       title={p.title} 
                       location={p.location}
                       community={p.community}
                       agentName={p.agent?.name}
-                      beds={p.beds === 0 ? "Studio" : p.beds} 
+                      beds={p.beds === 0 ? t("Studio") : p.beds} 
                       baths={p.baths} 
                       sqft={p.sqft}
                     />
@@ -213,7 +215,7 @@ export function Properties() {
                 </div>
               ) : (
                 <div className="text-center py-32 glass-panel">
-                  <h3 className="font-serif font-bold text-2xl text-white mb-4">No properties match your altitude</h3>
+                  <h3 className="font-serif font-bold text-2xl text-white mb-4">{t("No properties match your altitude")}</h3>
                   <Button 
                     className="bg-secondary text-[#0A1628] hover:bg-secondary/90 font-mono uppercase tracking-widest"
                     onClick={() => {
@@ -225,7 +227,7 @@ export function Properties() {
                       setOffPlanChecked(true);
                     }}
                   >
-                    Reset Console
+                    {t("Reset Console")}
                   </Button>
                 </div>
               )}

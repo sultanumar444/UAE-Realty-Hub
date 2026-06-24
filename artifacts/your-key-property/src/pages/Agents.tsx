@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useListAgents } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
+import { useLanguage } from "@/lib/language";
 import { motion } from "framer-motion";
 import { Phone, Mail } from "lucide-react";
 
@@ -28,6 +29,7 @@ interface TeamMember {
 }
 
 export function Agents() {
+  const { t } = useLanguage();
   const agentsQ = useListAgents();
 
   const activeAgents = (agentsQ.data ?? []).filter((a) => a.active);
@@ -37,7 +39,7 @@ export function Agents() {
       ? activeAgents.map((a) => ({
           id: a.id,
           name: a.name,
-          title: a.title || "Property Consultant",
+          title: a.title || t("Property Consultant"),
           spec: a.bio || "Your Key Property Management",
           img: storageUrl(a.photoUrl),
           phone: a.phone || undefined,
@@ -52,10 +54,10 @@ export function Agents() {
       <main className="flex-grow pt-32 pb-24 relative z-10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <div className="text-xs font-mono text-secondary uppercase tracking-[3px] mb-3">The Experts</div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">Meet The Team</h1>
+            <div className="text-xs font-mono text-secondary uppercase tracking-[3px] mb-3">{t("The Experts")}</div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-md">{t("Meet The Team")}</h1>
             <p className="text-white/60 font-mono text-sm max-w-2xl mx-auto">
-              A dedicated team of specialists guiding you through every step of buying, selling, renting, and investing across Dubai &amp; Abu Dhabi.
+              {t("A dedicated team of specialists guiding you through every step of buying, selling, renting, and investing across Dubai & Abu Dhabi.")}
             </p>
           </div>
 
@@ -93,12 +95,12 @@ export function Agents() {
                 {(agent.phone || agent.email) && (
                   <div className="flex items-center justify-center gap-4 pt-4 border-t border-white/10">
                     {agent.phone && (
-                      <a href={`tel:${agent.phone}`} aria-label={`Call ${agent.name}`} className="text-white/60 hover:text-secondary transition-colors">
+                      <a href={`tel:${agent.phone}`} aria-label={`${t("Call")} ${agent.name}`} className="text-white/60 hover:text-secondary transition-colors">
                         <Phone className="w-4 h-4" />
                       </a>
                     )}
                     {agent.email && (
-                      <a href={`mailto:${agent.email}`} aria-label={`Email ${agent.name}`} className="text-white/60 hover:text-secondary transition-colors">
+                      <a href={`mailto:${agent.email}`} aria-label={`${t("Email")} ${agent.name}`} className="text-white/60 hover:text-secondary transition-colors">
                         <Mail className="w-4 h-4" />
                       </a>
                     )}

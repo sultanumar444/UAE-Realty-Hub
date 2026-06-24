@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Key, Home, Building2, Briefcase, TrendingUp } from "lucide-react";
+import { useLanguage } from "@/lib/language";
 
 const services = [
   {
@@ -30,6 +31,7 @@ const services = [
 ];
 
 export function Services() {
+  const { t } = useLanguage();
   return (
     <section id="services" className="py-24 md:py-32 bg-background">
       <div className="container px-4 md:px-6">
@@ -41,7 +43,7 @@ export function Services() {
               viewport={{ once: true }}
               className="text-primary text-sm font-semibold tracking-[0.2em] uppercase mb-4"
             >
-              Our Expertise
+              {t("Our Expertise")}
             </motion.span>
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
@@ -50,7 +52,7 @@ export function Services() {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl mb-6"
             >
-              Comprehensive Real Estate Solutions
+              {t("Comprehensive Real Estate Solutions")}
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -59,7 +61,7 @@ export function Services() {
               transition={{ delay: 0.2 }}
               className="text-muted-foreground text-lg leading-relaxed"
             >
-              From strategic acquisitions to meticulous property management, we provide a holistic approach to luxury real estate in the UAE.
+              {t("From strategic acquisitions to meticulous property management, we provide a holistic approach to luxury real estate in the UAE.")}
             </motion.p>
           </div>
           
@@ -74,9 +76,9 @@ export function Services() {
                 className="group border-b border-border pb-8 last:border-0"
               >
                 <service.icon className="w-8 h-8 text-primary mb-6 transition-transform group-hover:scale-110 group-hover:text-foreground duration-500" />
-                <h3 className="text-2xl mb-3">{service.title}</h3>
+                <h3 className="text-2xl mb-3">{t(service.title)}</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {service.description}
+                  {t(service.description)}
                 </p>
               </motion.div>
             ))}

@@ -2,8 +2,10 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/language";
 
 export function About() {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Navbar />
@@ -13,7 +15,7 @@ export function About() {
           <div className="absolute inset-0 z-0">
             <img 
               src="/images/glass-facade.png" 
-              alt="Glass Facade" 
+              alt={t("Glass Facade")} 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/80 to-transparent" />
@@ -24,10 +26,10 @@ export function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-4 inline-block border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm">Our Story</div>
-              <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-lg">Ascending Together</h1>
+              <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-4 inline-block border border-secondary/30 px-3 py-1 bg-secondary/10 backdrop-blur-sm">{t("Our Story")}</div>
+              <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-lg">{t("Ascending Together")}</h1>
               <p className="text-lg md:text-xl text-white/80 font-mono max-w-2xl mx-auto leading-relaxed">
-                Your Key Property Management is your dedicated partner in navigating the dynamic UAE property market.
+                {t("Your Key Property Management is your dedicated partner in navigating the dynamic UAE property market.")}
               </p>
             </motion.div>
           </div>
@@ -42,29 +44,29 @@ export function About() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">Foundation</div>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-8">Established with Vision</h2>
+                <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("Foundation")}</div>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-8">{t("Established with Vision")}</h2>
                 <div className="glass-panel p-8 space-y-6">
                   <p className="text-white/70 font-mono text-sm leading-relaxed">
-                    Founded over 15 years ago, Your Key Property Management has grown from a boutique agency into one of the most respected and trusted real estate brokerages in the United Arab Emirates.
+                    {t("Founded over 15 years ago, Your Key Property Management has grown from a boutique agency into one of the most respected and trusted real estate brokerages in the United Arab Emirates.")}
                   </p>
                   <p className="text-white/70 font-mono text-sm leading-relaxed">
-                    Operating across Abu Dhabi and Dubai, we bridge the gap between premium properties and discerning clients. Whether you are a first-time buyer, a seasoned investor, or looking for comprehensive property management, we deliver transparent, professional, and personalized service.
+                    {t("Operating across Abu Dhabi and Dubai, we bridge the gap between premium properties and discerning clients. Whether you are a first-time buyer, a seasoned investor, or looking for comprehensive property management, we deliver transparent, professional, and personalized service.")}
                   </p>
                   
                   <div className="space-y-6 pt-6 border-t border-white/10">
                     <div className="flex gap-4">
                       <CheckCircle2 className="w-5 h-5 text-secondary shrink-0 mt-1" />
                       <div>
-                        <h4 className="font-mono font-bold text-white uppercase tracking-widest text-sm mb-2">Our Mission</h4>
-                        <p className="text-xs font-mono text-white/60 leading-relaxed">To provide unparalleled real estate services through transparency, expertise, and a deep understanding of our clients' needs.</p>
+                        <h4 className="font-mono font-bold text-white uppercase tracking-widest text-sm mb-2">{t("Our Mission")}</h4>
+                        <p className="text-xs font-mono text-white/60 leading-relaxed">{t("To provide unparalleled real estate services through transparency, expertise, and a deep understanding of our clients' needs.")}</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
                       <CheckCircle2 className="w-5 h-5 text-secondary shrink-0 mt-1" />
                       <div>
-                        <h4 className="font-mono font-bold text-white uppercase tracking-widest text-sm mb-2">Our Vision</h4>
-                        <p className="text-xs font-mono text-white/60 leading-relaxed">To be the undisputed leader in UAE real estate, recognized for our integrity, innovation, and exceptional results.</p>
+                        <h4 className="font-mono font-bold text-white uppercase tracking-widest text-sm mb-2">{t("Our Vision")}</h4>
+                        <p className="text-xs font-mono text-white/60 leading-relaxed">{t("To be the undisputed leader in UAE real estate, recognized for our integrity, innovation, and exceptional results.")}</p>
                       </div>
                     </div>
                   </div>
@@ -94,8 +96,8 @@ export function About() {
 
         <section className="py-32">
           <div className="container mx-auto px-4 text-center">
-            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">The Experts</div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">Meet The Team</h2>
+            <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("The Experts")}</div>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">{t("Meet The Team")}</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/language";
 
 const testimonials = [
   {
@@ -19,11 +20,12 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const { t } = useLanguage();
   return (
     <section className="py-24 md:py-32 bg-background">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl">Client Perspectives</h2>
+          <h2 className="text-4xl md:text-5xl">{t("Client Perspectives")}</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -42,11 +44,11 @@ export function Testimonials() {
                 </svg>
               </div>
               <p className="text-lg text-foreground mb-8 flex-grow leading-relaxed">
-                "{test.quote}"
+                "{t(test.quote)}"
               </p>
               <div>
                 <p className="font-serif text-lg">{test.author}</p>
-                <p className="text-sm text-muted-foreground uppercase tracking-wider mt-1">{test.title}</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-wider mt-1">{t(test.title)}</p>
               </div>
             </motion.div>
           ))}
