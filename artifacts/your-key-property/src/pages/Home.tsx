@@ -383,14 +383,14 @@ export function Home() {
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md">Investment Analytics</h2>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 glass-panel p-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
               {[
                 { val: "15+", label: "Years Experience" },
                 { val: "4,500+", label: "Properties Sold" },
                 { val: "12k+", label: "Happy Clients" },
                 { val: "2.8B+", label: "AED Transaction Value" }
               ].map((stat, i) => (
-                <div key={i} className="text-center flex flex-col gap-3">
+                <div key={i} className="text-center flex flex-col gap-3 border border-white/15 p-8">
                   <span className="text-4xl md:text-6xl font-mono font-bold text-secondary">{stat.val}</span>
                   <span className="text-white/70 text-xs font-mono uppercase tracking-widest">{stat.label}</span>
                 </div>
