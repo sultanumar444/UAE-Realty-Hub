@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-type Currency = "AED" | "USD" | "GBP" | "EUR" | "INR";
+type Currency = "AED" | "USD" | "GBP" | "EUR" | "INR" | "PKR";
 
 interface CurrencyContextType {
   currency: Currency;
@@ -19,6 +19,7 @@ const RATES: Record<Currency, number> = {
   GBP: 0.215,
   EUR: 0.253,
   INR: 22.7,
+  PKR: 76,
 };
 
 const SYMBOLS: Record<Currency, string> = {
@@ -27,6 +28,7 @@ const SYMBOLS: Record<Currency, string> = {
   GBP: "£",
   EUR: "€",
   INR: "₹",
+  PKR: "Rs ",
 };
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {

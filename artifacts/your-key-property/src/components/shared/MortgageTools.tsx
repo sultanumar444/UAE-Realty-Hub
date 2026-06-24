@@ -105,7 +105,7 @@ function MortgageCalculator() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <Control label="Property Price" unit="AED" value={price} display={formatPrice(price)} min={300000} max={30000000} step={50000} onChange={setPrice} />
+        <Control label="Property Price" unit="" value={price} display={formatPrice(price)} min={300000} max={30000000} step={50000} onChange={setPrice} />
         <Control label="Down Payment" unit="%" value={downPct} display={`${downPct}`} min={10} max={80} step={1} onChange={setDownPct} />
         <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
         <Control label="Loan Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
@@ -199,7 +199,7 @@ function Amortization() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="space-y-6 lg:col-span-1">
-        <Control label="Loan Amount" unit="AED" value={loan} display={formatPrice(loan)} min={200000} max={20000000} step={25000} onChange={setLoan} />
+        <Control label="Loan Amount" unit="" value={loan} display={formatPrice(loan)} min={200000} max={20000000} step={25000} onChange={setLoan} />
         <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
         <Control label="Loan Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
         <div className="grid grid-cols-1 gap-3 pt-2">
@@ -250,7 +250,7 @@ function Refinancing() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <Control label="Outstanding Balance" unit="AED" value={balance} display={formatPrice(balance)} min={200000} max={20000000} step={25000} onChange={setBalance} />
+        <Control label="Outstanding Balance" unit="" value={balance} display={formatPrice(balance)} min={200000} max={20000000} step={25000} onChange={setBalance} />
         <Control label="Current Rate" unit="%" value={currentRate} display={currentRate.toFixed(2)} min={1} max={10} step={0.05} onChange={setCurrentRate} />
         <Control label="New Rate" unit="%" value={newRate} display={newRate.toFixed(2)} min={1} max={10} step={0.05} onChange={setNewRate} />
         <Control label="Remaining Period" unit="yrs" value={years} display={`${years}`} min={5} max={30} step={1} onChange={setYears} />
@@ -306,8 +306,8 @@ function RentVsBuy() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="space-y-6 lg:col-span-1">
-        <Control label="Property Price" unit="AED" value={price} display={formatPrice(price)} min={300000} max={20000000} step={50000} onChange={setPrice} />
-        <Control label="Annual Rent" unit="AED" value={rent} display={formatPrice(rent)} min={20000} max={1000000} step={5000} onChange={setRent} />
+        <Control label="Property Price" unit="" value={price} display={formatPrice(price)} min={300000} max={20000000} step={50000} onChange={setPrice} />
+        <Control label="Annual Rent" unit="" value={rent} display={formatPrice(rent)} min={20000} max={1000000} step={5000} onChange={setRent} />
         <Control label="Appreciation" unit="%" value={appreciation} display={appreciation.toFixed(1)} min={0} max={15} step={0.5} onChange={setAppreciation} />
         <Control label="Horizon" unit="yrs" value={years} display={`${years}`} min={3} max={25} step={1} onChange={setYears} />
         <div className={`p-4 border text-center ${buyWins ? "bg-secondary/10 border-secondary/30" : "bg-white/5 border-white/10"}`}>
@@ -357,9 +357,9 @@ function Affordability() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <Control label="Monthly Income" unit="AED" value={income} display={formatPrice(income)} min={10000} max={300000} step={1000} onChange={setIncome} />
-        <Control label="Monthly Debts" unit="AED" value={debts} display={formatPrice(debts)} min={0} max={100000} step={500} onChange={setDebts} />
-        <Control label="Savings for Down Payment" unit="AED" value={savings} display={formatPrice(savings)} min={0} max={10000000} step={25000} onChange={setSavings} />
+        <Control label="Monthly Income" unit="" value={income} display={formatPrice(income)} min={10000} max={300000} step={1000} onChange={setIncome} />
+        <Control label="Monthly Debts" unit="" value={debts} display={formatPrice(debts)} min={0} max={100000} step={500} onChange={setDebts} />
+        <Control label="Savings for Down Payment" unit="" value={savings} display={formatPrice(savings)} min={0} max={10000000} step={25000} onChange={setSavings} />
         <Control label="Interest Rate" unit="%" value={rate} display={rate.toFixed(2)} min={1} max={10} step={0.05} onChange={setRate} />
       </div>
       <div className="space-y-4">

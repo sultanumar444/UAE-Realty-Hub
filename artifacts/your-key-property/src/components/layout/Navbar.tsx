@@ -139,7 +139,7 @@ export function Navbar() {
               {currency} <span className="text-[8px]">▼</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-[#0A1628]/95 backdrop-blur-md border-white/20">
-              {(["AED", "USD", "GBP", "EUR", "INR"] as const).map(c => (
+              {(["AED", "USD", "GBP", "EUR", "INR", "PKR"] as const).map(c => (
                 <DropdownMenuItem 
                   key={c} 
                   onClick={() => setCurrency(c)}
@@ -209,6 +209,7 @@ export function Navbar() {
                       <option value="GBP" className="bg-[#0A1628]">GBP</option>
                       <option value="EUR" className="bg-[#0A1628]">EUR</option>
                       <option value="INR" className="bg-[#0A1628]">INR</option>
+                      <option value="PKR" className="bg-[#0A1628]">PKR</option>
                     </select>
                   </div>
 
