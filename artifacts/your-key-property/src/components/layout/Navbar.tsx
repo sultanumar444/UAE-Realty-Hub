@@ -60,18 +60,22 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-3 xl:gap-7">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-mono uppercase tracking-[3px] text-white/80 hover:text-white transition-colors cursor-pointer outline-none">
+          <div className="relative group">
+            <button className="flex items-center gap-1 text-xs font-mono uppercase tracking-[3px] text-white/80 group-hover:text-white transition-colors cursor-pointer outline-none py-2">
               {t("nav.properties")} <span className="text-[8px]">▼</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="bg-[#0A1628]/95 backdrop-blur-md border-white/20">
-              {propertyLinks.map((link) => (
-                <DropdownMenuItem key={link.href} asChild className="cursor-pointer font-mono text-xs uppercase tracking-[3px] text-white focus:bg-white/10 focus:text-secondary">
-                  <Link href={link.href}>{link.name}</Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </button>
+            <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-150 z-50">
+              <div className="bg-[#0A1628]/95 backdrop-blur-md border border-white/20 min-w-[210px] py-2 shadow-xl">
+                {propertyLinks.map((link) => (
+                  <Link key={link.href} href={link.href}>
+                    <span className="block px-4 py-2 cursor-pointer font-mono text-xs uppercase tracking-[3px] text-white hover:bg-white/10 hover:text-secondary transition-colors">
+                      {link.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {midLinks.map((link) => (
             <Link key={link.href} href={link.href}>
@@ -85,18 +89,22 @@ export function Navbar() {
             </Link>
           ))}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-mono uppercase tracking-[3px] text-white/80 hover:text-white transition-colors cursor-pointer outline-none">
+          <div className="relative group">
+            <button className="flex items-center gap-1 text-xs font-mono uppercase tracking-[3px] text-white/80 group-hover:text-white transition-colors cursor-pointer outline-none py-2">
               {t("nav.about")} <span className="text-[8px]">▼</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="bg-[#0A1628]/95 backdrop-blur-md border-white/20">
-              {aboutLinks.map((link) => (
-                <DropdownMenuItem key={link.href} asChild className="cursor-pointer font-mono text-xs uppercase tracking-[3px] text-white focus:bg-white/10 focus:text-secondary">
-                  <Link href={link.href}>{link.name}</Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </button>
+            <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-150 z-50">
+              <div className="bg-[#0A1628]/95 backdrop-blur-md border border-white/20 min-w-[210px] py-2 shadow-xl">
+                {aboutLinks.map((link) => (
+                  <Link key={link.href} href={link.href}>
+                    <span className="block px-4 py-2 cursor-pointer font-mono text-xs uppercase tracking-[3px] text-white hover:bg-white/10 hover:text-secondary transition-colors">
+                      {link.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <Link href="/contact">
             <span
@@ -151,12 +159,6 @@ export function Navbar() {
             <Phone className="w-4 h-4 text-secondary" />
             <span className="hidden 2xl:inline">+971 50 669 2770</span>
           </a>
-
-          <Link href="/crm">
-            <span className="text-[10px] font-mono uppercase tracking-[3px] text-white/50 hover:text-secondary transition-colors cursor-pointer">
-              {t("nav.crm")}
-            </span>
-          </Link>
 
           <GetInTouchDialog>
             <Button className="bg-secondary hover:bg-secondary/90 text-[#0A1628] rounded-none px-4 xl:px-6 font-mono text-xs uppercase tracking-widest transition-colors font-bold">
@@ -227,12 +229,6 @@ export function Navbar() {
                       {t("nav.getInTouch")}
                     </Button>
                   </GetInTouchDialog>
-
-                  <Link href="/crm">
-                    <span className="text-[10px] font-mono uppercase tracking-[3px] text-white/40 hover:text-secondary cursor-pointer">
-                      {t("nav.crm")}
-                    </span>
-                  </Link>
                 </div>
               </div>
             </SheetContent>

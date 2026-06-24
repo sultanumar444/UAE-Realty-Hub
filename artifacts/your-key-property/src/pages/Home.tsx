@@ -267,7 +267,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L12 · THE PORTFOLIO */}
-        <section ref={portfolioRef} className="py-32 relative z-10">
+        <section ref={portfolioRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
               <div>
@@ -312,7 +312,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L24 · RISING DEVELOPMENTS */}
-        <section ref={risingRef} className="py-32 relative z-10">
+        <section ref={risingRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L24 · Rising</div>
@@ -376,7 +376,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L36 · THE NUMBERS */}
-        <section ref={numbersRef} className="py-32 relative z-10">
+        <section ref={numbersRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L36 · The Numbers</div>
@@ -411,7 +411,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L48 · PRIME ALTITUDES */}
-        <section ref={primeRef} className="py-32 relative z-10">
+        <section ref={primeRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L48 · Prime Altitudes</div>
@@ -459,7 +459,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L54 · CONCIERGE */}
-        <section ref={conciergeRef} className="py-32 relative z-10">
+        <section ref={conciergeRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">L54 · Concierge</div>
@@ -496,7 +496,7 @@ export function Home() {
         </section>
 
         {/* CLOUD · TRUST */}
-        <section ref={trustRef} className="py-40 relative z-10">
+        <section ref={trustRef} className="py-24 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">CLOUD · Trust</div>
@@ -579,7 +579,7 @@ export function Home() {
         <Faq />
 
         {/* PENTHOUSE (top) */}
-        <section ref={penthouseRef} className="py-40 relative z-10 flex items-center min-h-[80vh]">
+        <section ref={penthouseRef} className="py-24 relative z-10 flex items-center min-h-[55vh]">
           <div className="container mx-auto px-4 max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 50 }}

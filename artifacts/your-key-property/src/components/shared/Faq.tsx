@@ -33,7 +33,7 @@ export function Faq() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 relative z-10">
+    <section className="py-16 relative z-10">
       <div className="container mx-auto px-4 max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -20,7 +20,7 @@ export function Investment() {
             </p>
           </div>
           
-          <div className="max-w-6xl mx-auto space-y-12">
+          <div className="max-w-6xl mx-auto space-y-8">
             <RoiVisualizer initialPrice={3500000} />
             <MortgageTools />
           </div>
