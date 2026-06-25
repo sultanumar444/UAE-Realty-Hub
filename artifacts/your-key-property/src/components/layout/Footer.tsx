@@ -5,7 +5,7 @@ import { useLanguage } from "@/lib/language";
 export function Footer() {
   const { t } = useLanguage();
   return (
-    <footer className="bg-transparent border-t border-white/10 text-white pt-24 pb-8 relative z-10 backdrop-blur-sm">
+    <footer className="bg-[#0E172A] border-t border-white/10 text-white pt-24 pb-8 relative z-10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div>

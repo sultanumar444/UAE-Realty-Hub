@@ -7,19 +7,8 @@ import { useLanguage } from "@/lib/language";
 import { motion } from "framer-motion";
 import { Phone, Mail } from "lucide-react";
 
-const FALLBACK_AGENTS = [
-  { name: "James Mitchell", title: "Senior Sales Consultant", spec: "Dubai Marina", img: "/images/agent-1.png" },
-  { name: "Saeed Al Mansoori", title: "Leasing Manager", spec: "Abu Dhabi Luxury Rentals", img: "/images/agent-2.png" },
-  { name: "Priya Sharma", title: "Investment Advisor", spec: "Off-Plan Properties", img: "/images/agent-3.png" },
-  { name: "Fatima Hassan", title: "Property Manager", spec: "Asset Management", img: "/images/agent-4.png" },
-  { name: "Michael Clarke", title: "Commercial Specialist", spec: "Business Bay & ADGM", img: "/images/agent-1.png" },
-  { name: "Sara Al Futtaim", title: "Luxury Specialist", spec: "Palm Jumeirah", img: "/images/agent-4.png" },
-  { name: "David Chen", title: "Sales Consultant", spec: "Downtown Dubai", img: "/images/agent-3.png" },
-  { name: "Omar Zayed", title: "Operations Director", spec: "Company Operations", img: "/images/agent-2.png" },
-];
-
 interface TeamMember {
-  id?: number;
+  id: number;
   name: string;
   title: string;
   spec: string;
@@ -34,18 +23,15 @@ export function Agents() {
 
   const activeAgents = (agentsQ.data ?? []).filter((a) => a.active);
 
-  const team: TeamMember[] =
-    activeAgents.length > 0
-      ? activeAgents.map((a) => ({
-          id: a.id,
-          name: a.name,
-          title: a.title || t("Property Consultant"),
-          spec: a.bio || "Your Key Property Management",
-          img: storageUrl(a.photoUrl),
-          phone: a.phone || undefined,
-          email: a.email || undefined,
-        }))
-      : FALLBACK_AGENTS;
+  const team: TeamMember[] = activeAgents.map((a) => ({
+    id: a.id,
+    name: a.name,
+    title: a.title || t("Property Consultant"),
+    spec: a.bio || "Your Key Property Management",
+    img: storageUrl(a.photoUrl),
+    phone: a.phone || undefined,
+    email: a.email || undefined,
+  }));
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
@@ -61,6 +47,9 @@ export function Agents() {
             </p>
           </div>
 
+          {team.length === 0 ? (
+            <p className="text-white/50 font-mono text-sm text-center">{t("Our team will be available shortly.")}</p>
+          ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((agent, i) => (
               <motion.div
@@ -109,6 +98,7 @@ export function Agents() {
               </motion.div>
             ))}
           </div>
+          )}
         </div>
       </main>
 

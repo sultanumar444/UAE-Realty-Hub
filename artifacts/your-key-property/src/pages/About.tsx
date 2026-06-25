@@ -1,11 +1,31 @@
+import { Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CheckCircle2, Home as HomeIcon, TrendingUp, Key, Building, BarChart, Calculator } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/language";
+import { useListAgents } from "@workspace/api-client-react";
+import { storageUrl } from "@/lib/listingApi";
+
+interface AboutTeamMember {
+  id: number;
+  name: string;
+  title: string;
+  spec: string;
+  img: string;
+}
 
 export function About() {
   const { t } = useLanguage();
+  const agentsQ = useListAgents();
+  const activeAgents = (agentsQ.data ?? []).filter((a) => a.active);
+  const team: AboutTeamMember[] = activeAgents.map((a) => ({
+    id: a.id,
+    name: a.name,
+    title: a.title || t("Property Consultant"),
+    spec: a.bio || "Your Key Property Management",
+    img: storageUrl(a.photoUrl),
+  }));
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Navbar />
@@ -133,34 +153,42 @@ export function About() {
             <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("The Experts")}</div>
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">{t("Meet The Team")}</h2>
             
+            {team.length === 0 ? (
+              <p className="text-white/50 font-mono text-sm">{t("Our team will be available shortly.")}</p>
+            ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { name: "James Mitchell", title: "Senior Sales Consultant", spec: "Dubai Marina", img: "/images/agent-1.png" },
-                { name: "Saeed Al Mansoori", title: "Leasing Manager", spec: "Abu Dhabi Luxury Rentals", img: "/images/agent-2.png" },
-                { name: "Priya Sharma", title: "Investment Advisor", spec: "Off-Plan Properties", img: "/images/agent-3.png" },
-                { name: "Fatima Hassan", title: "Property Manager", spec: "Asset Management", img: "/images/agent-4.png" },
-                { name: "Michael Clarke", title: "Commercial Specialist", spec: "Business Bay & ADGM", img: "/images/agent-1.png" },
-                { name: "Sara Al Futtaim", title: "Luxury Specialist", spec: "Palm Jumeirah", img: "/images/agent-4.png" },
-                { name: "David Chen", title: "Sales Consultant", spec: "Downtown Dubai", img: "/images/agent-3.png" },
-                { name: "Omar Zayed", title: "Operations Director", spec: "Company Operations", img: "/images/agent-2.png" }
-              ].map((agent, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="glass-panel p-8 group"
-                >
-                  <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
-                    <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-xl font-serif font-bold text-white mb-1">{agent.name}</h3>
-                  <p className="text-secondary text-[10px] font-mono uppercase tracking-widest mb-3">{agent.title}</p>
-                  <p className="text-white/50 text-xs font-mono">{agent.spec}</p>
-                </motion.div>
-              ))}
+              {team.map((agent, i) => {
+                const card = (
+                  <>
+                    <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
+                      <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
+                    </div>
+                    <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-secondary transition-colors">{agent.name}</h3>
+                    <p className="text-secondary text-[10px] font-mono uppercase tracking-widest mb-3">{agent.title}</p>
+                    <p className="text-white/50 text-xs font-mono">{agent.spec}</p>
+                  </>
+                );
+                return (
+                  <motion.div
+                    key={agent.id != null ? `agent-${agent.id}` : `fallback-${i}`}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    className="glass-panel p-8 group"
+                  >
+                    {agent.id != null ? (
+                      <Link href={`/agents/${agent.id}`}>
+                        <div className="cursor-pointer">{card}</div>
+                      </Link>
+                    ) : (
+                      card
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
+            )}
           </div>
         </section>
       </main>

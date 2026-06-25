@@ -338,9 +338,100 @@ async function seedOffPlan() {
   console.log("Seeded off-plan listings.");
 }
 
+const AGENT_SEED = [
+  {
+    name: "James Mitchell",
+    email: "james@yourkey.ae",
+    phone: "+971 50 669 2770",
+    title: "Senior Sales Consultant",
+    bio: "Dubai Marina",
+    photoUrl: "/images/agent-1.png",
+    active: true,
+  },
+  {
+    name: "Saeed Al Mansoori",
+    email: "saeed@yourkey.ae",
+    phone: "+971 54 451 7999",
+    title: "Leasing Manager",
+    bio: "Abu Dhabi Luxury Rentals",
+    photoUrl: "/images/agent-2.png",
+    active: true,
+  },
+  {
+    name: "Priya Sharma",
+    email: "priya@yourkey.ae",
+    phone: "+971 50 456 7890",
+    title: "Investment Advisor",
+    bio: "Off-Plan Properties",
+    photoUrl: "/images/agent-3.png",
+    active: true,
+  },
+  {
+    name: "Fatima Hassan",
+    email: "fatima@yourkey.ae",
+    phone: "+971 50 112 2334",
+    title: "Property Manager",
+    bio: "Asset Management",
+    photoUrl: "/images/agent-4.png",
+    active: true,
+  },
+  {
+    name: "Michael Clarke",
+    email: "michael@yourkey.ae",
+    phone: "+971 50 223 3445",
+    title: "Commercial Specialist",
+    bio: "Business Bay & ADGM",
+    photoUrl: "/images/agent-1.png",
+    active: true,
+  },
+  {
+    name: "Sara Al Futtaim",
+    email: "sara@yourkey.ae",
+    phone: "+971 50 334 4556",
+    title: "Luxury Specialist",
+    bio: "Palm Jumeirah",
+    photoUrl: "/images/agent-4.png",
+    active: true,
+  },
+  {
+    name: "David Chen",
+    email: "david@yourkey.ae",
+    phone: "+971 50 445 5667",
+    title: "Sales Consultant",
+    bio: "Downtown Dubai",
+    photoUrl: "/images/agent-3.png",
+    active: true,
+  },
+  {
+    name: "Omar Zayed",
+    email: "omar@yourkey.ae",
+    phone: "+971 50 556 6778",
+    title: "Operations Director",
+    bio: "Company Operations",
+    photoUrl: "/images/agent-2.png",
+    active: true,
+  },
+];
+
+// Idempotently insert any missing team agents (matched by name), independent of
+// whether listings already exist, so existing environments get topped up too.
+async function ensureAgents() {
+  const existingNames = new Set(
+    (await db.select({ name: agentsTable.name }).from(agentsTable)).map(
+      (r) => r.name,
+    ),
+  );
+  const missing = AGENT_SEED.filter((a) => !existingNames.has(a.name));
+  if (missing.length > 0) {
+    await db.insert(agentsTable).values(missing);
+    console.log(`Inserted ${missing.length} missing agent(s).`);
+  }
+}
+
 async function main() {
   await seedPosts();
   await seedCommunities();
+  await ensureAgents();
 
   const existing = await db.select().from(listingsTable).limit(1);
   if (existing.length > 0) {
@@ -353,37 +444,9 @@ async function main() {
   }
 
   const agents = await db
-    .insert(agentsTable)
-    .values([
-      {
-        name: "James Mitchell",
-        email: "james@yourkey.ae",
-        phone: "+971 50 669 2770",
-        title: "Senior Sales Consultant",
-        bio: "Specialising in waterfront and prime Dubai investments.",
-        photoUrl: "/images/office-team.png",
-        active: true,
-      },
-      {
-        name: "Saeed Al Mansoori",
-        email: "saeed@yourkey.ae",
-        phone: "+971 54 451 7999",
-        title: "Leasing Manager",
-        bio: "Abu Dhabi leasing and residential specialist.",
-        photoUrl: "/images/office-team.png",
-        active: true,
-      },
-      {
-        name: "Priya Sharma",
-        email: "priya@yourkey.ae",
-        phone: "+971 50 456 7890",
-        title: "Investment Advisor",
-        bio: "Off-plan and ROI-focused investment guidance.",
-        photoUrl: "/images/office-team.png",
-        active: true,
-      },
-    ])
-    .returning();
+    .select()
+    .from(agentsTable)
+    .orderBy(agentsTable.id);
 
   const [james, saeed, priya] = agents;
 

@@ -273,6 +273,7 @@ const AR: Record<string, string> = {
   "To be the undisputed leader in UAE real estate, recognized for our integrity, innovation, and exceptional results.": "أن نكون الرائد بلا منازع في القطاع العقاري في الإمارات، معروفين بنزاهتنا وابتكارنا ونتائجنا الاستثنائية.",
   "The Experts": "الخبراء",
   "Meet The Team": "تعرّف على الفريق",
+  "Our team will be available shortly.": "سيكون فريقنا متاحاً قريباً.",
   "Enquiry sent. Our team will be in touch shortly.": "تم إرسال الاستفسار. سيتواصل معك فريقنا قريبًا.",
   "Please enter your name": "يرجى إدخال اسمك",
   "Please provide an email or phone number": "يرجى تقديم بريد إلكتروني أو رقم هاتف",
