@@ -274,6 +274,8 @@ const AR: Record<string, string> = {
   "The Experts": "الخبراء",
   "Meet The Team": "تعرّف على الفريق",
   "Our team will be available shortly.": "سيكون فريقنا متاحاً قريباً.",
+  "New off-plan projects will be announced shortly.": "سيتم الإعلان عن مشاريع جديدة على الخارطة قريباً.",
+  "Loading...": "جارٍ التحميل...",
   "Enquiry sent. Our team will be in touch shortly.": "تم إرسال الاستفسار. سيتواصل معك فريقنا قريبًا.",
   "Please enter your name": "يرجى إدخال اسمك",
   "Please provide an email or phone number": "يرجى تقديم بريد إلكتروني أو رقم هاتف",

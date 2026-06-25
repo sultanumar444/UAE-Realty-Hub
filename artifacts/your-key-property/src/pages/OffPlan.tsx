@@ -1,33 +1,21 @@
 import { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { PropertyCard } from "@/components/shared/PropertyCard";
-import { ProjectCard } from "@/components/shared/ProjectCard";
-import { useProperties } from "@/lib/useProperties";
-import { useCurrency } from "@/lib/currency";
+import { OffPlanProjectCard } from "@/components/shared/OffPlanProjectCard";
+import { useListOffPlanProjects } from "@workspace/api-client-react";
 import { useLanguage } from "@/lib/language";
 import { motion } from "framer-motion";
 
-const FALLBACK_PROJECTS = [
-  { image: "/images/render-marina.png", title: "Marina Heights", developer: "Emaar", location: "Dubai Marina", price: 1200000, handover: "Q4 2026", roi: "7-9%" },
-  { image: "/images/render-saadiyat.png", title: "Saadiyat Lagoons", developer: "Aldar", location: "Saadiyat Island", price: 2800000, handover: "Q2 2027", roi: "6-8%" },
-  { image: "/images/render-yas.png", title: "Yas Bay Residences", developer: "Aldar", location: "Yas Island", price: 980000, handover: "Q1 2027", roi: "8-10%" },
-  { image: "/images/dubai-skyline.png", title: "Downtown Views III", developer: "Emaar", location: "Downtown Dubai", price: 1800000, handover: "Q3 2026", roi: "7%" },
-  { image: "/images/abudhabi-skyline.png", title: "Reem Hills", developer: "Aldar", location: "Al Reem Island", price: 1500000, handover: "Q1 2026", roi: "6%" },
-  { image: "/images/luxury-villa.png", title: "Damac Lagoons", developer: "Damac", location: "Dubai", price: 2100000, handover: "Q4 2025", roi: "8%" },
-];
-
 export function OffPlan() {
   const { t } = useLanguage();
-  const { formatPrice } = useCurrency();
-  const { properties } = useProperties();
+  const projectsQ = useListOffPlanProjects({ status: "published" });
   const [emirateFilter, setEmirateFilter] = useState<"all" | "Dubai" | "Abu Dhabi">("all");
 
-  const offPlan = properties.filter((p) => p.status === "OFF PLAN");
+  const projects = projectsQ.data ?? [];
   const visible =
     emirateFilter === "all"
-      ? offPlan
-      : offPlan.filter((p) => p.emirate === emirateFilter);
+      ? projects
+      : projects.filter((p) => p.emirate === emirateFilter);
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
@@ -41,7 +29,9 @@ export function OffPlan() {
             <p className="text-lg text-white/70 font-mono">{t("Towers under construction in Dubai & Abu Dhabi")}</p>
           </div>
 
-          {offPlan.length > 0 ? (
+          {projectsQ.isLoading ? (
+            <p className="text-white/50 font-mono text-sm">{t("Loading...")}</p>
+          ) : projects.length > 0 ? (
             <>
               <div className="flex flex-wrap gap-4 mb-12 glass-panel p-4">
                 {([
@@ -75,36 +65,13 @@ export function OffPlan() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
                   >
-                    <PropertyCard
-                      id={p.id}
-                      image={p.image}
-                      status={p.status}
-                      price={formatPrice(p.price)}
-                      title={p.title}
-                      location={p.location}
-                      community={p.community}
-                      agentName={p.agent?.name}
-                      beds={p.beds === 0 ? t("Studio") : p.beds}
-                      baths={p.baths}
-                      sqft={p.sqft}
-                    />
+                    <OffPlanProjectCard project={p} />
                   </motion.div>
                 ))}
               </div>
             </>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {FALLBACK_PROJECTS.map((proj, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                >
-                  <ProjectCard {...proj} />
-                </motion.div>
-              ))}
-            </div>
+            <p className="text-white/50 font-mono text-sm">{t("New off-plan projects will be announced shortly.")}</p>
           )}
         </div>
       </main>
