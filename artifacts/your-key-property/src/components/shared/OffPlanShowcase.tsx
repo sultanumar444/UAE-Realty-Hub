@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -13,10 +13,18 @@ export function OffPlanShowcase() {
   const projectsQ = useListOffPlanProjects({ status: "published" });
   const projects = projectsQ.data ?? [];
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const total = projects.length;
+
+  useEffect(() => {
+    if (paused || total <= 1) return;
+    const id = setInterval(() => setIndex((i) => i + 1), 6000);
+    return () => clearInterval(id);
+  }, [paused, total]);
 
   if (projects.length === 0) return null;
 
-  const total = projects.length;
   const safeIndex = ((index % total) + total) % total;
   const project = projects[safeIndex];
 
@@ -42,7 +50,11 @@ export function OffPlanShowcase() {
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl">
+        <div
+          className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
           <div className="relative h-[520px] w-full md:h-[620px]">
             <AnimatePresence mode="wait">
               <motion.div

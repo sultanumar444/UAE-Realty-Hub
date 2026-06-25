@@ -38,6 +38,8 @@ export interface OffPlanProjectUpdate {
   bedrooms?: string;
   unitTypes?: string;
   brochureUrl?: string;
+  floorPlanPdf?: string;
+  brochurePdf?: string;
   seoTitle?: string;
   seoDescription?: string;
   featured?: boolean;

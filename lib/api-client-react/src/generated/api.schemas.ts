@@ -375,6 +375,10 @@ export interface OffPlanProject {
   /** @nullable */
   brochureUrl?: string | null;
   /** @nullable */
+  floorPlanPdf?: string | null;
+  /** @nullable */
+  brochurePdf?: string | null;
+  /** @nullable */
   seoTitle?: string | null;
   /** @nullable */
   seoDescription?: string | null;
@@ -416,6 +420,8 @@ export interface OffPlanProjectInput {
   bedrooms?: string;
   unitTypes?: string;
   brochureUrl?: string;
+  floorPlanPdf?: string;
+  brochurePdf?: string;
   seoTitle?: string;
   seoDescription?: string;
   featured?: boolean;
@@ -452,6 +458,8 @@ export interface OffPlanProjectUpdate {
   bedrooms?: string;
   unitTypes?: string;
   brochureUrl?: string;
+  floorPlanPdf?: string;
+  brochurePdf?: string;
   seoTitle?: string;
   seoDescription?: string;
   featured?: boolean;

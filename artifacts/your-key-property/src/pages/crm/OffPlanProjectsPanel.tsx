@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../components/ui/dialog";
-import { Plus, Pencil, Trash2, Loader2, ImageIcon, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, ImageIcon, X, FileText } from "lucide-react";
 import { useCrmInvalidate, Field, inputClass, selectClass } from "./shared";
 import { slugify } from "../../lib/blogApi";
 import { projectHero, projectImage } from "../../lib/offPlanApi";
@@ -60,6 +60,8 @@ type FormState = {
   bedrooms: string;
   unitTypes: string;
   brochureUrl: string;
+  floorPlanPdf: string;
+  brochurePdf: string;
   seoTitle: string;
   seoDescription: string;
   featured: boolean;
@@ -93,6 +95,8 @@ const emptyForm: FormState = {
   bedrooms: "",
   unitTypes: "",
   brochureUrl: "",
+  floorPlanPdf: "",
+  brochurePdf: "",
   seoTitle: "",
   seoDescription: "",
   featured: false,
@@ -136,6 +140,8 @@ function projectToForm(p: OffPlanProject): FormState {
     bedrooms: p.bedrooms ?? "",
     unitTypes: p.unitTypes ?? "",
     brochureUrl: p.brochureUrl ?? "",
+    floorPlanPdf: p.floorPlanPdf ?? "",
+    brochurePdf: p.brochurePdf ?? "",
     seoTitle: p.seoTitle ?? "",
     seoDescription: p.seoDescription ?? "",
     featured: p.featured,
@@ -202,6 +208,9 @@ function formToInput(f: FormState): OffPlanProjectInput {
     bedrooms: f.bedrooms.trim() || undefined,
     unitTypes: f.unitTypes.trim() || undefined,
     brochureUrl: f.brochureUrl.trim() || undefined,
+    // PDFs are clearable: send "" (not undefined) so a removed PDF is cleared on PATCH.
+    floorPlanPdf: f.floorPlanPdf,
+    brochurePdf: f.brochurePdf,
     seoTitle: f.seoTitle.trim() || undefined,
     seoDescription: f.seoDescription.trim() || undefined,
     featured: f.featured,
@@ -275,7 +284,7 @@ export function OffPlanProjectsPanel() {
 
   async function handleSingle(
     files: FileList | null,
-    key: "heroImage" | "logoImage" | "locationImage",
+    key: "heroImage" | "logoImage" | "locationImage" | "floorPlanPdf" | "brochurePdf",
   ) {
     const file = files?.[0];
     if (!file) return;
@@ -945,6 +954,23 @@ export function OffPlanProjectsPanel() {
               />
             </Field>
 
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <PdfUpload
+                label="Floor plan PDF"
+                value={form.floorPlanPdf}
+                isUploading={isUploading}
+                onUpload={(files) => void handleSingle(files, "floorPlanPdf")}
+                onClear={() => setForm((f) => ({ ...f, floorPlanPdf: "" }))}
+              />
+              <PdfUpload
+                label="Brochure PDF"
+                value={form.brochurePdf}
+                isUploading={isUploading}
+                onUpload={(files) => void handleSingle(files, "brochurePdf")}
+                onClear={() => setForm((f) => ({ ...f, brochurePdf: "" }))}
+              />
+            </div>
+
             <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-4">
               <p className="text-xs font-medium uppercase tracking-wide text-white/50">
                 SEO
@@ -1080,6 +1106,63 @@ function ImageList({
           />
         </label>
       </div>
+    </div>
+  );
+}
+
+function PdfUpload({
+  label,
+  value,
+  isUploading,
+  onUpload,
+  onClear,
+}: {
+  label: string;
+  value: string;
+  isUploading: boolean;
+  onUpload: (files: FileList | null) => void;
+  onClear: () => void;
+}) {
+  return (
+    <div>
+      <div className="mb-1.5 flex items-center gap-2">
+        <span className="text-xs font-medium uppercase tracking-wide text-white/60">
+          {label}
+        </span>
+        {isUploading && (
+          <Loader2 className="h-3.5 w-3.5 animate-spin text-white/50" />
+        )}
+      </div>
+      {value ? (
+        <div className="flex items-center gap-3 rounded-md border border-white/10 bg-white/5 p-3">
+          <FileText className="h-5 w-5 shrink-0 text-[#C9974C]" />
+          <span className="flex-1 truncate text-sm text-white/80">
+            {value.split("/").pop()}
+          </span>
+          <button
+            type="button"
+            onClick={onClear}
+            className="rounded-full bg-black/40 p-1 text-white/70 transition hover:bg-red-500/80 hover:text-white"
+            aria-label="Remove PDF"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      ) : (
+        <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-white/20 bg-white/5 p-3 text-xs text-white/60 transition hover:border-[#C9974C]">
+          <Plus className="h-4 w-4" /> Upload PDF
+          <input
+            type="file"
+            accept="application/pdf"
+            className="hidden"
+            disabled={isUploading}
+            onChange={(e) => {
+              onUpload(e.target.files);
+              e.target.value = "";
+            }}
+          />
+        </label>
+      )}
     </div>
   );
 }

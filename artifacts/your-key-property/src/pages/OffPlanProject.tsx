@@ -103,6 +103,9 @@ export function OffPlanProject() {
 
   const gallery = projectGallery(project);
   const materials = (project.materials ?? []).map((p) => storageUrl(p));
+  const floorPlanPdfUrl = project.floorPlanPdf ? storageUrl(project.floorPlanPdf) : null;
+  const brochurePdfUrl = project.brochurePdf ? storageUrl(project.brochurePdf) : null;
+  const hasMaterials = materials.length > 0 || !!floorPlanPdfUrl || !!brochurePdfUrl;
   const floorPlans = project.floorPlans ?? [];
   const milestones = project.paymentMilestones ?? [];
   const startingPrice =
@@ -433,12 +436,41 @@ export function OffPlanProject() {
         </section>
 
         {/* PROJECT MATERIALS */}
-        {materials.length > 0 && (
+        {hasMaterials && (
           <section className="relative z-10 py-12">
             <div className="container mx-auto px-4">
               <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
                 {t("Project Materials")}
               </h2>
+              {(floorPlanPdfUrl || brochurePdfUrl) && (
+                <div className="mb-8 flex flex-wrap gap-4">
+                  {floorPlanPdfUrl && (
+                    <a
+                      href={floorPlanPdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-4 font-mono text-sm uppercase tracking-widest text-white transition hover:border-secondary hover:bg-secondary/10"
+                      data-testid="link-floorplan-pdf"
+                    >
+                      <Download className="h-4 w-4 text-secondary" />
+                      {t("Download Floor Plan")}
+                    </a>
+                  )}
+                  {brochurePdfUrl && (
+                    <a
+                      href={brochurePdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-4 font-mono text-sm uppercase tracking-widest text-white transition hover:border-secondary hover:bg-secondary/10"
+                      data-testid="link-brochure-pdf"
+                    >
+                      <Download className="h-4 w-4 text-secondary" />
+                      {t("Download Brochure PDF")}
+                    </a>
+                  )}
+                </div>
+              )}
+              {materials.length > 0 && (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {materials.map((src, i) => (
                   <a
@@ -456,6 +488,7 @@ export function OffPlanProject() {
                   </a>
                 ))}
               </div>
+              )}
             </div>
           </section>
         )}

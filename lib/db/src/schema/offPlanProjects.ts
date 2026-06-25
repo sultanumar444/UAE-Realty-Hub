@@ -56,6 +56,8 @@ export const offPlanProjectsTable = pgTable("off_plan_projects", {
   bedrooms: text("bedrooms"),
   unitTypes: text("unit_types"),
   brochureUrl: text("brochure_url"),
+  floorPlanPdf: text("floor_plan_pdf"),
+  brochurePdf: text("brochure_pdf"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
   featured: boolean("featured").notNull().default(false),

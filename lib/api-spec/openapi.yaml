@@ -1650,6 +1650,10 @@ components:
           type: ["string", "null"]
         brochureUrl:
           type: ["string", "null"]
+        floorPlanPdf:
+          type: ["string", "null"]
+        brochurePdf:
+          type: ["string", "null"]
         seoTitle:
           type: ["string", "null"]
         seoDescription:
@@ -1738,6 +1742,10 @@ components:
           type: string
         brochureUrl:
           type: string
+        floorPlanPdf:
+          type: string
+        brochurePdf:
+          type: string
         seoTitle:
           type: string
         seoDescription:
@@ -1813,6 +1821,10 @@ components:
         unitTypes:
           type: string
         brochureUrl:
+          type: string
+        floorPlanPdf:
+          type: string
+        brochurePdf:
           type: string
         seoTitle:
           type: string

@@ -434,18 +434,17 @@ async function main() {
 }
 
 async function seedOffPlanProjects() {
-  const existing = await db.select().from(offPlanProjectsTable).limit(1);
-  if (existing.length > 0) {
-    console.log("Off-plan projects already present, skipping.");
-    return;
-  }
+  const existingRows = await db
+    .select({ slug: offPlanProjectsTable.slug })
+    .from(offPlanProjectsTable);
+  const existingSlugs = new Set(existingRows.map((r) => r.slug));
 
   const agents = await db.select().from(agentsTable);
   const byName = new Map(agents.map((a) => [a.name, a.id]));
   const priya = byName.get("Priya Sharma") ?? null;
   const saeed = byName.get("Saeed Al Mansoori") ?? null;
 
-  await db.insert(offPlanProjectsTable).values([
+  const allProjects = [
     {
       slug: "opula-residences",
       name: "Opula Residences",
@@ -541,9 +540,178 @@ async function seedOffPlanProjects() {
       status: "published",
       publishedAt: new Date(),
     },
-  ]);
+    {
+      slug: "marina-vista-towers",
+      name: "Marina Vista Towers",
+      developer: "Emaar",
+      emirate: "Dubai",
+      location: "Dubai Marina",
+      community: "Dubai Marina",
+      tagline: "Twin towers rising over the marina",
+      description:
+        "Marina Vista Towers is a striking twin-tower development in the heart of Dubai Marina, offering one to three-bedroom residences with floor-to-ceiling glazing and panoramic water views. Each home is designed to maximise natural light and frame the marina skyline.\n\nResidents enjoy a sky-deck infinity pool, a podium-level retail promenade, and direct access to the marina walk. With a 70/30 payment plan and handover in Q4 2026, Marina Vista is a prime entry point into Dubai's most iconic waterfront district.",
+      heroImage: "/images/render-marina.png",
+      logoImage: "/images/yourkey-logo-white.png",
+      gallery: [
+        "/images/render-marina.png",
+        "/images/glass-facade.png",
+        "/images/looking-up-towers.png",
+        "/images/modern-apartment.png",
+      ],
+      amenities: [
+        "Sky-deck Infinity Pool",
+        "Retail Promenade",
+        "Marina Walk Access",
+        "Fitness Studio",
+        "24/7 Concierge",
+        "Covered Parking",
+      ],
+      highlights: [
+        "Twin-tower marina landmark",
+        "Floor-to-ceiling marina views",
+        "70/30 payment plan",
+        "Handover Q4 2026",
+      ],
+      floorPlans: [
+        {
+          type: "1 Bedroom Apartment",
+          bedrooms: "1 BR",
+          size: "720 sqft",
+          price: 1650000,
+          image: "/images/property-1.png",
+        },
+        {
+          type: "2 Bedroom Apartment",
+          bedrooms: "2 BR",
+          size: "1,150 sqft",
+          price: 2750000,
+          image: "/images/property-2.png",
+        },
+        {
+          type: "3 Bedroom Apartment",
+          bedrooms: "3 BR",
+          size: "1,680 sqft",
+          price: 4200000,
+          image: "/images/modern-apartment.png",
+        },
+      ],
+      paymentMilestones: [
+        { label: "On Booking", percentage: "20%" },
+        { label: "During Construction", percentage: "50%" },
+        { label: "On Handover", percentage: "30%" },
+      ],
+      materials: [
+        "/images/render-marina.png",
+        "/images/glass-facade.png",
+        "/images/looking-up-towers.png",
+      ],
+      locationImage: "/images/dubai-skyline.png",
+      mapAddress: "Dubai Marina, Dubai",
+      agentId: priya ?? saeed,
+      startingPrice: 1650000,
+      handover: "Q4 2026",
+      paymentPlan: "70 / 30",
+      bedrooms: "1 - 3 BR",
+      unitTypes: "Apartments",
+      brochureUrl: "https://www.yourkey.ae",
+      seoTitle: "Marina Vista Towers — Off-Plan in Dubai Marina | Your Key",
+      seoDescription:
+        "Twin-tower waterfront residences in Dubai Marina. One to three-bedroom homes from AED 1,650,000 with a 70/30 payment plan and Q4 2026 handover.",
+      featured: true,
+      status: "published",
+      publishedAt: new Date(),
+    },
+    {
+      slug: "saadiyat-lagoons",
+      name: "Saadiyat Lagoons",
+      developer: "Aldar",
+      emirate: "Abu Dhabi",
+      location: "Saadiyat Island",
+      community: "Saadiyat Island",
+      tagline: "Nature-inspired villas by the lagoon",
+      description:
+        "Saadiyat Lagoons is a master-planned community of three to six-bedroom villas set among mangroves and natural lagoons on Saadiyat Island. The development blends biophilic design with generous living spaces, private gardens, and direct access to protected coastline.\n\nResidents enjoy cycling trails, a community clubhouse, and proximity to the Saadiyat Cultural District. With a flexible payment plan and handover in Q1 2027, Saadiyat Lagoons offers a rare combination of nature and luxury.",
+      heroImage: "/images/render-saadiyat.png",
+      logoImage: "/images/yourkey-logo-white.png",
+      gallery: [
+        "/images/render-saadiyat.png",
+        "/images/townhouse.png",
+        "/images/luxury-villa.png",
+        "/images/property-3.png",
+      ],
+      amenities: [
+        "Natural Lagoons",
+        "Cycling & Running Trails",
+        "Community Clubhouse",
+        "Private Gardens",
+        "Protected Coastline Access",
+        "Kids' Play Areas",
+      ],
+      highlights: [
+        "Biophilic villa community",
+        "Lagoon and mangrove setting",
+        "Near Saadiyat Cultural District",
+        "Handover Q1 2027",
+      ],
+      floorPlans: [
+        {
+          type: "3 Bedroom Villa",
+          bedrooms: "3 BR",
+          size: "3,400 sqft",
+          price: 5400000,
+          image: "/images/townhouse.png",
+        },
+        {
+          type: "4 Bedroom Villa",
+          bedrooms: "4 BR",
+          size: "4,600 sqft",
+          price: 7200000,
+          image: "/images/luxury-villa.png",
+        },
+        {
+          type: "6 Bedroom Signature Villa",
+          bedrooms: "6 BR",
+          size: "8,100 sqft",
+          price: 14500000,
+          image: "/images/property-3.png",
+        },
+      ],
+      paymentMilestones: [
+        { label: "On Booking", percentage: "10%" },
+        { label: "During Construction", percentage: "50%" },
+        { label: "On Handover", percentage: "40%" },
+      ],
+      materials: [
+        "/images/render-saadiyat.png",
+        "/images/luxury-villa.png",
+        "/images/townhouse.png",
+      ],
+      locationImage: "/images/abudhabi-skyline.png",
+      mapAddress: "Saadiyat Island, Abu Dhabi",
+      agentId: saeed ?? priya,
+      startingPrice: 5400000,
+      handover: "Q1 2027",
+      paymentPlan: "60 / 40",
+      bedrooms: "3 - 6 BR",
+      unitTypes: "Villas",
+      brochureUrl: "https://www.yourkey.ae",
+      seoTitle: "Saadiyat Lagoons — Off-Plan Villas in Abu Dhabi | Your Key",
+      seoDescription:
+        "Nature-inspired villas on Saadiyat Island, Abu Dhabi. Three to six-bedroom homes from AED 5,400,000 with a flexible payment plan and Q1 2027 handover.",
+      featured: false,
+      status: "published",
+      publishedAt: new Date(),
+    },
+  ];
 
-  console.log("Seeded off-plan projects.");
+  const toInsert = allProjects.filter((p) => !existingSlugs.has(p.slug));
+  if (toInsert.length === 0) {
+    console.log("Off-plan projects already present, skipping.");
+    return;
+  }
+
+  await db.insert(offPlanProjectsTable).values(toInsert);
+  console.log(`Seeded ${toInsert.length} off-plan project(s).`);
 }
 
 main()
