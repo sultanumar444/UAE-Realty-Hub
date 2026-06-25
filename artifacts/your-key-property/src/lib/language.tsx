@@ -137,6 +137,7 @@ const AR: Record<string, string> = {
   "Investment Advisory": "الاستشارات الاستثمارية",
   "Data-driven insights to build a profitable portfolio.": "رؤى قائمة على البيانات لبناء محفظة مربحة.",
   "Free Valuation": "تقييم مجاني",
+  "Login": "تسجيل الدخول",
   "Accurate property valuations based on current data.": "تقييمات عقارية دقيقة بناءً على البيانات الحالية.",
   "CLOUD · Trust": "السحابة · الثقة",
   "What Our Clients Say": "ماذا يقول عملاؤنا",

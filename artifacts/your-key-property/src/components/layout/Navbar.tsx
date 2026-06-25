@@ -34,7 +34,6 @@ export function Navbar() {
     { name: t("nav.about"), href: "/about" },
     { name: t("nav.insights"), href: "/blog" },
     { name: t("nav.agents"), href: "/agents" },
-    { name: t("nav.crmLogin"), href: "/sign-in" },
   ];
 
   const midLinks = [
