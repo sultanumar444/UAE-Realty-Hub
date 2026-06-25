@@ -19,6 +19,7 @@ const TRANSLATIONS: Dict = {
   "nav.contact": { en: "Contact", ar: "اتصل بنا" },
   "nav.getInTouch": { en: "Get in Touch", ar: "تواصل معنا" },
   "nav.crm": { en: "CRM", ar: "لوحة التحكم" },
+  "nav.crmLogin": { en: "CRM Login", ar: "تسجيل دخول لوحة التحكم" },
 
   // Hero
   "hero.title1": { en: "Your Key to the", ar: "مفتاحك إلى" },
