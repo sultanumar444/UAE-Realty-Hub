@@ -113,7 +113,7 @@ export function OffPlanShowcase() {
                 </h3>
 
                 {project.tagline && (
-                  <p className="mt-3 font-serif text-lg italic text-white/80 md:text-xl">
+                  <p className="mt-3 font-serif text-lg text-white/80 md:text-xl">
                     {project.tagline}
                   </p>
                 )}

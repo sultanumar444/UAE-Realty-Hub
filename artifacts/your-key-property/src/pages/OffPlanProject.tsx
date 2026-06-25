@@ -179,7 +179,7 @@ export function OffPlanProject() {
               {project.name}
             </h1>
             {project.tagline && (
-              <p className="mt-4 max-w-2xl font-serif text-lg italic text-white/85 md:text-2xl">
+              <p className="mt-4 max-w-2xl font-serif text-lg text-white/85 md:text-2xl">
                 {project.tagline}
               </p>
             )}

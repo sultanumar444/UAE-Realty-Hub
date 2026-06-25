@@ -152,7 +152,7 @@
 
 /* Glassmorphism utilities */
 .glass-panel {
-  @apply bg-white/5 backdrop-blur-md border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] shadow-xl relative overflow-hidden;
+  @apply bg-white/5 backdrop-blur-md border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] shadow-xl relative overflow-hidden rounded-lg;
 }
 
 .glass-panel::before {
@@ -161,5 +161,5 @@
 }
 
 .glass-card {
-  @apply bg-[#0A1628]/40 backdrop-blur-lg border border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:border-white/30 transition-all duration-300;
+  @apply bg-[#0A1628]/40 backdrop-blur-lg border border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:border-white/30 transition-all duration-300 rounded-lg;
 }

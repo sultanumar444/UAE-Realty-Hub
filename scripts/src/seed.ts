@@ -144,16 +144,93 @@ const COMMUNITY_SEED = [
     propertyTypes: "Apartments, Penthouses",
     featured: false,
   },
+  {
+    name: "Business Bay",
+    slug: "business-bay",
+    emirate: "Dubai",
+    description:
+      "A dynamic central district along the Dubai Water Canal, blending waterfront residences with the city's commercial core.",
+    imageUrl: "/images/glass-facade.png",
+    priceFrom: 1400,
+    rentFrom: 100000,
+    propertyTypes: "Apartments, Penthouses",
+    featured: false,
+  },
+  {
+    name: "Al Raha Beach",
+    slug: "al-raha-beach",
+    emirate: "Abu Dhabi",
+    description:
+      "A waterfront community of canal-side apartments and townhouses with marinas, beaches, and easy access to the airport.",
+    imageUrl: "/images/about.png",
+    priceFrom: 1050,
+    rentFrom: 90000,
+    propertyTypes: "Apartments, Townhouses",
+    featured: false,
+  },
 ];
 
 async function seedCommunities() {
-  const existing = await db.select().from(communitiesTable).limit(1);
-  if (existing.length > 0) {
+  const existingRows = await db
+    .select({ slug: communitiesTable.slug })
+    .from(communitiesTable);
+  const existingSlugs = new Set(existingRows.map((r) => r.slug));
+  const toInsert = COMMUNITY_SEED.filter((c) => !existingSlugs.has(c.slug));
+  if (toInsert.length === 0) {
     console.log("Communities already present, skipping community seed.");
     return;
   }
-  await db.insert(communitiesTable).values(COMMUNITY_SEED);
-  console.log("Seeded communities.");
+  await db.insert(communitiesTable).values(toInsert);
+  console.log(`Seeded ${toInsert.length} community(ies).`);
+}
+
+async function topUpRentalListings() {
+  const RENTAL_TOPUP = [
+    {
+      reference: "YK-1007",
+      title: "Downtown Dubai Apartment for Rent",
+      description:
+        "A bright 2-bedroom apartment in Downtown Dubai with Burj Khalifa views, premium finishes, and walking access to Dubai Mall, available for annual rent.",
+      propertyType: "apartment",
+      purpose: "rent",
+      status: "published",
+      price: 210000,
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 1240,
+      city: "Dubai",
+      community: "Downtown Dubai",
+      images: ["/images/dubai-skyline.png", "/images/modern-apartment.png"],
+      amenities: ["Swimming Pool", "Gym", "Furnished", "Covered Parking", "Burj Khalifa View"],
+      featured: false,
+    },
+  ];
+
+  const existingRefs = new Set(
+    (await db.select({ reference: listingsTable.reference }).from(listingsTable)).map(
+      (r) => r.reference,
+    ),
+  );
+  const toInsert = RENTAL_TOPUP.filter((l) => !existingRefs.has(l.reference));
+  if (toInsert.length === 0) {
+    console.log("Rental top-up listings already present, skipping.");
+    return;
+  }
+
+  const agents = await db.select().from(agentsTable);
+  const byName = new Map(agents.map((a) => [a.name, a.id]));
+  const communities = await db.select().from(communitiesTable);
+  const communityByName = new Map(communities.map((c) => [c.name, c.id]));
+  const james = byName.get("James Mitchell") ?? null;
+
+  await db.insert(listingsTable).values(
+    toInsert.map((l) => ({
+      ...l,
+      communityId: communityByName.get(l.community) ?? null,
+      agentId: james,
+    })),
+  );
+  console.log(`Seeded ${toInsert.length} rental top-up listing(s).`);
 }
 
 async function backfillListingCommunities() {
@@ -269,6 +346,7 @@ async function main() {
   if (existing.length > 0) {
     console.log("Listings already present, skipping base listing seed.");
     await backfillListingCommunities();
+    await topUpRentalListings();
     await seedOffPlan();
     await seedOffPlanProjects();
     return;
@@ -429,6 +507,7 @@ async function main() {
   console.log("Seeded agents and listings.");
 
   await backfillListingCommunities();
+  await topUpRentalListings();
   await seedOffPlan();
   await seedOffPlanProjects();
 }

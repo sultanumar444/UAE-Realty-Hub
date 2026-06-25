@@ -107,7 +107,7 @@ export function BlogPost() {
 
           <div className="mx-auto mt-12 max-w-3xl">
             {post.excerpt && (
-              <p className="mb-8 border-l-2 border-secondary pl-5 text-lg font-serif italic text-white/80">
+              <p className="mb-8 border-l-2 border-secondary pl-5 text-lg font-serif text-white/80">
                 {post.excerpt}
               </p>
             )}

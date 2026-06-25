@@ -43,7 +43,7 @@ export function Faq() {
           className="text-center mb-14"
         >
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
-            {t("faq.kicker")} <span className="text-secondary italic">{t("faq.kickerAccent")}</span>
+            {t("faq.kicker")} <span className="text-secondary">{t("faq.kickerAccent")}</span>
           </h2>
           <p className="text-white/60 font-mono text-sm md:text-base max-w-xl mx-auto">
             {t("faq.subtitle")}
