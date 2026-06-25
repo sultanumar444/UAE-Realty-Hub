@@ -55,7 +55,6 @@ export function Footer() {
               <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">{t("Property Management")}</span></Link></li>
               <li><Link href="/investment"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">{t("Investment Advisory")}</span></Link></li>
               <li><Link href="/contact"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">{t("Free Valuation")}</span></Link></li>
-              <li><Link href="/sign-in"><span className="text-white/70 hover:text-white transition-colors cursor-pointer text-sm font-mono">{t("Login")}</span></Link></li>
             </ul>
           </div>
 
