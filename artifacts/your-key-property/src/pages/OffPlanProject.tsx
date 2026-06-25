@@ -154,13 +154,7 @@ export function OffPlanProject() {
               </span>
             </Link>
 
-            {project.logoImage ? (
-              <img
-                src={projectImage(project.logoImage)}
-                alt={project.developer ?? project.name}
-                className="mb-5 h-12 w-auto object-contain"
-              />
-            ) : project.developer ? (
+            {project.developer ? (
               <div className="mb-3 font-serif text-lg font-bold uppercase tracking-[0.2em] text-white/90">
                 {project.developer}
               </div>

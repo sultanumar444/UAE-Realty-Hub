@@ -44,6 +44,8 @@ const TRANSLATIONS: Dict = {
   "git.emailPlaceholder": { en: "Enter your email", ar: "أدخل بريدك الإلكتروني" },
   "git.phone": { en: "Phone Number", ar: "رقم الهاتف" },
   "git.phonePlaceholder": { en: "Enter your phone number", ar: "أدخل رقم هاتفك" },
+  "git.whatsapp": { en: "WhatsApp Number", ar: "رقم الواتساب" },
+  "git.whatsappPlaceholder": { en: "Enter your WhatsApp number", ar: "أدخل رقم الواتساب" },
   "git.optIn": { en: "Keep me updated on news and offers", ar: "أبقني على اطلاع بالأخبار والعروض" },
   "git.privacy": {
     en: "Please review our privacy policy to understand how Your Key handles your personal data.",

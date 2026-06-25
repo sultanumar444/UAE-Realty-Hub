@@ -5,6 +5,9 @@ import { toast } from "sonner";
 import { Loader2, X } from "lucide-react";
 import { useCreateLead } from "@workspace/api-client-react";
 import { useLanguage } from "@/lib/language";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import "@/styles/phone-input.css";
 
 interface GetInTouchDialogProps {
   children: ReactNode;
@@ -15,7 +18,8 @@ export function GetInTouchDialog({ children }: GetInTouchDialogProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState<string | undefined>("");
+  const [whatsapp, setWhatsapp] = useState<string | undefined>("");
   const [optIn, setOptIn] = useState(false);
 
   const createLead = useCreateLead({
@@ -25,6 +29,7 @@ export function GetInTouchDialog({ children }: GetInTouchDialogProps) {
         setName("");
         setEmail("");
         setPhone("");
+        setWhatsapp("");
         setOptIn(false);
         setOpen(false);
       },
@@ -43,16 +48,19 @@ export function GetInTouchDialog({ children }: GetInTouchDialogProps) {
       toast.error("Please enter your email address");
       return;
     }
-    if (!phone.trim()) {
+    if (!phone || !phone.trim()) {
       toast.error("Please enter your phone number");
       return;
     }
+    const notes: string[] = [];
+    if (whatsapp && whatsapp.trim()) notes.push(`WhatsApp: ${whatsapp.trim()}`);
+    if (optIn) notes.push("Opted in to news and offers.");
     createLead.mutate({
       data: {
         name: name.trim(),
         email: email.trim(),
-        phone: `+971 ${phone.trim()}`,
-        message: optIn ? "Opted in to news and offers." : undefined,
+        phone: phone.trim(),
+        message: notes.length > 0 ? notes.join(" | ") : undefined,
         source: "get-in-touch",
       },
     });
@@ -108,18 +116,28 @@ export function GetInTouchDialog({ children }: GetInTouchDialogProps) {
               <label className="block text-xs font-mono font-bold uppercase tracking-widest mb-2">
                 {t("git.phone")} <span className="text-red-500">*</span>
               </label>
-              <div className="flex gap-3">
-                <div className="w-24 border border-[#0A1628]/20 px-4 py-3 font-mono text-sm text-[#0A1628]/70 bg-[#0A1628]/5">
-                  +971
-                </div>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder={t("git.phonePlaceholder")}
-                  className="flex-1 border border-[#0A1628]/20 px-4 py-3 font-mono text-sm outline-none focus:border-secondary"
-                />
-              </div>
+              <PhoneInput
+                international
+                defaultCountry="AE"
+                value={phone}
+                onChange={setPhone}
+                placeholder={t("git.phonePlaceholder")}
+                className="ykp-phone"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-mono font-bold uppercase tracking-widest mb-2">
+                {t("git.whatsapp")}
+              </label>
+              <PhoneInput
+                international
+                defaultCountry="AE"
+                value={whatsapp}
+                onChange={setWhatsapp}
+                placeholder={t("git.whatsappPlaceholder")}
+                className="ykp-phone"
+              />
             </div>
 
             <label className="flex items-center gap-3 cursor-pointer select-none">
