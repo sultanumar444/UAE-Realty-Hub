@@ -600,11 +600,11 @@ export function Home() {
         {/* CLOUD · TRUST */}
         <section ref={trustRef} className="py-24 relative z-10">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
+            <div className="text-center mb-10">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("CLOUD · Trust")}</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-8 drop-shadow-md">{t("Reviews About Our Company")}</h2>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 drop-shadow-md">{t("Reviews About Our Company")}</h2>
 
-              <div className="inline-flex flex-col sm:flex-row items-center gap-5 glass-panel px-8 py-5">
+              <div className="inline-flex flex-col sm:flex-row items-center gap-5">
                 <div className="flex items-center gap-3">
                   <svg className="w-8 h-8 shrink-0" viewBox="0 0 48 48" aria-hidden="true">
                     <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
