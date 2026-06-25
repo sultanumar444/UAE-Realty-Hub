@@ -1306,6 +1306,8 @@ components:
           type: string
         phone:
           type: ["string", "null"]
+        whatsapp:
+          type: ["string", "null"]
         title:
           type: ["string", "null"]
         bio:
@@ -1337,6 +1339,8 @@ components:
           minLength: 1
         phone:
           type: string
+        whatsapp:
+          type: string
         title:
           type: string
         bio:
@@ -1358,6 +1362,8 @@ components:
           type: string
           minLength: 1
         phone:
+          type: string
+        whatsapp:
           type: string
         title:
           type: string

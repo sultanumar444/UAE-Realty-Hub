@@ -174,6 +174,8 @@ export interface Agent {
   /** @nullable */
   phone?: string | null;
   /** @nullable */
+  whatsapp?: string | null;
+  /** @nullable */
   title?: string | null;
   /** @nullable */
   bio?: string | null;
@@ -192,6 +194,7 @@ export interface AgentInput {
   /** @minLength 1 */
   email: string;
   phone?: string;
+  whatsapp?: string;
   title?: string;
   bio?: string;
   photoUrl?: string;
@@ -205,6 +208,7 @@ export interface AgentUpdate {
   /** @minLength 1 */
   email?: string;
   phone?: string;
+  whatsapp?: string;
   title?: string;
   bio?: string;
   photoUrl?: string;

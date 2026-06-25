@@ -23,6 +23,7 @@ type FormState = {
   name: string;
   email: string;
   phone: string;
+  whatsapp: string;
   title: string;
   bio: string;
   photoUrl: string;
@@ -33,6 +34,7 @@ const emptyForm: FormState = {
   name: "",
   email: "",
   phone: "",
+  whatsapp: "",
   title: "",
   bio: "",
   photoUrl: "",
@@ -44,6 +46,7 @@ function agentToForm(a: Agent): FormState {
     name: a.name,
     email: a.email,
     phone: a.phone ?? "",
+    whatsapp: a.whatsapp ?? "",
     title: a.title ?? "",
     bio: a.bio ?? "",
     photoUrl: a.photoUrl ?? "",
@@ -56,6 +59,7 @@ function formToInput(f: FormState): AgentInput {
     name: f.name.trim(),
     email: f.email.trim(),
     phone: f.phone.trim() || undefined,
+    whatsapp: f.whatsapp.trim() || undefined,
     title: f.title.trim() || undefined,
     bio: f.bio.trim() || undefined,
     photoUrl: f.photoUrl || undefined,
@@ -189,6 +193,9 @@ export function AgentsPanel() {
                   {a.phone && (
                     <div className="text-xs text-white/50">{a.phone}</div>
                   )}
+                  {a.whatsapp && (
+                    <div className="text-xs text-white/50">WhatsApp: {a.whatsapp}</div>
+                  )}
                 </div>
               </div>
               <div className="mt-3 flex justify-end gap-1">
@@ -278,6 +285,14 @@ export function AgentsPanel() {
                   className={inputClass}
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  placeholder="+971 50 000 0000"
+                />
+              </Field>
+              <Field label="WhatsApp">
+                <input
+                  className={inputClass}
+                  value={form.whatsapp}
+                  onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
                   placeholder="+971 50 000 0000"
                 />
               </Field>

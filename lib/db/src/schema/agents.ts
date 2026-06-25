@@ -7,6 +7,7 @@ export const agentsTable = pgTable("agents", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   phone: text("phone"),
+  whatsapp: text("whatsapp"),
   title: text("title"),
   bio: text("bio"),
   photoUrl: text("photo_url"),

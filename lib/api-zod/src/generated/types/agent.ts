@@ -13,6 +13,8 @@ export interface Agent {
   /** @nullable */
   phone?: string | null;
   /** @nullable */
+  whatsapp?: string | null;
+  /** @nullable */
   title?: string | null;
   /** @nullable */
   bio?: string | null;

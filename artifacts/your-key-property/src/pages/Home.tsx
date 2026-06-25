@@ -335,7 +335,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L24 · RISING DEVELOPMENTS */}
-        <section ref={risingRef} className="py-20 relative z-10 bg-[#1c2a3e]">
+        <section ref={risingRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L24 · Rising")}</div>
@@ -402,7 +402,7 @@ export function Home() {
         {/* L33 · RENT A PROPERTY */}
         {rentProperties.length > 0 && (
           <>
-            <section className="py-20 relative z-10 bg-[#1c2a3e]">
+            <section className="py-20 relative z-10">
               <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                   <div>
@@ -486,7 +486,7 @@ export function Home() {
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* L48 · PRIME ALTITUDES */}
-        <section ref={primeRef} className="py-20 relative z-10 bg-[#1c2a3e]">
+        <section ref={primeRef} className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("L48 · Prime Altitudes")}</div>
@@ -598,7 +598,7 @@ export function Home() {
         </section>
 
         {/* CLOUD · TRUST */}
-        <section ref={trustRef} className="py-24 relative z-10 bg-[#1c2a3e]">
+        <section ref={trustRef} className="py-24 relative z-10">
           <div className="container mx-auto px-4">
             <div className="text-center mb-10">
               <div className="text-xs font-mono text-secondary uppercase tracking-widest mb-3">{t("CLOUD · Trust")}</div>
@@ -708,7 +708,7 @@ export function Home() {
         <Faq />
 
         {/* PROPERTY VALUATION */}
-        <section ref={penthouseRef} className="py-24 relative z-10 bg-[#1c2a3e]">
+        <section ref={penthouseRef} className="py-24 relative z-10">
           <div className="container mx-auto px-4">
             <div className="glass-panel overflow-hidden grid grid-cols-1 lg:grid-cols-2">
               <div className="relative min-h-[320px] lg:min-h-full">

@@ -8,6 +8,7 @@ import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
 import { useLanguage } from "@/lib/language";
 import { Phone, Mail, ArrowLeft } from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
 import { motion } from "framer-motion";
 
 export function AgentProfile() {
@@ -62,6 +63,11 @@ export function AgentProfile() {
                     {agent.phone && (
                       <a href={`tel:${agent.phone}`} className="inline-flex items-center gap-2 text-white/70 hover:text-secondary transition-colors font-mono text-sm">
                         <Phone className="w-4 h-4 text-secondary" /> {agent.phone}
+                      </a>
+                    )}
+                    {agent.whatsapp && (
+                      <a href={`https://wa.me/${agent.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-secondary transition-colors font-mono text-sm">
+                        <SiWhatsapp className="w-4 h-4 text-secondary" /> {agent.whatsapp}
                       </a>
                     )}
                     {agent.email && (

@@ -12,6 +12,7 @@ export interface AgentUpdate {
   /** @minLength 1 */
   email?: string;
   phone?: string;
+  whatsapp?: string;
   title?: string;
   bio?: string;
   photoUrl?: string;
