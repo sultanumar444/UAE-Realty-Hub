@@ -5,7 +5,7 @@ import { MapPin, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useListOffPlanProjects } from "@workspace/api-client-react";
 import { useLanguage } from "@/lib/language";
 import { useCurrency } from "@/lib/currency";
-import { projectHero, projectImage } from "@/lib/offPlanApi";
+import { projectHero } from "@/lib/offPlanApi";
 
 export function OffPlanShowcase() {
   const { t } = useLanguage();
@@ -75,15 +75,9 @@ export function OffPlanShowcase() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Developer logo / name */}
+            {/* Developer name */}
             <div className="absolute left-6 top-6 z-10 md:left-10 md:top-10">
-              {project.logoImage ? (
-                <img
-                  src={projectImage(project.logoImage)}
-                  alt={project.developer ?? project.name}
-                  className="h-10 w-auto object-contain md:h-12"
-                />
-              ) : project.developer ? (
+              {project.developer ? (
                 <span className="font-serif text-lg font-bold uppercase tracking-[0.2em] text-white drop-shadow">
                   {project.developer}
                 </span>
