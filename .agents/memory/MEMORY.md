@@ -2,5 +2,6 @@
 - [Arabic i18n architecture](i18n-arabic-architecture.md) — t() falls back to an English-string-keyed AR dict; wrap copy with t("English"), keep <select> value English, CRM stays English.
 - [Arabic i18n dictionary](i18n-ar-dict.md) — AR dict is one source-string-keyed object; adding an already-present key fails typecheck (TS1117).
 - [CRM PATCH clear semantics](crm-patch-clear-semantics.md) — edit forms must send [] / null (not undefined) for fields the admin should be able to clear; PATCH omits undefined keys.
+- [Off-plan map embed safety](offplan-map-embed.md) — buildMapSrc only frames a pasted URL verbatim when host is Google; else degrades to a search-query embed.
 - [Public team is CRM-driven](public-team-crm-driven.md) — Agents + About team grids render only active DB agents (no static fallback); seed tops up agents idempotently, independent of listings.
 - [Lead contact phone capture](lead-contact-phone-capture.md) — Get-in-Touch dialog uses react-phone-number-input (flag images, not emoji, so no-emoji rule is fine); WhatsApp has no leads column so it's appended into message.

@@ -37,13 +37,25 @@ export interface OffPlanProject {
   /** @nullable */
   mapAddress?: string | null;
   /** @nullable */
+  mapUrl?: string | null;
+  /** @nullable */
   agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   /** @nullable */
   handover?: string | null;
   /** @nullable */
+  deliveryDate?: string | null;
+  /** @nullable */
   paymentPlan?: string | null;
+  /** @nullable */
+  numberOfBuildings?: string | null;
+  /** @nullable */
+  propertyTypes?: string | null;
+  /** @nullable */
+  governmentFee?: string | null;
+  /** @nullable */
+  ownershipType?: string | null;
   /** @nullable */
   bedrooms?: string | null;
   /** @nullable */

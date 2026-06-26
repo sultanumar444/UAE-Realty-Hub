@@ -36,6 +36,57 @@ import {
 const inputClass =
   "w-full px-4 py-3 bg-white/5 border border-white/20 outline-none focus:border-secondary text-white font-mono text-sm";
 
+// Turn a pasted Google Maps link (share link, place URL, or "Embed a map"
+// snippet) into an iframe-embeddable src. Falls back to a search query when no
+// link is provided.
+function isGoogleMapsHost(url: string): boolean {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return (
+      host === "google.com" ||
+      host.endsWith(".google.com") ||
+      host === "maps.app.goo.gl" ||
+      host === "goo.gl"
+    );
+  } catch {
+    return false;
+  }
+}
+
+function buildMapSrc(
+  mapUrl: string | null | undefined,
+  fallbackQuery: string,
+): string {
+  const raw = (mapUrl ?? "").trim();
+  if (raw) {
+    // Admin may paste a full <iframe ...> snippet — pull out the src.
+    const iframeMatch = raw.match(/src=["']([^"']+)["']/i);
+    const url = iframeMatch ? iframeMatch[1] : raw;
+    // Already embeddable (Embed a map URL, or any ...&output=embed link).
+    // Only trust embeddable links that point at a Google Maps host, so a
+    // pasted non-Google URL can't be framed verbatim.
+    if (
+      isGoogleMapsHost(url) &&
+      (/\/maps\/embed/i.test(url) || /[?&]output=embed/i.test(url))
+    ) {
+      return url;
+    }
+    // Place URL with coordinates: .../@25.07,55.13,15z/...
+    const coord = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (coord) {
+      return `https://www.google.com/maps?q=${coord[1]},${coord[2]}&output=embed`;
+    }
+    // Query form: ...?q=Some+Place
+    const qMatch = url.match(/[?&]q=([^&]+)/);
+    if (qMatch) {
+      return `https://www.google.com/maps?q=${qMatch[1]}&output=embed`;
+    }
+    // Otherwise treat the whole link/text as a search query.
+    return `https://www.google.com/maps?q=${encodeURIComponent(url)}&output=embed`;
+  }
+  return `https://www.google.com/maps?q=${encodeURIComponent(fallbackQuery)}&output=embed`;
+}
+
 export function OffPlanProject() {
   const { t } = useLanguage();
   const { formatPrice } = useCurrency();
@@ -125,13 +176,33 @@ export function OffPlanProject() {
   if (project.unitTypes)
     facts.push({ icon: Building2, label: t("Unit Types"), value: project.unitTypes });
 
-  const mapQuery =
-    project.mapAddress ||
-    [project.location || project.community, project.emirate]
-      .filter(Boolean)
-      .join(", ") ||
-    project.name;
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
+  const locationText = [project.location || project.community, project.emirate]
+    .filter(Boolean)
+    .join(", ");
+
+  const keyInfo: { label: string; value: string }[] = [];
+  const deliveryDate = project.deliveryDate || project.handover;
+  if (deliveryDate)
+    keyInfo.push({ label: t("Delivery date"), value: deliveryDate });
+  if (locationText) keyInfo.push({ label: t("Location"), value: locationText });
+  if (project.paymentPlan)
+    keyInfo.push({ label: t("Payment plan"), value: project.paymentPlan });
+  if (project.numberOfBuildings)
+    keyInfo.push({
+      label: t("Number of buildings"),
+      value: project.numberOfBuildings,
+    });
+  const propertyTypes = project.propertyTypes || project.unitTypes;
+  if (propertyTypes)
+    keyInfo.push({ label: t("Property types"), value: propertyTypes });
+  if (project.governmentFee)
+    keyInfo.push({ label: t("Government fee"), value: project.governmentFee });
+  if (project.ownershipType)
+    keyInfo.push({ label: t("Ownership type"), value: project.ownershipType });
+
+  const mapFallback =
+    project.mapAddress || locationText || project.name;
+  const mapSrc = buildMapSrc(project.mapUrl, mapFallback);
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-white">
@@ -204,6 +275,26 @@ export function OffPlanProject() {
         <div className="container mx-auto grid grid-cols-1 gap-12 px-4 py-16 lg:grid-cols-3">
           {/* MAIN */}
           <div className="lg:col-span-2">
+            {keyInfo.length > 0 && (
+              <div className="mb-14">
+                <h2 className="mb-8 font-serif text-2xl font-bold text-white md:text-3xl">
+                  {t("Key information")}
+                </h2>
+                <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+                  {keyInfo.map((item, i) => (
+                    <div key={i}>
+                      <div className="mb-1.5 text-sm text-white/55">
+                        {item.label}
+                      </div>
+                      <div className="font-serif text-lg font-bold leading-snug text-white">
+                        {item.value}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {project.description && (
               <div className="mb-14">
                 <h2 className="mb-6 font-serif text-2xl font-bold text-white md:text-3xl">

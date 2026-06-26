@@ -365,13 +365,25 @@ export interface OffPlanProject {
   /** @nullable */
   mapAddress?: string | null;
   /** @nullable */
+  mapUrl?: string | null;
+  /** @nullable */
   agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   /** @nullable */
   handover?: string | null;
   /** @nullable */
+  deliveryDate?: string | null;
+  /** @nullable */
   paymentPlan?: string | null;
+  /** @nullable */
+  numberOfBuildings?: string | null;
+  /** @nullable */
+  propertyTypes?: string | null;
+  /** @nullable */
+  governmentFee?: string | null;
+  /** @nullable */
+  ownershipType?: string | null;
   /** @nullable */
   bedrooms?: string | null;
   /** @nullable */
@@ -415,12 +427,18 @@ export interface OffPlanProjectInput {
   materials?: string[];
   locationImage?: string;
   mapAddress?: string;
+  mapUrl?: string;
   /** @nullable */
   agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   handover?: string;
+  deliveryDate?: string;
   paymentPlan?: string;
+  numberOfBuildings?: string;
+  propertyTypes?: string;
+  governmentFee?: string;
+  ownershipType?: string;
   bedrooms?: string;
   unitTypes?: string;
   brochureUrl?: string;
@@ -453,12 +471,18 @@ export interface OffPlanProjectUpdate {
   materials?: string[];
   locationImage?: string;
   mapAddress?: string;
+  mapUrl?: string;
   /** @nullable */
   agentId?: number | null;
   /** @nullable */
   startingPrice?: number | null;
   handover?: string;
+  deliveryDate?: string;
   paymentPlan?: string;
+  numberOfBuildings?: string;
+  propertyTypes?: string;
+  governmentFee?: string;
+  ownershipType?: string;
   bedrooms?: string;
   unitTypes?: string;
   brochureUrl?: string;

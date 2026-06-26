@@ -53,10 +53,16 @@ type FormState = {
   materials: string[];
   locationImage: string;
   mapAddress: string;
+  mapUrl: string;
   agentId: string;
   startingPrice: string;
   handover: string;
+  deliveryDate: string;
   paymentPlan: string;
+  numberOfBuildings: string;
+  propertyTypes: string;
+  governmentFee: string;
+  ownershipType: string;
   bedrooms: string;
   unitTypes: string;
   brochureUrl: string;
@@ -88,10 +94,16 @@ const emptyForm: FormState = {
   materials: [],
   locationImage: "",
   mapAddress: "",
+  mapUrl: "",
   agentId: "",
   startingPrice: "",
   handover: "",
+  deliveryDate: "",
   paymentPlan: "",
+  numberOfBuildings: "",
+  propertyTypes: "",
+  governmentFee: "",
+  ownershipType: "",
   bedrooms: "",
   unitTypes: "",
   brochureUrl: "",
@@ -133,10 +145,16 @@ function projectToForm(p: OffPlanProject): FormState {
     materials: p.materials ?? [],
     locationImage: p.locationImage ?? "",
     mapAddress: p.mapAddress ?? "",
+    mapUrl: p.mapUrl ?? "",
     agentId: p.agentId != null ? String(p.agentId) : "",
     startingPrice: p.startingPrice != null ? String(p.startingPrice) : "",
     handover: p.handover ?? "",
+    deliveryDate: p.deliveryDate ?? "",
     paymentPlan: p.paymentPlan ?? "",
+    numberOfBuildings: p.numberOfBuildings ?? "",
+    propertyTypes: p.propertyTypes ?? "",
+    governmentFee: p.governmentFee ?? "",
+    ownershipType: p.ownershipType ?? "",
     bedrooms: p.bedrooms ?? "",
     unitTypes: p.unitTypes ?? "",
     brochureUrl: p.brochureUrl ?? "",
@@ -201,10 +219,17 @@ function formToInput(f: FormState): OffPlanProjectInput {
     materials: f.materials,
     locationImage: f.locationImage,
     mapAddress: f.mapAddress.trim(),
+    // Clearable text fields: send "" (not undefined) so a PATCH can clear them.
+    mapUrl: f.mapUrl.trim(),
     agentId: agentId != null && Number.isFinite(agentId) ? agentId : null,
     startingPrice: price != null && Number.isFinite(price) ? price : null,
-    handover: f.handover.trim() || undefined,
-    paymentPlan: f.paymentPlan.trim() || undefined,
+    handover: f.handover.trim(),
+    deliveryDate: f.deliveryDate.trim(),
+    paymentPlan: f.paymentPlan.trim(),
+    numberOfBuildings: f.numberOfBuildings.trim(),
+    propertyTypes: f.propertyTypes.trim(),
+    governmentFee: f.governmentFee.trim(),
+    ownershipType: f.ownershipType.trim(),
     bedrooms: f.bedrooms.trim() || undefined,
     unitTypes: f.unitTypes.trim() || undefined,
     brochureUrl: f.brochureUrl.trim() || undefined,
@@ -713,6 +738,65 @@ export function OffPlanProjectsPanel() {
               />
             </Field>
 
+            {/* KEY INFORMATION */}
+            <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-white/50">
+                Key information
+              </p>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Delivery date">
+                  <input
+                    className={inputClass}
+                    value={form.deliveryDate}
+                    onChange={(e) =>
+                      setForm({ ...form, deliveryDate: e.target.value })
+                    }
+                    placeholder="September 2030"
+                  />
+                </Field>
+                <Field label="Number of buildings">
+                  <input
+                    className={inputClass}
+                    value={form.numberOfBuildings}
+                    onChange={(e) =>
+                      setForm({ ...form, numberOfBuildings: e.target.value })
+                    }
+                    placeholder="1"
+                  />
+                </Field>
+                <Field label="Property types">
+                  <input
+                    className={inputClass}
+                    value={form.propertyTypes}
+                    onChange={(e) =>
+                      setForm({ ...form, propertyTypes: e.target.value })
+                    }
+                    placeholder="Townhouse, Villa"
+                  />
+                </Field>
+                <Field label="Government fee">
+                  <input
+                    className={inputClass}
+                    value={form.governmentFee}
+                    onChange={(e) =>
+                      setForm({ ...form, governmentFee: e.target.value })
+                    }
+                    placeholder="2%"
+                  />
+                </Field>
+                <Field label="Ownership type">
+                  <input
+                    className={inputClass}
+                    value={form.ownershipType}
+                    onChange={(e) =>
+                      setForm({ ...form, ownershipType: e.target.value })
+                    }
+                    placeholder="Freehold"
+                  />
+                </Field>
+              </div>
+            </div>
+
             {/* PROPERTY TYPES & FLOOR PLANS */}
             <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
               <div className="mb-3 flex items-center justify-between">
@@ -934,6 +1018,19 @@ export function OffPlanProjectsPanel() {
                 />
               </Field>
             </div>
+
+            <Field label="Google Maps link (paste to show exact location)">
+              <input
+                className={inputClass}
+                value={form.mapUrl}
+                onChange={(e) => setForm({ ...form, mapUrl: e.target.value })}
+                placeholder="https://maps.app.goo.gl/... or a Google Maps embed link"
+              />
+              <p className="mt-1 text-[11px] text-white/40">
+                Paste a Google Maps share or embed link. When set, it overrides the
+                map address above and pins the exact location.
+              </p>
+            </Field>
 
             <ImageList
               label="Project materials (brochure covers, etc.)"

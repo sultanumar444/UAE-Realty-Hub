@@ -1642,13 +1642,25 @@ components:
           type: ["string", "null"]
         mapAddress:
           type: ["string", "null"]
+        mapUrl:
+          type: ["string", "null"]
         agentId:
           type: ["integer", "null"]
         startingPrice:
           type: ["integer", "null"]
         handover:
           type: ["string", "null"]
+        deliveryDate:
+          type: ["string", "null"]
         paymentPlan:
+          type: ["string", "null"]
+        numberOfBuildings:
+          type: ["string", "null"]
+        propertyTypes:
+          type: ["string", "null"]
+        governmentFee:
+          type: ["string", "null"]
+        ownershipType:
           type: ["string", "null"]
         bedrooms:
           type: ["string", "null"]
@@ -1734,13 +1746,25 @@ components:
           type: string
         mapAddress:
           type: string
+        mapUrl:
+          type: string
         agentId:
           type: ["integer", "null"]
         startingPrice:
           type: ["integer", "null"]
         handover:
           type: string
+        deliveryDate:
+          type: string
         paymentPlan:
+          type: string
+        numberOfBuildings:
+          type: string
+        propertyTypes:
+          type: string
+        governmentFee:
+          type: string
+        ownershipType:
           type: string
         bedrooms:
           type: string
@@ -1814,13 +1838,25 @@ components:
           type: string
         mapAddress:
           type: string
+        mapUrl:
+          type: string
         agentId:
           type: ["integer", "null"]
         startingPrice:
           type: ["integer", "null"]
         handover:
           type: string
+        deliveryDate:
+          type: string
         paymentPlan:
+          type: string
+        numberOfBuildings:
+          type: string
+        propertyTypes:
+          type: string
+        governmentFee:
+          type: string
+        ownershipType:
           type: string
         bedrooms:
           type: string
