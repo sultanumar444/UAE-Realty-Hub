@@ -1,6 +1,7 @@
 import { Bed, Bath, Square, Heart, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { useFavorites } from "@/lib/favorites";
+import { slugify } from "@/lib/blogApi";
 import { useLanguage } from "@/lib/language";
 
 interface PropertyCardProps {
@@ -52,7 +53,7 @@ export function PropertyCard({
 
   return (
     <div className="group glass-card overflow-hidden flex flex-col h-full relative">
-      <Link href={`/properties/${id}`}>
+      <Link href={`/properties/${slugify(title)}`}>
         <div className="cursor-pointer h-full flex flex-col">
           <div className="relative h-60 overflow-hidden">
             <img

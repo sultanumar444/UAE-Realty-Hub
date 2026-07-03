@@ -6,6 +6,7 @@ import {
 } from "@workspace/api-client-react";
 import { PROPERTIES, type Property } from "./properties";
 import { mapListingToProperty } from "./listingApi";
+import { slugify } from "./blogApi";
 
 const PUBLIC_STATUSES = new Set(["published", "sold", "rented"]);
 
@@ -35,15 +36,18 @@ export function useProperties(): {
   return { properties, isLoading: listingsQ.isLoading };
 }
 
-export function useProperty(id: string): {
+export function useProperty(slug: string): {
   property: Property | undefined;
   properties: Property[];
   isLoading: boolean;
 } {
   const { properties, isLoading } = useProperties();
   const property = useMemo(
-    () => properties.find((p) => p.id === id),
-    [properties, id],
+    () =>
+      properties.find((p) => slugify(p.title) === slug) ??
+      // Backward compatibility for older numeric-id links.
+      properties.find((p) => p.id === slug),
+    [properties, slug],
   );
   return { property, properties, isLoading };
 }

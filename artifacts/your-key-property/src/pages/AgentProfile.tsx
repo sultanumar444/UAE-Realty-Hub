@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PropertyCard } from "@/components/shared/PropertyCard";
 import { useListAgents } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
+import { slugify } from "@/lib/blogApi";
 import { useProperties } from "@/lib/useProperties";
 import { useCurrency } from "@/lib/currency";
 import { useLanguage } from "@/lib/language";
@@ -13,14 +14,18 @@ import { motion } from "framer-motion";
 
 export function AgentProfile() {
   const [, params] = useRoute("/agents/:slug");
-  const parsedId = params?.slug ? Number.parseInt(params.slug, 10) : NaN;
-  const id = Number.isNaN(parsedId) ? undefined : parsedId;
+  const slug = params?.slug ?? "";
   const { formatPrice } = useCurrency();
   const { t } = useLanguage();
   const agentsQ = useListAgents();
   const { properties } = useProperties();
 
-  const agent = (agentsQ.data ?? []).find((a) => a.id === id);
+  const agents = agentsQ.data ?? [];
+  const agent =
+    agents.find((a) => slugify(a.name) === slug) ??
+    // Backward compatibility for older numeric or id-name links.
+    agents.find((a) => String(a.id) === slug || slug.startsWith(`${a.id}-`));
+  const id = agent?.id;
   const listings = properties.filter((p) => p.agentId === id);
 
   return (

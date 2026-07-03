@@ -68,7 +68,7 @@ function App() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/properties" component={Properties} />
-          <Route path="/properties/:id" component={PropertyDetail} />
+          <Route path="/properties/:slug" component={PropertyDetail} />
           <Route path="/off-plan/:slug" component={OffPlanProject} />
           <Route path="/off-plan" component={OffPlan} />
           <Route path="/communities" component={Communities} />

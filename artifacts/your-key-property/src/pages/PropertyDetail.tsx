@@ -18,7 +18,7 @@ import { useCreateLead } from "@workspace/api-client-react";
 export function PropertyDetail() {
   const params = useParams();
   const { t } = useLanguage();
-  const { property, properties } = useProperty(params.id || "");
+  const { property, properties } = useProperty(params.slug || "");
   const { formatPrice } = useCurrency();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [mainImage, setMainImage] = useState(property?.image || "");

@@ -62,7 +62,7 @@ export function Agents() {
                 className="glass-panel p-8 text-center group"
               >
                 {agent.id != null ? (
-                  <Link href={`/agents/${agent.id}-${slugify(agent.name)}`}>
+                  <Link href={`/agents/${slugify(agent.name)}`}>
                     <div className="cursor-pointer">
                       <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
                         <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
