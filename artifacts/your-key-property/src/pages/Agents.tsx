@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useListAgents } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
+import { slugify } from "@/lib/blogApi";
 import { useLanguage } from "@/lib/language";
 import { motion } from "framer-motion";
 import { Phone, Mail } from "lucide-react";
@@ -61,7 +62,7 @@ export function Agents() {
                 className="glass-panel p-8 text-center group"
               >
                 {agent.id != null ? (
-                  <Link href={`/agents/${agent.id}`}>
+                  <Link href={`/agents/${agent.id}-${slugify(agent.name)}`}>
                     <div className="cursor-pointer">
                       <div className="relative mb-6 overflow-hidden w-24 h-24 mx-auto rounded-full border border-white/20 group-hover:border-secondary transition-colors">
                         <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
@@ -84,7 +85,7 @@ export function Agents() {
                 {(agent.phone || agent.email) && (
                   <div className="flex items-center justify-center gap-4 pt-4 border-t border-white/10">
                     {agent.phone && (
-                      <a href={`tel:${agent.phone}`} aria-label={`${t("Call")} ${agent.name}`} className="text-white/60 hover:text-secondary transition-colors">
+                      <a href={`tel:${agent.phone.replace(/[^\d+]/g, "")}`} aria-label={`${t("Call")} ${agent.name}`} className="text-white/60 hover:text-secondary transition-colors">
                         <Phone className="w-4 h-4" />
                       </a>
                     )}

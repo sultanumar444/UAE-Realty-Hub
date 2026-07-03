@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/language";
 import { useListAgents } from "@workspace/api-client-react";
 import { storageUrl } from "@/lib/listingApi";
+import { slugify } from "@/lib/blogApi";
 
 interface AboutTeamMember {
   id: number;
@@ -178,7 +179,7 @@ export function About() {
                     className="glass-panel p-8 group"
                   >
                     {agent.id != null ? (
-                      <Link href={`/agents/${agent.id}`}>
+                      <Link href={`/agents/${agent.id}-${slugify(agent.name)}`}>
                         <div className="cursor-pointer">{card}</div>
                       </Link>
                     ) : (

@@ -23,10 +23,10 @@ export function Footer() {
               <a href="https://www.facebook.com/yourkeypropertymanagementllc" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center hover:bg-secondary hover:border-secondary transition-colors">
                 <Facebook className="w-4 h-4 text-white" />
               </a>
-              <a href="https://www.instagram.com/yourkeypropertymanagement/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center hover:bg-secondary hover:border-secondary transition-colors">
+              <a href="https://www.instagram.com/yourkeypropertymanagementllc" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center hover:bg-secondary hover:border-secondary transition-colors">
                 <Instagram className="w-4 h-4 text-white" />
               </a>
-              <a href="https://www.linkedin.com/company/yourkeypropertymanagement" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center hover:bg-secondary hover:border-secondary transition-colors">
+              <a href="https://www.linkedin.com/company/14516936" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center hover:bg-secondary hover:border-secondary transition-colors">
                 <Linkedin className="w-4 h-4 text-white" />
               </a>
             </div>

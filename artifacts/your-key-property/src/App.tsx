@@ -77,7 +77,7 @@ function App() {
           <Route path="/mortgage-calculator" component={MortgageCalculatorPage} />
           <Route path="/favorites" component={Favorites} />
           <Route path="/investment" component={Investment} />
-          <Route path="/agents/:id" component={AgentProfile} />
+          <Route path="/agents/:slug" component={AgentProfile} />
           <Route path="/agents" component={Agents} />
           <Route path="/blog" component={Blog} />
           <Route path="/blog/:slug" component={BlogPost} />

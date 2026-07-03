@@ -12,8 +12,9 @@ import { SiWhatsapp } from "react-icons/si";
 import { motion } from "framer-motion";
 
 export function AgentProfile() {
-  const [, params] = useRoute("/agents/:id");
-  const id = params?.id ? Number(params.id) : undefined;
+  const [, params] = useRoute("/agents/:slug");
+  const parsedId = params?.slug ? Number.parseInt(params.slug, 10) : NaN;
+  const id = Number.isNaN(parsedId) ? undefined : parsedId;
   const { formatPrice } = useCurrency();
   const { t } = useLanguage();
   const agentsQ = useListAgents();
@@ -61,13 +62,13 @@ export function AgentProfile() {
                   )}
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-6">
                     {agent.phone && (
-                      <a href={`tel:${agent.phone}`} className="inline-flex items-center gap-2 text-white/70 hover:text-secondary transition-colors font-mono text-sm">
+                      <a href={`tel:${agent.phone.replace(/[^\d+]/g, "")}`} className="inline-flex items-center gap-2 text-white/70 hover:text-secondary transition-colors font-mono text-sm">
                         <Phone className="w-4 h-4 text-secondary" /> {agent.phone}
                       </a>
                     )}
-                    {agent.whatsapp && (
-                      <a href={`https://wa.me/${agent.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-secondary transition-colors font-mono text-sm">
-                        <SiWhatsapp className="w-4 h-4 text-secondary" /> {agent.whatsapp}
+                    {(agent.whatsapp || agent.phone) && (
+                      <a href={`https://wa.me/${(agent.whatsapp || agent.phone || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-secondary transition-colors font-mono text-sm">
+                        <SiWhatsapp className="w-4 h-4 text-secondary" /> {t("WhatsApp")}
                       </a>
                     )}
                     {agent.email && (
